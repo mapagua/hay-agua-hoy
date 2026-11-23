@@ -251,6 +251,7 @@ def main():
         "fuente": URL,
         "leido": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "completo": True,
+        "origen": "web",
         "nota": "",
         "cortes": todos,
     }
