@@ -1,0 +1,33 @@
+name: Actualizar calendario
+
+on:
+  schedule:
+    # 06:17 y 14:17 en Canarias (horario de invierno). Dos lecturas al día por si cambian el calendario.
+    - cron: "17 6,14 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar
+  cancel-in-progress: false
+
+jobs:
+  leer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Leer la web oficial
+        run: python3 herramientas/actualizar_calendario.py
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add datos/
+          git diff --cached --quiet || git commit -m "Calendario leído el $(date -u +%F)"
+          git push
