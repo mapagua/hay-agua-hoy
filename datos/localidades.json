@@ -1,63 +1,485 @@
 {
-  "nota": "Lista cerrada de pueblos. Las coordenadas son aproximadas (centro del núcleo) y solo sirven para situar el punto en el mapa esquemático. 'alias' recoge otras formas en que el calendario oficial puede escribir el mismo nombre.",
-  "localidades": [
-    {"id": "arrecife", "nombre": "Arrecife", "municipio": "Arrecife", "lat": 28.963, "lon": -13.548, "alias": ["Arrecife centro"]},
-    {"id": "argana-alta", "nombre": "Argana Alta", "municipio": "Arrecife", "lat": 28.976, "lon": -13.567, "alias": ["Argana"]},
-
-    {"id": "haria", "nombre": "Haría", "municipio": "Haría", "lat": 29.146, "lon": -13.500, "alias": ["Haría casco", "Haría pueblo", "Casco de Haría"]},
-    {"id": "maguez", "nombre": "Máguez", "municipio": "Haría", "lat": 29.160, "lon": -13.493, "alias": []},
-    {"id": "arrieta", "nombre": "Arrieta", "municipio": "Haría", "lat": 29.131, "lon": -13.461, "alias": []},
-    {"id": "punta-mujeres", "nombre": "Punta Mujeres", "municipio": "Haría", "lat": 29.146, "lon": -13.447, "alias": []},
-    {"id": "mala", "nombre": "Mala", "municipio": "Haría", "lat": 29.096, "lon": -13.467, "alias": []},
-    {"id": "orzola", "nombre": "Órzola", "municipio": "Haría", "lat": 29.222, "lon": -13.453, "alias": []},
-    {"id": "ye", "nombre": "Ye", "municipio": "Haría", "lat": 29.197, "lon": -13.483, "alias": []},
-    {"id": "guinate", "nombre": "Guinate", "municipio": "Haría", "lat": 29.181, "lon": -13.497, "alias": []},
-    {"id": "tabayesco", "nombre": "Tabayesco", "municipio": "Haría", "lat": 29.127, "lon": -13.488, "alias": []},
-    {"id": "charco-del-palo", "nombre": "Charco del Palo", "municipio": "Haría", "lat": 29.083, "lon": -13.452, "alias": ["El Charco del Palo"]},
-
-    {"id": "villa-de-teguise", "nombre": "Villa de Teguise", "municipio": "Teguise", "lat": 29.060, "lon": -13.560, "alias": ["Teguise", "La Villa", "Teguise casco", "Casco de Teguise"]},
-    {"id": "tahiche", "nombre": "Tahíche", "municipio": "Teguise", "lat": 29.012, "lon": -13.553, "alias": []},
-    {"id": "nazaret", "nombre": "Nazaret", "municipio": "Teguise", "lat": 29.037, "lon": -13.560, "alias": []},
-    {"id": "tao", "nombre": "Tao", "municipio": "Teguise", "lat": 29.040, "lon": -13.613, "alias": []},
-    {"id": "tiagua", "nombre": "Tiagua", "municipio": "Teguise", "lat": 29.048, "lon": -13.632, "alias": []},
-    {"id": "soo", "nombre": "Soo", "municipio": "Teguise", "lat": 29.094, "lon": -13.620, "alias": []},
-    {"id": "munique", "nombre": "Muñique", "municipio": "Teguise", "lat": 29.070, "lon": -13.630, "alias": []},
-    {"id": "guatiza", "nombre": "Guatiza", "municipio": "Teguise", "lat": 29.073, "lon": -13.482, "alias": []},
-    {"id": "los-valles", "nombre": "Los Valles", "municipio": "Teguise", "lat": 29.087, "lon": -13.523, "alias": []},
-    {"id": "el-mojon", "nombre": "El Mojón", "municipio": "Teguise", "lat": 29.062, "lon": -13.515, "alias": []},
-    {"id": "teseguite", "nombre": "Teseguite", "municipio": "Teguise", "lat": 29.057, "lon": -13.530, "alias": []},
-    {"id": "mozaga", "nombre": "Mozaga", "municipio": "Teguise", "lat": 29.022, "lon": -13.607, "alias": []},
-    {"id": "caleta-de-famara", "nombre": "Caleta de Famara", "municipio": "Teguise", "lat": 29.116, "lon": -13.563, "alias": ["Famara", "La Caleta de Famara"]},
-    {"id": "costa-teguise", "nombre": "Costa Teguise", "municipio": "Teguise", "lat": 28.997, "lon": -13.495, "alias": []},
-    {"id": "caleta-de-sebo", "nombre": "Caleta de Sebo (La Graciosa)", "municipio": "Teguise", "lat": 29.231, "lon": -13.503, "alias": ["Caleta de Sebo", "La Graciosa", "Caleta del Sebo"]},
-
-    {"id": "san-bartolome", "nombre": "San Bartolomé", "municipio": "San Bartolomé", "lat": 29.001, "lon": -13.613, "alias": ["San Bartolomé casco", "Casco de San Bartolomé"]},
-    {"id": "guime", "nombre": "Güime", "municipio": "San Bartolomé", "lat": 28.976, "lon": -13.612, "alias": []},
-    {"id": "el-islote-tomaren", "nombre": "El Islote-Tomaren", "municipio": "San Bartolomé", "lat": 29.003, "lon": -13.650, "alias": ["El Islote", "Tomaren", "El Islote Tomaren"]},
-    {"id": "montana-blanca", "nombre": "Montaña Blanca", "municipio": "San Bartolomé", "lat": 28.983, "lon": -13.640, "alias": []},
-    {"id": "playa-honda", "nombre": "Playa Honda", "municipio": "San Bartolomé", "lat": 28.953, "lon": -13.590, "alias": []},
-
-    {"id": "tinajo-casco", "nombre": "Tinajo casco", "municipio": "Tinajo", "lat": 29.063, "lon": -13.676, "alias": ["Tinajo", "Casco de Tinajo"]},
-    {"id": "el-cuchillo", "nombre": "El Cuchillo", "municipio": "Tinajo", "lat": 29.085, "lon": -13.660, "alias": []},
-    {"id": "la-santa", "nombre": "La Santa", "municipio": "Tinajo", "lat": 29.110, "lon": -13.655, "alias": []},
-    {"id": "mancha-blanca", "nombre": "Mancha Blanca", "municipio": "Tinajo", "lat": 29.045, "lon": -13.692, "alias": []},
-    {"id": "la-vegueta", "nombre": "La Vegueta", "municipio": "Tinajo", "lat": 29.047, "lon": -13.655, "alias": []},
-
-    {"id": "tias-pueblo", "nombre": "Tías pueblo", "municipio": "Tías", "lat": 28.954, "lon": -13.650, "alias": ["Tías", "Tías casco", "Casco de Tías"]},
-    {"id": "macher", "nombre": "Mácher", "municipio": "Tías", "lat": 28.945, "lon": -13.690, "alias": []},
-    {"id": "la-asomada", "nombre": "La Asomada", "municipio": "Tías", "lat": 28.957, "lon": -13.705, "alias": []},
-    {"id": "conil", "nombre": "Conil", "municipio": "Tías", "lat": 28.975, "lon": -13.672, "alias": []},
-    {"id": "masdache", "nombre": "Masdache", "municipio": "Tías", "lat": 28.991, "lon": -13.665, "alias": []},
-    {"id": "tegoyo", "nombre": "Tegoyo", "municipio": "Tías", "lat": 28.972, "lon": -13.686, "alias": []},
-    {"id": "puerto-del-carmen", "nombre": "Puerto del Carmen", "municipio": "Tías", "lat": 28.922, "lon": -13.665, "alias": []},
-
-    {"id": "yaiza", "nombre": "Yaiza", "municipio": "Yaiza", "lat": 28.953, "lon": -13.767, "alias": ["Yaiza casco", "Yaiza pueblo", "Casco de Yaiza"]},
-    {"id": "uga", "nombre": "Uga", "municipio": "Yaiza", "lat": 28.950, "lon": -13.742, "alias": []},
-    {"id": "femes", "nombre": "Femés", "municipio": "Yaiza", "lat": 28.912, "lon": -13.778, "alias": []},
-    {"id": "las-brenas", "nombre": "Las Breñas", "municipio": "Yaiza", "lat": 28.920, "lon": -13.810, "alias": []},
-    {"id": "el-golfo", "nombre": "El Golfo", "municipio": "Yaiza", "lat": 28.980, "lon": -13.827, "alias": []},
-    {"id": "puerto-calero", "nombre": "Puerto Calero", "municipio": "Yaiza", "lat": 28.917, "lon": -13.705, "alias": []},
-    {"id": "playa-quemada", "nombre": "Playa Quemada", "municipio": "Yaiza", "lat": 28.905, "lon": -13.735, "alias": []},
-    {"id": "playa-blanca", "nombre": "Playa Blanca", "municipio": "Yaiza", "lat": 28.864, "lon": -13.829, "alias": []}
-  ]
+ "nota": "Lista cerrada de pueblos. Las coordenadas son aproximadas (centro del núcleo) y solo sirven para situar el punto en el mapa esquemático. 'alias' recoge otras formas en que el calendario oficial puede escribir el mismo nombre.",
+ "localidades": [
+  {
+   "id": "arrecife",
+   "nombre": "Arrecife",
+   "municipio": "Arrecife",
+   "lat": 28.963,
+   "lon": -13.548,
+   "alias": [
+    "Arrecife centro"
+   ]
+  },
+  {
+   "id": "argana-alta",
+   "nombre": "Argana Alta",
+   "municipio": "Arrecife",
+   "lat": 28.976,
+   "lon": -13.567,
+   "alias": [
+    "Argana"
+   ]
+  },
+  {
+   "id": "haria",
+   "nombre": "Haría",
+   "municipio": "Haría",
+   "lat": 29.146,
+   "lon": -13.5,
+   "alias": [
+    "Haría casco",
+    "Haría pueblo",
+    "Casco de Haría"
+   ]
+  },
+  {
+   "id": "maguez",
+   "nombre": "Máguez",
+   "municipio": "Haría",
+   "lat": 29.16,
+   "lon": -13.493,
+   "alias": []
+  },
+  {
+   "id": "arrieta",
+   "nombre": "Arrieta",
+   "municipio": "Haría",
+   "lat": 29.131,
+   "lon": -13.461,
+   "alias": []
+  },
+  {
+   "id": "punta-mujeres",
+   "nombre": "Punta Mujeres",
+   "municipio": "Haría",
+   "lat": 29.146,
+   "lon": -13.447,
+   "alias": []
+  },
+  {
+   "id": "mala",
+   "nombre": "Mala",
+   "municipio": "Haría",
+   "lat": 29.096,
+   "lon": -13.467,
+   "alias": []
+  },
+  {
+   "id": "orzola",
+   "nombre": "Órzola",
+   "municipio": "Haría",
+   "lat": 29.222,
+   "lon": -13.453,
+   "alias": []
+  },
+  {
+   "id": "ye",
+   "nombre": "Ye",
+   "municipio": "Haría",
+   "lat": 29.197,
+   "lon": -13.483,
+   "alias": []
+  },
+  {
+   "id": "guinate",
+   "nombre": "Guinate",
+   "municipio": "Haría",
+   "lat": 29.181,
+   "lon": -13.497,
+   "alias": []
+  },
+  {
+   "id": "tabayesco",
+   "nombre": "Tabayesco",
+   "municipio": "Haría",
+   "lat": 29.127,
+   "lon": -13.488,
+   "alias": []
+  },
+  {
+   "id": "charco-del-palo",
+   "nombre": "Charco del Palo",
+   "municipio": "Haría",
+   "lat": 29.083,
+   "lon": -13.452,
+   "alias": [
+    "El Charco del Palo"
+   ]
+  },
+  {
+   "id": "villa-de-teguise",
+   "nombre": "Villa de Teguise",
+   "municipio": "Teguise",
+   "lat": 29.06,
+   "lon": -13.56,
+   "alias": [
+    "Teguise",
+    "La Villa",
+    "Teguise casco",
+    "Casco de Teguise"
+   ]
+  },
+  {
+   "id": "tahiche",
+   "nombre": "Tahíche",
+   "municipio": "Teguise",
+   "lat": 29.012,
+   "lon": -13.553,
+   "alias": []
+  },
+  {
+   "id": "nazaret",
+   "nombre": "Nazaret",
+   "municipio": "Teguise",
+   "lat": 29.037,
+   "lon": -13.56,
+   "alias": []
+  },
+  {
+   "id": "tao",
+   "nombre": "Tao",
+   "municipio": "Teguise",
+   "lat": 29.04,
+   "lon": -13.613,
+   "alias": []
+  },
+  {
+   "id": "tiagua",
+   "nombre": "Tiagua",
+   "municipio": "Teguise",
+   "lat": 29.048,
+   "lon": -13.632,
+   "alias": []
+  },
+  {
+   "id": "soo",
+   "nombre": "Soo",
+   "municipio": "Teguise",
+   "lat": 29.094,
+   "lon": -13.62,
+   "alias": []
+  },
+  {
+   "id": "munique",
+   "nombre": "Muñique",
+   "municipio": "Teguise",
+   "lat": 29.07,
+   "lon": -13.63,
+   "alias": []
+  },
+  {
+   "id": "guatiza",
+   "nombre": "Guatiza",
+   "municipio": "Teguise",
+   "lat": 29.073,
+   "lon": -13.482,
+   "alias": []
+  },
+  {
+   "id": "los-valles",
+   "nombre": "Los Valles",
+   "municipio": "Teguise",
+   "lat": 29.087,
+   "lon": -13.523,
+   "alias": []
+  },
+  {
+   "id": "el-mojon",
+   "nombre": "El Mojón",
+   "municipio": "Teguise",
+   "lat": 29.062,
+   "lon": -13.515,
+   "alias": []
+  },
+  {
+   "id": "teseguite",
+   "nombre": "Teseguite",
+   "municipio": "Teguise",
+   "lat": 29.057,
+   "lon": -13.53,
+   "alias": []
+  },
+  {
+   "id": "mozaga",
+   "nombre": "Mozaga",
+   "municipio": "Teguise",
+   "lat": 29.022,
+   "lon": -13.607,
+   "alias": []
+  },
+  {
+   "id": "caleta-de-famara",
+   "nombre": "Caleta de Famara",
+   "municipio": "Teguise",
+   "lat": 29.116,
+   "lon": -13.563,
+   "alias": [
+    "Famara",
+    "La Caleta de Famara"
+   ]
+  },
+  {
+   "id": "costa-teguise",
+   "nombre": "Costa Teguise",
+   "municipio": "Teguise",
+   "lat": 28.997,
+   "lon": -13.495,
+   "alias": []
+  },
+  {
+   "id": "caleta-de-sebo",
+   "nombre": "Caleta de Sebo (La Graciosa)",
+   "municipio": "Teguise",
+   "lat": 29.231,
+   "lon": -13.503,
+   "alias": [
+    "Caleta de Sebo",
+    "La Graciosa",
+    "Caleta del Sebo"
+   ]
+  },
+  {
+   "id": "san-bartolome",
+   "nombre": "San Bartolomé",
+   "municipio": "San Bartolomé",
+   "lat": 29.001,
+   "lon": -13.613,
+   "alias": [
+    "San Bartolomé casco",
+    "Casco de San Bartolomé"
+   ]
+  },
+  {
+   "id": "guime",
+   "nombre": "Güime",
+   "municipio": "San Bartolomé",
+   "lat": 28.976,
+   "lon": -13.612,
+   "alias": []
+  },
+  {
+   "id": "el-islote-tomaren",
+   "nombre": "El Islote-Tomaren",
+   "municipio": "San Bartolomé",
+   "lat": 29.003,
+   "lon": -13.65,
+   "alias": [
+    "El Islote",
+    "Tomaren",
+    "El Islote Tomaren"
+   ]
+  },
+  {
+   "id": "montana-blanca",
+   "nombre": "Montaña Blanca",
+   "municipio": "San Bartolomé",
+   "lat": 28.983,
+   "lon": -13.64,
+   "alias": []
+  },
+  {
+   "id": "playa-honda",
+   "nombre": "Playa Honda",
+   "municipio": "San Bartolomé",
+   "lat": 28.953,
+   "lon": -13.59,
+   "alias": []
+  },
+  {
+   "id": "tinajo-casco",
+   "nombre": "Tinajo casco",
+   "municipio": "Tinajo",
+   "lat": 29.063,
+   "lon": -13.676,
+   "alias": [
+    "Tinajo",
+    "Casco de Tinajo"
+   ]
+  },
+  {
+   "id": "el-cuchillo",
+   "nombre": "El Cuchillo",
+   "municipio": "Tinajo",
+   "lat": 29.085,
+   "lon": -13.66,
+   "alias": []
+  },
+  {
+   "id": "la-santa",
+   "nombre": "La Santa",
+   "municipio": "Tinajo",
+   "lat": 29.11,
+   "lon": -13.655,
+   "alias": []
+  },
+  {
+   "id": "mancha-blanca",
+   "nombre": "Mancha Blanca",
+   "municipio": "Tinajo",
+   "lat": 29.045,
+   "lon": -13.692,
+   "alias": []
+  },
+  {
+   "id": "la-vegueta",
+   "nombre": "La Vegueta",
+   "municipio": "Tinajo",
+   "lat": 29.047,
+   "lon": -13.655,
+   "alias": []
+  },
+  {
+   "id": "tias-pueblo",
+   "nombre": "Tías pueblo",
+   "municipio": "Tías",
+   "lat": 28.954,
+   "lon": -13.65,
+   "alias": [
+    "Tías",
+    "Tías casco",
+    "Casco de Tías"
+   ]
+  },
+  {
+   "id": "macher",
+   "nombre": "Mácher",
+   "municipio": "Tías",
+   "lat": 28.945,
+   "lon": -13.69,
+   "alias": []
+  },
+  {
+   "id": "la-asomada",
+   "nombre": "La Asomada",
+   "municipio": "Tías",
+   "lat": 28.957,
+   "lon": -13.705,
+   "alias": []
+  },
+  {
+   "id": "conil",
+   "nombre": "Conil",
+   "municipio": "Tías",
+   "lat": 28.975,
+   "lon": -13.672,
+   "alias": []
+  },
+  {
+   "id": "masdache",
+   "nombre": "Masdache",
+   "municipio": "Tías",
+   "lat": 28.991,
+   "lon": -13.665,
+   "alias": []
+  },
+  {
+   "id": "tegoyo",
+   "nombre": "Tegoyo",
+   "municipio": "Tías",
+   "lat": 28.972,
+   "lon": -13.686,
+   "alias": []
+  },
+  {
+   "id": "puerto-del-carmen",
+   "nombre": "Puerto del Carmen",
+   "municipio": "Tías",
+   "lat": 28.922,
+   "lon": -13.665,
+   "alias": []
+  },
+  {
+   "id": "yaiza",
+   "nombre": "Yaiza",
+   "municipio": "Yaiza",
+   "lat": 28.953,
+   "lon": -13.767,
+   "alias": [
+    "Yaiza casco",
+    "Yaiza pueblo",
+    "Casco de Yaiza"
+   ]
+  },
+  {
+   "id": "uga",
+   "nombre": "Uga",
+   "municipio": "Yaiza",
+   "lat": 28.95,
+   "lon": -13.742,
+   "alias": []
+  },
+  {
+   "id": "femes",
+   "nombre": "Femés",
+   "municipio": "Yaiza",
+   "lat": 28.912,
+   "lon": -13.778,
+   "alias": []
+  },
+  {
+   "id": "las-brenas",
+   "nombre": "Las Breñas",
+   "municipio": "Yaiza",
+   "lat": 28.92,
+   "lon": -13.81,
+   "alias": []
+  },
+  {
+   "id": "el-golfo",
+   "nombre": "El Golfo",
+   "municipio": "Yaiza",
+   "lat": 28.98,
+   "lon": -13.827,
+   "alias": []
+  },
+  {
+   "id": "puerto-calero",
+   "nombre": "Puerto Calero",
+   "municipio": "Yaiza",
+   "lat": 28.917,
+   "lon": -13.705,
+   "alias": []
+  },
+  {
+   "id": "playa-quemada",
+   "nombre": "Playa Quemada",
+   "municipio": "Yaiza",
+   "lat": 28.905,
+   "lon": -13.735,
+   "alias": []
+  },
+  {
+   "id": "playa-blanca",
+   "nombre": "Playa Blanca",
+   "municipio": "Yaiza",
+   "lat": 28.864,
+   "lon": -13.829,
+   "alias": []
+  },
+  {
+   "id": "los-cocoteros",
+   "nombre": "Los Cocoteros",
+   "municipio": "Teguise",
+   "lat": null,
+   "lon": null,
+   "alias": []
+  },
+  {
+   "id": "zonas-altas-de-puerto-del-carmen",
+   "nombre": "Zonas altas de Puerto del Carmen",
+   "municipio": "Tías",
+   "lat": null,
+   "lon": null,
+   "alias": []
+  },
+  {
+   "id": "barranco-de-las-truchas",
+   "nombre": "Barranco de las Truchas",
+   "municipio": "Tías",
+   "lat": null,
+   "lon": null,
+   "alias": []
+  }
+ ]
 }
