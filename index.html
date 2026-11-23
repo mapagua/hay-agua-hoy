@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://*.workers.dev; img-src 'self' data:; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'">
+<title>¿Hay agua hoy? Lanzarote</title>
+<meta name="description" content="Cortes de agua programados en Lanzarote y La Graciosa, pueblo a pueblo, según el calendario oficial.">
+<meta name="theme-color" content="#1b1b19">
+<link rel="icon" href="icono.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icono-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+@font-face { font-family: "Titulares"; src: url("fuentes/titulares-negrita.woff") format("woff"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Texto"; src: url("fuentes/texto.woff") format("woff"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Texto"; src: url("fuentes/texto-negrita.woff") format("woff"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Texto"; src: url("fuentes/texto-cursiva.woff") format("woff"); font-weight: 400; font-style: italic; font-display: swap; }
+/* Estructura: una sola página con barra de secciones fija. El mapa ocupa el centro y se puede abrir a pantalla completa. */
+:root {
+  --cal: #f8f7f3;
+  --papel: #ffffff;
+  --picon: #1b1b19;
+  --ceniza: #5f5d57;
+  --linea: #d8d5cc;
+  --puerta: #1c5b3b;
+  --corte: #b42318;
+  --corte-suave: #fbe9e6;
+  --aviso: #a35c00;
+  --aviso-suave: #fbefd9;
+  --agua: #1f6fb2;
+  --mar: #dde8ef;
+  --isla: #f1ede3;
+  --costa: #8a867b;
+  --punto: #9a968c;
+  --texto: "Texto", "Century Schoolbook", "New Century Schoolbook", Georgia, serif;
+  --titular: "Titulares", "Helvetica Neue Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cal: #161614; --papel: #1f1f1c; --picon: #eceae3; --ceniza: #a8a59c; --linea: #3b3a35;
+    --puerta: #7cc79c; --corte: #f0715f; --corte-suave: #3b1d1a; --aviso: #e6a03c; --aviso-suave: #3a2c12;
+    --agua: #6fb3f0; --mar: #17222b; --isla: #2c2b27; --costa: #6d6a62; --punto: #77746c; --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --cal: #161614; --papel: #1f1f1c; --picon: #eceae3; --ceniza: #a8a59c; --linea: #3b3a35;
+  --puerta: #7cc79c; --corte: #f0715f; --corte-suave: #3b1d1a; --aviso: #e6a03c; --aviso-suave: #3a2c12;
+  --agua: #6fb3f0; --mar: #17222b; --isla: #2c2b27; --costa: #6d6a62; --punto: #77746c; --s1: #3987e5; --s2: #d95926; --s3: #199e70;
+  color-scheme: dark;
+}
+html { font-size: 106.25%; -webkit-text-size-adjust: 100%; }
+html[data-letra="2"] { font-size: 120%; }
+html[data-letra="3"] { font-size: 137.5%; }
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--cal); color: var(--picon); font: 1rem/1.55 var(--texto); font-variant-numeric: lining-nums; }
+h1, h2, h3, .boton, .atajos a, .segmento button, .cual, .cifra b, .cifras b, .respuesta .titular, .ficha h3, .letra button, .arriba, .gran-cifra, .tesela b, .leyenda-caja summary { font-family: var(--titular); font-weight: 700; }
+body.mapa-abierto { overflow: hidden; }
+.ancho { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2 { text-wrap: balance; letter-spacing: -0.015em; }
+a { color: var(--puerta); text-underline-offset: 2px; }
+:focus-visible { outline: 3px solid var(--puerta); outline-offset: 2px; }
+.num { font-variant-numeric: tabular-nums; }
+.mudo { color: var(--ceniza); }
+.pequeno { font-size: 0.9rem; }
+.oculto-visual { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+button, select { font: inherit; color: inherit; }
+
+/* Cabecera */
+.cabecera .ancho { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 4px 24px; padding-top: 20px; padding-bottom: 12px; }
+.cabecera .ancho { padding-top: 26px; }
+.cabecera h1 { font-size: clamp(3rem, 13vw, 6.2rem); line-height: 0.88; letter-spacing: -0.01em; }
+.lugar { font-family: var(--titular); font-size: clamp(1.2rem, 4vw, 1.7rem); line-height: 1.1; margin-top: 6px; }
+.fecha { color: var(--ceniza); }
+.fecha::first-letter, .cual::first-letter { text-transform: uppercase; }
+.independiente { color: var(--ceniza); font-size: 0.9rem; padding-top: 8px; padding-bottom: 4px; }
+
+/* Barra de secciones */
+.atajos { position: sticky; top: 0; z-index: 50; background: var(--picon); color: var(--cal); }
+.atajos .ancho { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 6px; padding-bottom: 6px; }
+.atajos .ancho::-webkit-scrollbar { display: none; }
+.atajos a { flex: none; text-decoration: none; color: var(--cal); font-size: 1.1rem; padding: 8px 10px; min-height: 44px; display: inline-flex; align-items: center; }
+.atajos a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+.atajos :focus-visible { outline-color: var(--cal); }
+.letra { margin-left: auto; display: flex; align-items: center; gap: 2px; flex: none; padding-left: 8px; }
+.letra span { font-size: 0.85rem; margin-right: 4px; opacity: 0.8; }
+.letra button { min-width: 44px; min-height: 44px; border: 1px solid currentColor; background: transparent; color: var(--cal); border-radius: 2px; cursor: pointer; line-height: 1; }
+.letra button[aria-pressed="true"] { background: var(--cal); color: var(--picon); }
+.letra button:nth-of-type(1) { font-size: 0.85rem; } .letra button:nth-of-type(2) { font-size: 1rem; } .letra button:nth-of-type(3) { font-size: 1.2rem; }
+
+.aviso-datos { border-left: 6px solid var(--aviso); background: var(--aviso-suave); padding: 12px 14px; margin-top: 14px; }
+.aviso-datos strong { display: block; }
+
+main { display: flex; flex-direction: column; gap: 40px; padding-top: 22px; padding-bottom: 48px; }
+section { scroll-margin-top: 72px; }
+section:focus { outline: none; }
+section > h2 { font-size: clamp(2rem, 7vw, 3rem); line-height: 0.95; border-top: 6px solid var(--picon); padding-top: 12px; margin-bottom: 14px; }
+.bajada { color: var(--ceniza); max-width: 65ch; margin-bottom: 14px; }
+
+/* Botones comunes */
+.boton { min-height: 52px; padding: 10px 14px; border: 2px solid var(--picon); border-radius: 2px; background: var(--papel); font-size: 1.1rem; letter-spacing: 0.01em; cursor: pointer; text-align: center; }
+.boton:hover { background: var(--isla); }
+.boton.sin { border-color: var(--corte); color: var(--corte); }
+.boton.poca { border-color: var(--aviso); color: var(--aviso); }
+.boton.con { border-color: var(--agua); color: var(--agua); }
+.boton[disabled] { opacity: 0.55; cursor: default; }
+.boton.chico { min-height: 44px; padding: 6px 12px; font-weight: 600; }
+.enlace { background: none; border: 0; padding: 8px 0; color: var(--puerta); text-decoration: underline; cursor: pointer; min-height: 44px; }
+
+/* Tu pueblo */
+.campo { display: flex; flex-direction: column; gap: 6px; max-width: 440px; }
+.campo label { font-weight: 700; }
+select { padding: 12px 10px; border: 2px solid var(--picon); border-radius: 4px; background: var(--papel); min-height: 52px; }
+.respuesta { margin-top: 16px; background: var(--papel); border: 1px solid var(--linea); border-left: 8px solid var(--linea); padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
+.respuesta.hay-corte { border-left-color: var(--corte); }
+.respuesta.sin-corte { border-left-color: var(--agua); }
+.respuesta .titular { font-size: 1.6rem; line-height: 1.05; }
+.respuesta.hay-corte .titular { color: var(--corte); }
+.avisar { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
+.avisar h3 { font-size: 1.1rem; }
+.botones { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.paso2-titulo { font-weight: 700; }
+.estado-envio { min-height: 1.5em; font-weight: 600; }
+.etiqueta-prueba { display: inline-block; background: var(--picon); color: var(--cal); font-size: 0.8rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; vertical-align: middle; }
+
+/* Mapa */
+.mapa-marco { background: var(--papel); border: 1px solid var(--linea); display: flex; flex-direction: column; }
+.mapa-cabecera { display: flex; flex-direction: column; gap: 10px; padding: 10px; border-bottom: 1px solid var(--linea); }
+.mapa-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.segmento { display: inline-flex; border: 2px solid var(--picon); border-radius: 2px; overflow: hidden; }
+.segmento button { border: 0; background: var(--papel); padding: 8px 14px; min-height: 44px; cursor: pointer; font-size: 1.05rem; }
+.segmento button + button { border-left: 2px solid var(--picon); }
+.segmento button[aria-checked="true"] { background: var(--picon); color: var(--cal); }
+.capas { display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.capas label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; font-weight: 600; }
+.capas input { width: 22px; height: 22px; accent-color: var(--picon); }
+.navegar { display: flex; align-items: center; gap: 8px; }
+.navegar .cual { font-weight: 700; margin: 0 4px; flex: 1; text-align: center; min-width: 0; }
+.navegar .flecha { min-width: 48px; min-height: 48px; padding: 0; font-size: 1.4rem; line-height: 1; flex: none; }
+.navegar .hoy-b { flex: none; }
+.mapa-lienzo { position: relative; height: min(118vw, 560px); min-height: 340px; touch-action: pan-y; overflow: hidden; background: var(--mar); cursor: grab; }
+.mapa-lienzo:active { cursor: grabbing; }
+.mapa-lienzo svg { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-select: none; }
+.mapa-lienzo .mar { fill: var(--mar); }
+.mapa-lienzo .isla { fill: var(--isla); stroke: var(--costa); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.mapa-lienzo .textos text { font-family: var(--titular); font-weight: 700; fill: var(--picon); paint-order: stroke; stroke: var(--isla); stroke-width: 3.5px; stroke-linejoin: round; }
+.mapa-botones { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 6px; }
+.mapa-botones button { width: 46px; height: 46px; border: 1px solid var(--linea); background: var(--papel); border-radius: 6px; cursor: pointer; font-size: 1.35rem; font-weight: 700; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,.18); display: grid; place-items: center; }
+.mapa-botones button svg { width: 22px; height: 22px; }
+.mapa-pista { position: absolute; left: 10px; bottom: 10px; right: 66px; font-size: 0.85rem; color: var(--ceniza); pointer-events: none; }
+.mapa-pista span { background: var(--papel); padding: 3px 7px; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; line-height: 1.7; }
+.ficha { position: absolute; left: 10px; right: 66px; bottom: 10px; max-width: 420px; background: var(--papel); border: 1px solid var(--linea); border-left: 6px solid var(--agua); border-radius: 4px; padding: 12px 14px; box-shadow: 0 4px 14px rgba(0,0,0,.22); display: flex; flex-direction: column; gap: 4px; max-height: 70%; overflow-y: auto; }
+.ficha.corte { border-left-color: var(--corte); }
+.ficha h3 { font-size: 1.1rem; }
+.ficha .acciones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.leyenda-caja { border-top: 1px solid var(--linea); }
+.leyenda-caja summary { cursor: pointer; padding: 10px; font-weight: 700; min-height: 44px; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9rem; color: var(--ceniza); padding: 0 10px 10px; }
+.leyenda span { display: inline-flex; align-items: center; gap: 6px; }
+.leyenda svg { width: 18px; height: 18px; flex: none; }
+.mapa-marco.abierto { position: fixed; inset: 0; z-index: 1000; border: 0; }
+.mapa-marco.abierto .mapa-lienzo { flex: 1; height: auto; min-height: 0; touch-action: none; }
+.mapa-marco.abierto .leyenda { max-height: 22vh; overflow-y: auto; }
+@media (max-width: 600px) {
+  .mapa-cabecera { padding: 8px; gap: 6px; }
+  .capas { gap: 0 14px; font-size: 0.92rem; }
+  .capas label { gap: 6px; }
+  .ficha { max-height: 58%; font-size: 0.95rem; }
+}
+.dia-rejilla { display: grid; gap: 20px 32px; grid-template-columns: 1fr; margin-top: 18px; }
+@media (min-width: 760px) { .dia-rejilla { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.cifra { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.cifra b { font-size: 4rem; line-height: 0.9; }
+.cifra.hay b { color: var(--corte); }
+.cifra span { font-weight: 600; max-width: 18ch; line-height: 1.2; }
+.lista-mun { list-style: none; margin: 0; padding: 0; }
+.lista-mun li { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: 10px; padding: 8px 0; border-top: 1px solid var(--linea); }
+.lista-mun .mun { font-weight: 700; }
+.vecinos h3 { font-size: 1rem; margin-bottom: 4px; }
+.vecinos ul { list-style: none; margin: 0; padding: 0; }
+.vecinos li { padding: 7px 0 7px 12px; border-top: 1px solid var(--linea); border-left: 5px solid var(--punto); }
+.vecinos li.fuera { border-left-color: var(--aviso); }
+.vecinos li.dentro { border-left-color: var(--corte); }
+.vecinos .clase { font-weight: 700; }
+.vecinos li.fuera .clase { color: var(--aviso); }
+
+/* Semana */
+.tu-semana { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.tu-semana .dia { min-width: 64px; padding: 6px 8px; border: 1px solid var(--linea); border-radius: 4px; background: var(--papel); text-align: center; font-size: 0.9rem; line-height: 1.25; }
+.tu-semana .dia b { display: block; }
+.tu-semana .dia.corte { background: var(--corte-suave); border-color: var(--corte); color: var(--corte); }
+.tu-semana .dia.hoy { outline: 2px solid var(--picon); outline-offset: 1px; }
+.tabla-caja { position: relative; overflow-x: auto; border: 1px solid var(--linea); background: var(--papel); }
+table.semana { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+.semana th, .semana td { padding: 7px 6px; border-bottom: 1px solid var(--linea); text-align: center; }
+.semana thead th { font-weight: 700; border-bottom: 2px solid var(--picon); white-space: nowrap; }
+.semana thead th.hoy { background: var(--picon); color: var(--cal); }
+.semana tbody th { text-align: left; font-weight: 500; white-space: nowrap; position: sticky; left: 0; background: var(--papel); }
+.semana tr.grupo th { font-family: var(--titular); font-weight: 700; font-size: 1rem; color: var(--picon); padding-top: 14px; border-bottom: 2px solid var(--picon); }
+.semana td.corte { background: var(--corte-suave); color: var(--corte); font-weight: 700; box-shadow: inset 0 3px 0 var(--corte); }
+.semana td.hoy { outline: 1px dashed var(--ceniza); outline-offset: -2px; }
+.semana tr.mio th { font-weight: 800; color: var(--puerta); }
+.lista-dias { display: flex; flex-direction: column; border-top: 1px solid var(--linea); }
+.lista-dias .dia-bloque { padding: 10px 0 10px 12px; border-bottom: 1px solid var(--linea); border-left: 5px solid var(--linea); }
+.lista-dias .dia-bloque.hay { border-left-color: var(--corte); }
+.lista-dias .dia-bloque.hoy h3::after { content: " · hoy"; color: var(--ceniza); font-weight: 600; }
+.lista-dias h3 { font-size: 1rem; }
+.lista-dias h3::first-letter { text-transform: uppercase; }
+.lista-dias p { margin-top: 2px; }
+.lista-dias .mio { font-weight: 800; color: var(--corte); }
+@media (max-width: 719px) { .solo-ancho { display: none !important; } }
+@media (min-width: 720px) { .solo-movil { display: none !important; } }
+
+/* El mes */
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); border: 1px solid var(--linea); background: var(--papel); margin-bottom: 20px; }
+.cifras div { padding: 14px 16px; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); margin: 0 -1px -1px 0; }
+.cifras b { display: block; font-size: 2.4rem; line-height: 1; }
+.cifras span { color: var(--ceniza); font-size: 0.92rem; line-height: 1.3; display: block; margin-top: 4px; }
+.cifras .vecinal b { color: var(--aviso); }
+.barras { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 11em) minmax(40px, 1fr) max-content; gap: 6px 12px; align-items: center; }
+.barras li { display: contents; }
+.barras .b { height: 14px; background: var(--isla); }
+.barras .b i { display: block; height: 100%; background: var(--corte); min-width: 2px; }
+.barras .h { text-align: right; color: var(--ceniza); }
+.subtitulo { font-size: 1rem; margin: 22px 0 10px; }
+
+/* El agua de la isla */
+.gran-cifra { font-size: clamp(5rem, 26vw, 11rem); line-height: 0.82; color: var(--corte); letter-spacing: -0.02em; }
+.gran-frase { font-family: var(--titular); font-size: clamp(1.5rem, 5vw, 2.3rem); line-height: 1.05; max-width: 24ch; margin-top: 8px; }
+.isla-texto { max-width: 65ch; margin-top: 14px; }
+.teselas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 6px solid var(--picon); margin-top: 28px; }
+.tesela { padding: 14px 16px 16px 0; border-bottom: 1px solid var(--linea); }
+.tesela + .tesela { padding-left: 16px; border-left: 1px solid var(--linea); }
+@media (max-width: 520px) { .tesela + .tesela { padding-left: 0; border-left: 0; } }
+.tesela b { display: block; font-size: 2.6rem; line-height: 0.95; }
+.tesela p { margin-top: 6px; max-width: 34ch; }
+.grafica { margin-top: 36px; }
+.grafica h3 { font-size: clamp(1.5rem, 5vw, 2.1rem); line-height: 1; }
+.grafica .bajada { margin: 8px 0 12px; }
+.lienzo-grafica { position: relative; }
+.lienzo-grafica svg { display: block; width: 100%; overflow: visible; }
+.lienzo-grafica text { font-family: var(--texto); fill: var(--ceniza); }
+.lienzo-grafica .valor { font-family: var(--titular); fill: var(--picon); }
+.lienzo-grafica .rejilla { stroke: var(--linea); stroke-width: 1; }
+.lienzo-grafica .eje { stroke: var(--picon); stroke-width: 1.5; }
+.tip { position: absolute; pointer-events: none; background: var(--papel); border: 1px solid var(--picon); padding: 8px 10px; font-size: 0.9rem; line-height: 1.35; min-width: 150px; max-width: 260px; box-shadow: 3px 3px 0 var(--picon); z-index: 5; }
+.tip b { font-family: var(--titular); font-size: 1.05rem; }
+.tip .fila { display: flex; align-items: center; gap: 6px; }
+.tip i { width: 12px; height: 3px; flex: none; }
+.serie-leyenda { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 8px; font-size: 0.95rem; }
+.serie-leyenda span { display: inline-flex; align-items: center; gap: 8px; }
+.serie-leyenda i { width: 18px; height: 3px; display: inline-block; flex: none; }
+details.datos { margin-top: 10px; }
+details.datos summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; }
+details.datos table { border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+details.datos th, details.datos td { padding: 4px 10px 4px 0; border-bottom: 1px solid var(--linea); text-align: right; }
+details.datos th:first-child, details.datos td:first-child { text-align: left; }
+.fuentes { margin-top: 28px; font-size: 0.9rem; color: var(--ceniza); max-width: 75ch; }
+.fuentes ol { padding-left: 30px; display: flex; flex-direction: column; gap: 4px; margin: 6px 0 0; }
+.metodo ul { margin: 0; padding-left: 20px; max-width: 70ch; display: flex; flex-direction: column; gap: 8px; }
+.contacto p + p { margin-top: 8px; }
+.correo { font-weight: 700; font-size: 1.1rem; word-break: break-all; }
+.buzon { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.buzon .boton { align-self: flex-start; min-width: 160px; }
+textarea { font: inherit; color: inherit; padding: 10px; border: 2px solid var(--picon); border-radius: 4px; background: var(--papel); resize: vertical; min-height: 120px; }
+footer { border-top: 3px solid var(--picon); color: var(--ceniza); font-size: 0.92rem; }
+footer .ancho { padding-top: 16px; padding-bottom: 80px; display: flex; flex-direction: column; gap: 6px; }
+.arriba { position: fixed; right: 14px; bottom: 14px; z-index: 40; min-height: 48px; padding: 8px 14px; border: 2px solid var(--picon); border-radius: 24px; background: var(--papel); font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<header class="cabecera">
+  <div class="ancho">
+    <div>
+      <h1>¿Hay agua hoy?</h1>
+      <p class="lugar">Lanzarote y La Graciosa</p>
+    </div>
+    <p class="fecha" id="fecha-hoy"></p>
+  </div>
+</header>
+<p class="ancho independiente">Página independiente, sin relación con el servicio de aguas. Los cortes programados salen de su <a id="enlace-fuente-arriba" rel="noopener noreferrer">calendario oficial</a>.</p>
+
+<nav class="atajos" aria-label="Secciones">
+  <div class="ancho">
+    <a href="#s-pueblo">Tu pueblo</a>
+    <a href="#s-mapa">Mapa</a>
+    <a href="#s-semana">Semana</a>
+    <a href="#s-mes">El mes</a>
+    <a href="#s-isla">La isla</a>
+    <a href="#s-contacto">Contacto</a>
+    <div class="letra" role="group" aria-label="Tamaño de la letra">
+      <span aria-hidden="true">Letra</span>
+      <button type="button" data-letra="1" aria-label="Letra normal">A</button>
+      <button type="button" data-letra="2" aria-label="Letra grande">A</button>
+      <button type="button" data-letra="3" aria-label="Letra muy grande">A</button>
+    </div>
+  </div>
+</nav>
+
+<div class="ancho" id="avisos-datos" aria-live="polite"></div>
+
+<main class="ancho">
+  <section id="s-pueblo" tabindex="-1" aria-labelledby="t-pueblo">
+    <h2 id="t-pueblo">Tu pueblo</h2>
+    <div class="campo">
+      <label for="pueblo">¿Dónde vives?</label>
+      <select id="pueblo"><option value="">Elige tu pueblo</option></select>
+    </div>
+    <div id="respuesta" aria-live="polite"></div>
+    <p class="mudo pequeno" style="margin-top:10px;max-width:65ch">¿Te has quedado sin luz? Los cortes de electricidad los publica la distribuidora en su <a href="https://www.edistribucion.com/en/averias.html" rel="noopener noreferrer">mapa de averías</a>.</p>
+    <div id="avisar" class="avisar" hidden>
+      <h3 id="pregunta-aviso"></h3>
+      <div class="botones" id="paso1">
+        <button type="button" class="boton sin" data-estado="sin">No tengo agua</button>
+        <button type="button" class="boton poca" data-estado="poca">Tengo poca presión</button>
+        <button type="button" class="boton con" data-estado="con">Sí tengo agua</button>
+      </div>
+      <div id="paso2" hidden>
+        <p class="paso2-titulo" id="paso2-titulo"></p>
+        <div class="botones" style="margin-top:8px">
+          <button type="button" class="boton" data-dias="0">Solo hoy</button>
+          <button type="button" class="boton" data-dias="1">Desde ayer</button>
+          <button type="button" class="boton" data-dias="2">Desde anteayer</button>
+        </div>
+        <button type="button" class="enlace" id="paso2-volver">Volver</button>
+      </div>
+      <p class="estado-envio" id="estado-envio" role="status"></p>
+      <p class="mudo pequeno">¿Avisas por un familiar o un vecino? Elige su pueblo arriba y responde por él.</p>
+      <p class="mudo pequeno">No guardamos quién avisa: solo el pueblo, la respuesta y la hora aproximada.</p>
+    </div>
+  </section>
+
+  <section id="s-mapa" tabindex="-1" aria-labelledby="t-mapa">
+    <h2 id="t-mapa">Mapa</h2>
+    <div class="mapa-marco" id="mapa-marco">
+      <div class="mapa-cabecera">
+        <div class="mapa-fila">
+          <div class="segmento" role="radiogroup" aria-label="Qué enseña el mapa">
+            <button type="button" role="radio" data-modo="dia" aria-checked="true">Un día</button>
+            <button type="button" role="radio" data-modo="mes" aria-checked="false">Todo el mes</button>
+          </div>
+          <div class="capas">
+            <label><input type="checkbox" id="capa-cortes" checked> Cortes programados</label>
+            <label id="capa-avisos-l"><input type="checkbox" id="capa-avisos" checked> Avisos de vecinos</label>
+          </div>
+        </div>
+        <div class="navegar">
+          <button type="button" class="boton chico flecha" id="dia-antes">‹</button>
+          <span class="cual" id="dia-cual" aria-live="polite"></span>
+          <button type="button" class="boton chico flecha" id="dia-despues">›</button>
+          <button type="button" class="boton chico hoy-b" id="dia-hoy"></button>
+        </div>
+      </div>
+      <div class="mapa-lienzo" id="mapa-lienzo" tabindex="0" aria-label="Mapa interactivo. Flechas para moverte, más y menos para acercar o alejar.">
+        <div class="mapa-botones">
+          <button type="button" id="b-mas" aria-label="Acercar">+</button>
+          <button type="button" id="b-menos" aria-label="Alejar">−</button>
+          <button type="button" id="b-centrar" aria-label="Ver toda la isla"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></svg></button>
+          <button type="button" id="b-completa" aria-label="Pantalla completa" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
+        </div>
+        <p class="mapa-pista" id="mapa-pista"></p>
+        <div class="ficha" id="ficha" hidden aria-live="polite"></div>
+      </div>
+      <details class="leyenda-caja" id="leyenda-caja" open><summary>Leyenda</summary><div class="leyenda" id="leyenda"></div></details>
+    </div>
+    <div class="dia-rejilla">
+      <div id="dia-resumen"></div>
+      <div id="dia-vecinos"></div>
+    </div>
+  </section>
+
+  <section id="s-semana" tabindex="-1" aria-labelledby="t-semana">
+    <h2 id="t-semana">La semana</h2>
+    <div class="navegar" style="margin-bottom:14px">
+      <button type="button" class="boton chico flecha" id="sem-antes" aria-label="Semana anterior">‹</button>
+      <span class="cual" id="sem-cual"></span>
+      <button type="button" class="boton chico flecha" id="sem-despues" aria-label="Semana siguiente">›</button>
+    </div>
+    <div id="semana"></div>
+  </section>
+
+  <section id="s-mes" tabindex="-1" aria-labelledby="t-mes">
+    <h2 id="t-mes">La cuenta del mes</h2>
+    <p class="bajada" id="cuenta-bajada"></p>
+    <div class="cifras" id="cifras"></div>
+    <h3 class="subtitulo" id="t-barras"></h3>
+    <ul class="barras" id="barras" aria-labelledby="t-barras"></ul>
+    <p class="mudo" id="fuera-cal" style="margin-top:16px;max-width:75ch"></p>
+    <h3 class="subtitulo" id="t-meses"></h3>
+    <ul class="barras" id="meses" aria-labelledby="t-meses"></ul>
+  </section>
+
+  <section id="s-isla" tabindex="-1" aria-labelledby="t-isla">
+    <h2 id="t-isla">El agua de la isla</h2>
+    <div id="isla"><p class="mudo">Cargando datos…</p></div>
+  </section>
+
+  <section id="s-contacto" class="contacto" tabindex="-1" aria-labelledby="t-contacto">
+    <h2 id="t-contacto">Contacto</h2>
+    <div id="contacto"></div>
+  </section>
+
+  <section class="metodo" aria-labelledby="t-metodo">
+    <h2 id="t-metodo">Cómo funciona</h2>
+    <ul id="metodo"></ul>
+  </section>
+
+  <section class="metodo" id="s-privacidad" tabindex="-1" aria-labelledby="t-privacidad">
+    <h2 id="t-privacidad">Privacidad</h2>
+    <ul id="privacidad"></ul>
+  </section>
+</main>
+
+<footer>
+  <div class="ancho">
+    <p>Página independiente. No pertenece al Consorcio del Agua de Lanzarote ni a ninguna empresa del servicio.</p>
+    <p>Cortes programados: <a id="enlace-fuente" rel="noopener noreferrer">calendario oficial de suspensiones</a>. <span id="pie-leido"></span></p>
+    <p>Contorno de la isla trazado sobre la ortofoto de IDECanarias (GRAFCAN). Fuente: Gobierno de Canarias, licencia CC BY 3.0. El Gobierno de Canarias no respalda esta página.</p>
+    <p>Sin cookies ni contadores de visitas. Más detalles en el apartado de <a href="#s-privacidad">privacidad</a>.</p>
+  </div>
+</footer>
+<button type="button" class="arriba" id="arriba" hidden>↑ Arriba</button>
+
+<script>
+"use strict";
+/* ---------- Configuración ---------- */
+const CONFIG = {
+  api: "",        // dirección del servidor de avisos, p. ej. "https://avisos.ejemplo.workers.dev". Vacío: sin avisos.
+  prueba: false,  // true: enseña los avisos de vecinos sin enviar nada (solo para probar)
+  contacto: "",   // correo de contacto del proyecto
+  codigo: ""      // dirección del repositorio público, si se quiere enseñar
+};
+const FUENTE = "https://aguasdelanzaroteylagraciosa.com/suspensiones-programadas-del-suministro/";
+const DIAS_DESFASE = 3;
+
+/* ---------- Utilidades ---------- */
+const $ = (id) => document.getElementById(id);
+function h(tag, attrs, ...hijos) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k === "class") el.className = v; else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const x of hijos.flat()) if (x != null && x !== false) el.append(x);
+  return el;
+}
+const SVG = "http://www.w3.org/2000/svg";
+function s(tag, attrs, texto) {
+  const el = document.createElementNS(SVG, tag);
+  for (const [k, v] of Object.entries(attrs || {})) if (v != null) el.setAttribute(k, v);
+  if (texto != null) el.textContent = texto;
+  return el;
+}
+const vaciar = (el) => { while (el.firstChild) el.removeChild(el.firstChild); return el; };
+const nf = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 0 });
+const nh = new Intl.NumberFormat("es-ES", { maximumFractionDigits: 1 });
+const fHoy = new Intl.DateTimeFormat("en-CA", { timeZone: "Atlantic/Canary", year: "numeric", month: "2-digit", day: "2-digit" });
+const hoyISO = () => fHoy.format(new Date());
+const aFecha = (iso) => new Date(iso + "T00:00:00Z");
+const sumar = (iso, n) => { const d = aFecha(iso); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const lunesDe = (iso) => sumar(iso, -((aFecha(iso).getUTCDay() + 6) % 7));
+const fLargo = new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
+const fLargoAnio = new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const fCorto = new Intl.DateTimeFormat("es-ES", { weekday: "short", day: "numeric", timeZone: "UTC" });
+const fSemana = new Intl.DateTimeFormat("es-ES", { weekday: "long", day: "numeric", timeZone: "UTC" });
+const fDiaMes = new Intl.DateTimeFormat("es-ES", { day: "numeric", month: "long", timeZone: "UTC" });
+const fMes = new Intl.DateTimeFormat("es-ES", { month: "long", timeZone: "UTC" });
+const fMesAnio = new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric", timeZone: "UTC" });
+const minutos = (hhmm) => { const [a, b] = hhmm.split(":").map(Number); return a * 60 + b; };
+const duracion = (c) => { let m = minutos(c.fin) - minutos(c.inicio); if (c.fin === "23:59") m += 1; if (m <= 0) m += 1440; return m / 60; };
+const todoElDia = (c) => c.inicio === "00:00" && c.fin === "23:59";
+const franja = (c) => todoElDia(c) ? "todo el día" : `de ${c.inicio} a ${c.fin}` + (c.fin < c.inicio ? " del día siguiente" : "");
+const plural = (n, uno, varios) => `${nf.format(n)} ${n === 1 ? uno : varios}`;
+const cmp = new Intl.Collator("es").compare;
+const mayus = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+const pocoMovimiento = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const tactil = () => window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+// Número al azar que identifica este móvil ante el servidor de avisos, para no contar dos veces a la
+// misma persona. Solo se crea cuando alguien avisa. Si el navegador no deja guardarlo, dura lo que la visita.
+let movilSesion = "";
+function numeroMovil() {
+  let n = recordar("movil");
+  if (!n || !/^[0-9a-f]{32}$/.test(n)) {
+    n = movilSesion || [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
+    movilSesion = n; recordar("movil", n);
+  }
+  return n;
+}
+function recordar(clave, valor) { try { if (valor === undefined) return localStorage.getItem(clave); localStorage.setItem(clave, valor); } catch (e) { return null; } }
+
+/* ---------- Estado ---------- */
+const E = {
+  hoy: hoyISO(), dia: null, semana: null, pueblo: "", cal: null, costa: null,
+  locs: [], porId: new Map(), porFecha: new Map(), porPueblo: new Map(), avisos: null,
+  mapa: { modo: "dia", cortes: true, avisos: true, abierto: false, sel: null, marcas: [] },
+  paso2: null
+};
+E.dia = E.hoy; E.semana = lunesDe(E.hoy);
+const avisosActivos = () => Boolean(CONFIG.api) || CONFIG.prueba;
+const cortesDe = (id, fecha) => (E.porFecha.get(fecha) || []).filter((c) => c.localidad === id);
+const nombre = (id) => (E.porId.get(id) || { nombre: id }).nombre;
+const horasDe = (lista) => lista.reduce((t, c) => t + duracion(c), 0);
+
+function prepararDatos(cal, catalogo) {
+  E.locs = (catalogo.localidades || []).filter((l) => l && typeof l.id === "string" && typeof l.nombre === "string");
+  E.porId = new Map(E.locs.map((l) => [l.id, l]));
+  const validos = (cal.cortes || []).filter((c) => c && /^\d{4}-\d{2}-\d{2}$/.test(c.fecha) && /^\d{2}:\d{2}$/.test(c.inicio) && /^\d{2}:\d{2}$/.test(c.fin) && typeof c.localidad === "string");
+  for (const c of validos) {
+    if (!E.porId.has(c.localidad)) {
+      const nuevo = { id: c.localidad, nombre: c.localidad, municipio: String(c.municipio || "Otros"), lat: null, lon: null };
+      E.locs.push(nuevo); E.porId.set(nuevo.id, nuevo);
+    }
+    if (!E.porFecha.has(c.fecha)) E.porFecha.set(c.fecha, []);
+    E.porFecha.get(c.fecha).push(c);
+    if (!E.porPueblo.has(c.localidad)) E.porPueblo.set(c.localidad, []);
+    E.porPueblo.get(c.localidad).push(c);
+  }
+  for (const l of E.porPueblo.values()) l.sort((a, b) => (a.fecha + a.inicio).localeCompare(b.fecha + b.inicio));
+  E.cal = { ...cal, cortes: validos };
+}
+
+/* ---------- Avisos de vecinos ---------- */
+const simulada = { ahora: {}, dias: [], umbral: 3, ventana_horas: 6, desde: null };
+const prueba = { mio: {}, ejemplos: false };
+const EJEMPLOS = { "maguez": { sin: 12, poca: 2, con: 0 }, "tias-pueblo": { sin: 9, poca: 1, con: 0 }, "guatiza": { sin: 5, poca: 0, con: 1 }, "tao": { sin: 4, poca: 5, con: 0 }, "macher": { sin: 1, poca: 6, con: 0 }, "playa-honda": { sin: 2, poca: 0, con: 0 }, "haria": { sin: 1, poca: 0, con: 0 } };
+function recalcularPrueba() {
+  const a = {};
+  if (prueba.ejemplos) for (const id of Object.keys(EJEMPLOS)) a[id] = { ...EJEMPLOS[id] };
+  for (const id of Object.keys(prueba.mio)) { if (!a[id]) a[id] = { sin: 0, poca: 0, con: 0 }; a[id][prueba.mio[id]] += 1; }
+  simulada.ahora = a;
+  simulada.dias = Object.keys(a).filter((id) => a[id].sin >= simulada.umbral).map((id) => ({ fecha: E.hoy, localidad: id, vecinos: a[id].sin }));
+  simulada.desde = E.hoy;
+}
+async function cargarAvisos(forzar) {
+  if (CONFIG.prueba) { recalcularPrueba(); E.avisos = simulada; return; }
+  if (!CONFIG.api) return;
+  try {
+    const r = await fetch(CONFIG.api.replace(/\/+$/, "") + "/estado", { cache: forzar ? "reload" : "default" });
+    if (!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    if (d && typeof d.ahora === "object" && Array.isArray(d.dias)) E.avisos = d;
+  } catch (e) { E.avisos = E.avisos || null; }
+}
+function avisoDe(id) {
+  const a = E.avisos && E.avisos.ahora && E.avisos.ahora[id];
+  if (!a) return null;
+  const sin = Number(a.sin) || 0, poca = Number(a.poca) || 0, con = Number(a.con) || 0;
+  if (sin + poca === 0) return null;
+  const contrastado = sin + poca >= (E.avisos.umbral || 3) && sin + poca > con;
+  return { sin, poca, con, contrastado, fuera: cortesDe(id, E.hoy).length === 0 };
+}
+function textoAviso(av) {
+  const partes = [];
+  if (av.sin) partes.push(plural(av.sin, "vecino sin agua", "vecinos sin agua"));
+  if (av.poca) partes.push(`${nf.format(av.poca)} con poca presión`);
+  return partes.join(", ");
+}
+const MENSAJES = {
+  "reciente": "Ya has avisado hace poco de este pueblo. Podrás volver a hacerlo dentro de media hora.",
+  "limite-pueblos": "Desde este móvil ya has avisado hoy de dos pueblos. Es el máximo, para que una sola persona no pueda llenar el mapa.",
+  "limite-diario": "Desde esta conexión ya se ha avisado hoy de muchos pueblos. Prueba mañana.",
+  "saturado": "Están llegando muchos avisos a la vez. Prueba dentro de un rato.",
+};
+function mostrarPaso2(estado) {
+  E.paso2 = estado;
+  $("paso1").hidden = true; $("paso2").hidden = false;
+  $("paso2-titulo").textContent = estado === "sin" ? "¿Desde cuándo estás sin agua?" : "¿Desde cuándo tienes poca presión?";
+  $("paso2").querySelector("button").focus();
+}
+function ocultarPaso2() { E.paso2 = null; $("paso2").hidden = true; $("paso1").hidden = false; }
+async function enviarAviso(estado, dias) {
+  if (!E.pueblo) return;
+  const msg = $("estado-envio");
+  const botones = [...$("avisar").querySelectorAll("button")];
+  botones.forEach((b) => { b.disabled = true; });
+  msg.textContent = "Enviando…";
+  if (CONFIG.prueba) {
+    const otros = Object.keys(prueba.mio).filter((id) => id !== E.pueblo);
+    if (otros.length >= 2) msg.textContent = MENSAJES["limite-pueblos"];
+    else {
+      prueba.mio[E.pueblo] = estado;
+      recalcularPrueba();
+      msg.textContent = "Modo de prueba: el aviso no sale de esta página. Cuentas como un solo vecino por pueblo; si vuelves a pulsar, se cambia tu respuesta.";
+    }
+  } else {
+    try {
+      const r = await fetch(CONFIG.api.replace(/\/+$/, "") + "/aviso", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ localidad: E.pueblo, estado, dias, movil: numeroMovil() }) });
+      let datos = {};
+      try { datos = await r.json(); } catch (e) { datos = {}; }
+      if (r.status === 201) msg.textContent = datos.cuenta === false ? "Aviso guardado, pero no cuenta: llega desde fuera de España (por ejemplo, a través de una VPN)." : "Aviso recibido. Gracias.";
+      else msg.textContent = MENSAJES[datos.error] || "No se ha podido guardar el aviso. Prueba más tarde.";
+    } catch (e) { msg.textContent = "No se ha podido enviar: no hay conexión con el servidor de avisos."; }
+  }
+  ocultarPaso2();
+  await cargarAvisos(true);
+  pintarTodo();
+  botones.forEach((b) => { b.disabled = false; });
+}
+
+/* ---------- Cabecera, pueblo ---------- */
+function pintarCabecera() {
+  $("fecha-hoy").textContent = fLargoAnio.format(aFecha(E.hoy));
+  const caja = vaciar($("avisos-datos"));
+  const leido = E.cal.leido ? new Date(E.cal.leido) : null;
+  const diasViejo = leido ? (Date.now() - leido.getTime()) / 86400e3 : Infinity;
+  const enlace = () => h("a", { href: FUENTE, rel: "noopener noreferrer" }, "calendario oficial");
+  if (!E.cal.completo) {
+    caja.append(h("p", { class: "aviso-datos" }, h("strong", {}, "Faltan datos"),
+      `Solo hay ${plural(E.cal.cortes.length, "corte cargado", "cortes cargados")}. Consulta el `, enlace(), "."));
+  } else if (!E.cal.cortes.some((c) => c.fecha.startsWith(E.hoy.slice(0, 7)))) {
+    caja.append(h("p", { class: "aviso-datos" }, h("strong", {}, `Falta el calendario de ${fMes.format(aFecha(E.hoy))}`),
+      "Todavía no está cargado. Mientras tanto, consulta el ", enlace(), "."));
+  } else if (E.cal.origen !== "pdf" && diasViejo > DIAS_DESFASE) {
+    caja.append(h("p", { class: "aviso-datos" }, h("strong", {}, "Calendario sin actualizar"),
+      `No se ha podido leer el calendario oficial desde el ${leido ? fDiaMes.format(leido) : "principio"}. Lo que ves puede estar desfasado. Consulta el `, enlace(), "."));
+  }
+  $("enlace-fuente").href = FUENTE; $("enlace-fuente-arriba").href = FUENTE;
+  $("pie-leido").textContent = leido ? `Datos cargados el ${new Intl.DateTimeFormat("es-ES", { dateStyle: "long", timeZone: "Atlantic/Canary" }).format(leido)}.` : "";
+}
+
+function pintarSelector() {
+  const sel = $("pueblo");
+  const grupos = new Map();
+  for (const l of E.locs) { if (!grupos.has(l.municipio)) grupos.set(l.municipio, []); grupos.get(l.municipio).push(l); }
+  for (const mun of [...grupos.keys()].sort(cmp)) {
+    const og = h("optgroup", { label: mun });
+    for (const l of grupos.get(mun).sort((a, b) => cmp(a.nombre, b.nombre))) og.append(h("option", { value: l.id }, l.nombre));
+    sel.append(og);
+  }
+  const guardado = recordar("pueblo");
+  if (guardado && E.porId.has(guardado)) { E.pueblo = guardado; sel.value = guardado; }
+  sel.addEventListener("change", () => elegirPueblo(sel.value));
+}
+function elegirPueblo(id) {
+  E.pueblo = id; $("pueblo").value = id; recordar("pueblo", id);
+  $("estado-envio").textContent = ""; ocultarPaso2();
+  pintarTodo();
+}
+
+function pintarPueblo() {
+  const caja = vaciar($("respuesta"));
+  const avisar = $("avisar");
+  if (!E.pueblo) {
+    caja.append(h("p", { class: "mudo", style: "margin-top:12px" }, "Elige tu pueblo para ver si hoy tiene corte programado y cuándo es el próximo."));
+    avisar.hidden = true;
+    return;
+  }
+  const nom = nombre(E.pueblo);
+  const hoy = cortesDe(E.pueblo, E.hoy);
+  const todos = E.porPueblo.get(E.pueblo) || [];
+  const proximo = todos.find((c) => c.fecha > E.hoy);
+  const delMes = todos.filter((c) => c.fecha.startsWith(E.hoy.slice(0, 7)));
+  const lineas = [];
+  if (hoy.length) {
+    lineas.push(h("p", { class: "titular" }, `Hoy hay corte programado en ${nom}`));
+    lineas.push(h("p", {}, "Horario previsto: " + hoy.map(franja).join(" y ") + "."));
+  } else if (todos.length) {
+    lineas.push(h("p", { class: "titular" }, `Hoy no hay corte programado en ${nom}`));
+  } else {
+    lineas.push(h("p", { class: "titular" }, `${nom} no sale con su nombre en el calendario de cortes`));
+    lineas.push(h("p", {}, "Puede que dependa de la red de un pueblo vecino que sí sale."));
+  }
+  if (proximo) lineas.push(h("p", {}, `Próximo corte: ${fLargo.format(aFecha(proximo.fecha))}, ${franja(proximo)}.`));
+  else if (todos.length) lineas.push(h("p", {}, "No hay más cortes en el calendario cargado."));
+  if (delMes.length) lineas.push(h("p", { class: "num" }, `En ${fMes.format(aFecha(E.hoy))}: ${plural(delMes.length, "corte programado", "cortes programados")}, ${nh.format(horasDe(delMes))} horas.`));
+  const av = avisoDe(E.pueblo);
+  if (av) lineas.push(h("p", {}, "Vecinos en las últimas 6 horas: " + textoAviso(av) + "."));
+  lineas.push(h("p", { class: "mudo" }, "Las averías y los cortes de última hora no salen en el calendario."));
+  caja.append(h("div", { class: "respuesta " + (hoy.length ? "hay-corte" : "sin-corte") }, lineas));
+
+  avisar.hidden = !avisosActivos();
+  const pregunta = vaciar($("pregunta-aviso"));
+  pregunta.append(av ? `Hay vecinos de ${nom} que dicen que ${av.sin ? "no tienen agua" : "tienen poca presión"}. ¿Y tú? ` : `¿Tienes agua ahora en ${nom}? `);
+  if (CONFIG.prueba) pregunta.append(h("span", { class: "etiqueta-prueba" }, "Modo de prueba"));
+}
+
+/* ---------- Mapa ---------- */
+const LON0 = -13.90, LAT0 = 29.31, KX = 97.3, KY = 110.9; // km por grado a 29° N
+const aMundo = (lat, lon) => [(lon - LON0) * KX, (LAT0 - lat) * KY];
+const V = { W: 0, H: 0, s: 1, tx: 0, ty: 0, fit: 1, caja: [0, 0, 47, 54], punteros: new Map(), gesto: null, cuadro: 0, listo: false };
+let svgMapa, gTierra, gPuntos, gTextos;
+
+function mezcla(parteSin) { // 1 = todos sin agua (rojo); 0 = todos con poca presión (naranja)
+  const a = [232, 140, 0], b = [196, 36, 22];
+  return "rgb(" + a.map((v, i) => Math.round(v + (b[i] - v) * parteSin)).join(",") + ")";
+}
+function montarMapa() {
+  const lienzo = $("mapa-lienzo");
+  svgMapa = s("svg", { role: "img" });
+  gTierra = s("g"); gPuntos = s("g"); gTextos = s("g", { class: "textos" });
+  if (E.costa && Array.isArray(E.costa.islas)) {
+    const xs = [], ys = [];
+    for (const isla of E.costa.islas) {
+      const pts = isla.puntos.map(([lo, la]) => aMundo(la, lo));
+      for (const [x, y] of pts) { xs.push(x); ys.push(y); }
+      gTierra.append(s("path", { class: "isla", d: "M" + pts.map((p) => p[0].toFixed(2) + "," + p[1].toFixed(2)).join("L") + "Z" }));
+    }
+    V.caja = [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)];
+  }
+  svgMapa.append(s("rect", { class: "mar", x: 0, y: 0, width: "100%", height: "100%" }), gTierra, gPuntos, gTextos);
+  lienzo.prepend(svgMapa);
+  if ("ResizeObserver" in window) new ResizeObserver(medirMapa).observe(lienzo);
+  window.addEventListener("resize", medirMapa);
+  medirMapa();
+  eventosMapa(lienzo);
+}
+function medirMapa() {
+  const r = $("mapa-lienzo").getBoundingClientRect();
+  const W = Math.max(200, Math.round(r.width)), H = Math.max(200, Math.round(r.height));
+  if (V.listo && W === V.W && H === V.H) return;
+  const centro = V.listo ? [(V.W / 2 - V.tx) / V.s, (V.H / 2 - V.ty) / V.s] : null;
+  const relativo = V.listo ? V.s / V.fit : 1;
+  V.W = W; V.H = H; svgMapa.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const [x0, y0, x1, y1] = V.caja;
+  V.fit = Math.min(W / (x1 - x0), H / (y1 - y0)) * 0.92;
+  if (!centro) { encuadrar(); V.listo = true; }
+  else { V.s = V.fit * relativo; V.tx = W / 2 - centro[0] * V.s; V.ty = H / 2 - centro[1] * V.s; limitar(); }
+  pedirDibujo();
+}
+function encuadrar() {
+  const [x0, y0, x1, y1] = V.caja;
+  V.s = V.fit; V.tx = (V.W - (x1 - x0) * V.s) / 2 - x0 * V.s; V.ty = (V.H - (y1 - y0) * V.s) / 2 - y0 * V.s;
+}
+function limitar() {
+  V.s = Math.min(Math.max(V.s, V.fit * 0.8), V.fit * 16);
+  const [x0, y0, x1, y1] = V.caja, m = 60;
+  const izq = x0 * V.s + V.tx, der = x1 * V.s + V.tx, arr = y0 * V.s + V.ty, aba = y1 * V.s + V.ty;
+  if (der < m) V.tx += m - der; if (izq > V.W - m) V.tx -= izq - (V.W - m);
+  if (aba < m) V.ty += m - aba; if (arr > V.H - m) V.ty -= arr - (V.H - m);
+}
+function zoom(f, cx, cy) {
+  if (cx == null) { cx = V.W / 2; cy = V.H / 2; }
+  const wx = (cx - V.tx) / V.s, wy = (cy - V.ty) / V.s;
+  V.s = Math.min(Math.max(V.s * f, V.fit * 0.8), V.fit * 16);
+  V.tx = cx - wx * V.s; V.ty = cy - wy * V.s; limitar(); pedirDibujo();
+}
+function pedirDibujo() { if (!V.cuadro) V.cuadro = requestAnimationFrame(() => { V.cuadro = 0; dibujarMapa(); }); }
+let pistaTemporal = 0;
+function pista(texto, temporal) {
+  const p = vaciar($("mapa-pista"));
+  if (!$("ficha").hidden) return;
+  p.append(h("span", {}, texto || textoPista()));
+  clearTimeout(pistaTemporal);
+  if (temporal) pistaTemporal = setTimeout(() => pista(), 3500);
+}
+function textoPista() {
+  if (tactil()) return E.mapa.abierto ? "Arrastra con un dedo para moverte y pellizca para acercar." : "Toca un pueblo para ver sus datos. Para moverte por el mapa, ábrelo en pantalla completa.";
+  return E.mapa.abierto ? "Arrastra para moverte y usa la rueda para acercar. Esc para salir." : "Haz clic en un pueblo para ver sus datos. Arrastra para moverte; Ctrl + rueda para acercar.";
+}
+function eventosMapa(el) {
+  const pos = (e) => { const r = svgMapa.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  el.addEventListener("pointerdown", (e) => {
+    if (e.target.closest("button, .ficha")) return;
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    try { el.setPointerCapture(e.pointerId); } catch (err) { /* sin captura */ }
+    V.punteros.set(e.pointerId, pos(e));
+    if (V.punteros.size === 1) V.gesto = { tipo: "arrastre", inicio: pos(e), tx: V.tx, ty: V.ty, movido: false };
+    else if (V.punteros.size === 2) {
+      const [a, b] = [...V.punteros.values()];
+      V.gesto = { tipo: "pellizco", d: Math.max(10, Math.hypot(a[0] - b[0], a[1] - b[1])), s: V.s, c: [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2], tx: V.tx, ty: V.ty, movido: true };
+    }
+  });
+  el.addEventListener("pointermove", (e) => {
+    if (!V.punteros.has(e.pointerId)) return;
+    V.punteros.set(e.pointerId, pos(e));
+    const g = V.gesto; if (!g) return;
+    if (g.tipo === "arrastre" && V.punteros.size === 1) {
+      const [x, y] = pos(e), dx = x - g.inicio[0], dy = y - g.inicio[1];
+      if (!g.movido && Math.hypot(dx, dy) < 6) return;
+      g.movido = true; V.tx = g.tx + dx; V.ty = g.ty + dy; limitar(); pedirDibujo();
+    } else if (g.tipo === "pellizco" && V.punteros.size >= 2) {
+      const [a, b] = [...V.punteros.values()];
+      const d = Math.hypot(a[0] - b[0], a[1] - b[1]), c = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+      const wx = (g.c[0] - g.tx) / g.s, wy = (g.c[1] - g.ty) / g.s;
+      V.s = Math.min(Math.max(g.s * d / g.d, V.fit * 0.8), V.fit * 16);
+      V.tx = c[0] - wx * V.s; V.ty = c[1] - wy * V.s; limitar(); pedirDibujo();
+    }
+  });
+  const fin = (e) => {
+    if (!V.punteros.has(e.pointerId)) return;
+    const g = V.gesto, p = pos(e);
+    V.punteros.delete(e.pointerId);
+    if (e.type === "pointerup" && g && g.tipo === "arrastre" && !g.movido) tocar(p[0], p[1]);
+    if (V.punteros.size === 0) V.gesto = null;
+    else { const [q] = [...V.punteros.values()]; V.gesto = { tipo: "arrastre", inicio: q, tx: V.tx, ty: V.ty, movido: true }; }
+  };
+  el.addEventListener("pointerup", fin);
+  el.addEventListener("pointercancel", fin);
+  el.addEventListener("wheel", (e) => {
+    if (!(E.mapa.abierto || e.ctrlKey || e.metaKey)) { pista("Para acercar con la rueda, mantén pulsada la tecla Ctrl.", true); return; }
+    e.preventDefault();
+    const [x, y] = pos(e); zoom(Math.exp(-Math.max(-120, Math.min(120, e.deltaY)) * 0.004), x, y);
+  }, { passive: false });
+  el.addEventListener("keydown", (e) => {
+    if (e.target !== el) return;
+    const paso = 60; let hecho = true;
+    if (e.key === "ArrowLeft") V.tx += paso; else if (e.key === "ArrowRight") V.tx -= paso;
+    else if (e.key === "ArrowUp") V.ty += paso; else if (e.key === "ArrowDown") V.ty -= paso;
+    else if (e.key === "+" || e.key === "=") zoom(1.4); else if (e.key === "-") zoom(1 / 1.4);
+    else if (e.key === "0") encuadrar();
+    else hecho = false;
+    if (hecho) { e.preventDefault(); limitar(); pedirDibujo(); }
+  });
+  $("b-mas").addEventListener("click", () => zoom(1.5));
+  $("b-menos").addEventListener("click", () => zoom(1 / 1.5));
+  $("b-centrar").addEventListener("click", () => { encuadrar(); pedirDibujo(); });
+  $("b-completa").addEventListener("click", () => pantallaCompleta(!E.mapa.abierto));
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    if (!$("ficha").hidden) { cerrarFicha(); return; }
+    if (E.mapa.abierto) pantallaCompleta(false);
+  });
+}
+function pantallaCompleta(abrir) {
+  E.mapa.abierto = abrir;
+  $("mapa-marco").classList.toggle("abierto", abrir);
+  document.body.classList.toggle("mapa-abierto", abrir);
+  const b = $("b-completa");
+  b.setAttribute("aria-pressed", String(abrir));
+  b.setAttribute("aria-label", abrir ? "Cerrar pantalla completa" : "Pantalla completa");
+  vaciar(b).append(abrir
+    ? (() => { const g = s("svg", { viewBox: "0 0 24 24", "aria-hidden": "true" }); g.append(s("path", { d: "M6 6l12 12M18 6L6 18", fill: "none", stroke: "currentColor", "stroke-width": "2.4" })); return g; })()
+    : (() => { const g = s("svg", { viewBox: "0 0 24 24", "aria-hidden": "true" }); g.append(s("path", { d: "M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5", fill: "none", stroke: "currentColor", "stroke-width": "2.2" })); return g; })());
+  const ley = $("leyenda-caja");
+  if (abrir) { ley.dataset.antes = ley.open ? "1" : ""; if (window.innerWidth < 700 || window.innerHeight < 700) ley.open = false; }
+  else ley.open = ley.dataset.antes !== "";
+  pista();
+  requestAnimationFrame(medirMapa);
+  if (abrir) $("mapa-lienzo").focus({ preventScroll: true });
+}
+function tocar(x, y) {
+  let mejor = null, dist = Infinity;
+  for (const m of E.mapa.marcas) {
+    if (m.x == null) continue;
+    const d = Math.hypot(m.x - x, m.y - y);
+    if (d < Math.max(m.rr + 8, 18) && d < dist) { mejor = m; dist = d; }
+  }
+  if (mejor) abrirFicha(mejor.id); else cerrarFicha();
+}
+function abrirFicha(id) { E.mapa.sel = id; pintarFicha(); pedirDibujo(); }
+function cerrarFicha() { E.mapa.sel = null; pintarFicha(); pedirDibujo(); }
+function pintarFicha() {
+  const f = $("ficha"), id = E.mapa.sel;
+  if (!id) { f.hidden = true; pista(); return; }
+  vaciar($("mapa-pista"));
+  const l = E.porId.get(id), todos = E.porPueblo.get(id) || [];
+  const hoy = cortesDe(id, E.hoy), elDia = cortesDe(id, E.dia);
+  const prox = todos.find((c) => c.fecha > E.hoy);
+  const delMes = todos.filter((c) => c.fecha.startsWith(E.dia.slice(0, 7)));
+  const av = avisoDe(id);
+  vaciar(f);
+  f.className = "ficha" + (hoy.length || (E.mapa.modo === "dia" && elDia.length) ? " corte" : "");
+  f.append(h("h3", {}, l.nombre, h("span", { class: "mudo", style: "font-weight:500" }, ` · ${l.municipio}`)));
+  f.append(h("p", {}, hoy.length ? `Hoy: corte programado, ${hoy.map(franja).join(" y ")}.` : "Hoy: sin corte programado."));
+  if (E.mapa.modo === "dia" && E.dia !== E.hoy) f.append(h("p", {}, `${mayus(fLargo.format(aFecha(E.dia)))}: ` + (elDia.length ? `corte programado, ${elDia.map(franja).join(" y ")}.` : "sin corte programado.")));
+  if (prox) f.append(h("p", {}, `Próximo corte: ${fLargo.format(aFecha(prox.fecha))}.`));
+  f.append(h("p", { class: "num" }, `En ${fMes.format(aFecha(E.dia))}: ` + (delMes.length ? `${plural(delMes.length, "corte", "cortes")}, ${nh.format(horasDe(delMes))} horas.` : "ningún corte programado.")));
+  if (av) f.append(h("p", {}, `Vecinos ahora: ${textoAviso(av)}` + (av.contrastado ? "." : " (sin contrastar).")));
+  const acciones = h("div", { class: "acciones" });
+  if (E.pueblo !== id) { const b = h("button", { type: "button", class: "boton chico" }, "Es mi pueblo"); b.addEventListener("click", () => elegirPueblo(id)); acciones.append(b); }
+  const c = h("button", { type: "button", class: "boton chico" }, "Cerrar"); c.addEventListener("click", cerrarFicha); acciones.append(c);
+  f.append(acciones);
+  f.hidden = false;
+}
+function calcularMarcas() {
+  const M = E.mapa, lista = [], mes = E.dia.slice(0, 7), esHoy = E.dia === E.hoy;
+  const horas = new Map(); let hmax = 1;
+  const diasFuera = new Map();
+  if (M.modo === "mes") {
+    for (const c of E.cal.cortes) if (c.fecha.startsWith(mes)) horas.set(c.localidad, (horas.get(c.localidad) || 0) + duracion(c));
+    hmax = Math.max(1, ...horas.values());
+    if (M.avisos && avisosActivos() && E.avisos) for (const d of E.avisos.dias || []) {
+      if (d.fecha && d.fecha.startsWith(mes) && !cortesDe(d.localidad, d.fecha).length) diasFuera.set(d.localidad, (diasFuera.get(d.localidad) || 0) + 1);
+    }
+  }
+  for (const l of E.locs) {
+    if (typeof l.lat !== "number" || typeof l.lon !== "number") continue;
+    const [wx, wy] = aMundo(l.lat, l.lon);
+    const m = { id: l.id, nombre: l.nombre, wx, wy, r: 3, color: "var(--punto)", opacidad: 1, borde: null, grosor: 0, discont: false, anillo: null, prioridad: 0 };
+    if (M.modo === "dia") {
+      const corte = M.cortes && cortesDe(l.id, E.dia).length > 0;
+      const av = M.avisos && esHoy && avisosActivos() ? avisoDe(l.id) : null;
+      if (av) {
+        const n = av.sin + av.poca;
+        Object.assign(m, { r: Math.min(18, 5 + 2.4 * Math.sqrt(n)), color: mezcla(av.sin / n), opacidad: av.contrastado ? 0.92 : 0.35, borde: corte ? "var(--picon)" : mezcla(av.sin / n), grosor: corte ? 2.5 : 1.5, discont: !av.contrastado && !corte, prioridad: 3 + n });
+      } else if (corte) Object.assign(m, { r: 7, color: "var(--corte)", borde: "var(--picon)", grosor: 1.5, prioridad: 2 });
+      else if (M.cortes) Object.assign(m, { r: 4, color: "var(--agua)", prioridad: 0.5 });
+    } else {
+      const hh = horas.get(l.id) || 0;
+      if (M.cortes && hh > 0) Object.assign(m, { r: 4 + 13 * Math.sqrt(hh / hmax), color: "var(--corte)", opacidad: 0.8, borde: "var(--picon)", grosor: 1, prioridad: 1 + hh / hmax });
+      else if (M.cortes) Object.assign(m, { r: 4, color: "var(--agua)", prioridad: 0.5 });
+      if (diasFuera.get(l.id)) { m.anillo = "var(--aviso)"; m.prioridad += 1; }
+    }
+    lista.push(m);
+  }
+  lista.sort((a, b) => b.r - a.r);
+  M.marcas = lista;
+}
+function dibujarMapa() {
+  if (!svgMapa) return;
+  gTierra.setAttribute("transform", `translate(${V.tx.toFixed(1)} ${V.ty.toFixed(1)}) scale(${V.s.toFixed(4)})`);
+  vaciar(gPuntos); vaciar(gTextos);
+  const rel = V.s / V.fit, crece = Math.min(1.5, Math.max(1, Math.sqrt(rel) * 0.85));
+  for (const m of E.mapa.marcas) {
+    m.x = m.wx * V.s + V.tx; m.y = m.wy * V.s + V.ty; m.rr = m.r * crece;
+    if (m.x < -40 || m.y < -40 || m.x > V.W + 40 || m.y > V.H + 40) { m.x = null; continue; }
+    const c = s("circle", { cx: m.x.toFixed(1), cy: m.y.toFixed(1), r: m.rr.toFixed(1), fill: m.color, "fill-opacity": m.opacidad });
+    if (m.borde) { c.setAttribute("stroke", m.borde); c.setAttribute("stroke-width", m.grosor); if (m.discont) c.setAttribute("stroke-dasharray", "3 2"); }
+    gPuntos.append(c);
+    if (m.anillo) gPuntos.append(s("circle", { cx: m.x.toFixed(1), cy: m.y.toFixed(1), r: (m.rr + 4).toFixed(1), fill: "none", stroke: m.anillo, "stroke-width": 3 }));
+    if (m.id === E.pueblo) gPuntos.append(s("circle", { cx: m.x.toFixed(1), cy: m.y.toFixed(1), r: (m.rr + 5).toFixed(1), fill: "none", stroke: "var(--puerta)", "stroke-width": 2.5 }));
+    if (m.id === E.mapa.sel) gPuntos.append(s("circle", { cx: m.x.toFixed(1), cy: m.y.toFixed(1), r: (m.rr + 8).toFixed(1), fill: "none", stroke: "var(--picon)", "stroke-width": 2, "stroke-dasharray": "4 3" }));
+  }
+  // Rótulos: primero el elegido y tu pueblo, luego por importancia. Sin pisarse.
+  const raiz = parseFloat(getComputedStyle(document.documentElement).fontSize) || 17;
+  const fs = Math.round(raiz * 0.72);
+  const cajas = E.mapa.marcas.filter((m) => m.x != null && m.prioridad >= 1).map((m) => [m.x - m.rr, m.y - m.rr, m.x + m.rr, m.y + m.rr]);
+  cajas.push([V.W - 64, 0, V.W, 230]); // columna de botones
+  const libre = (c) => c[0] >= 2 && c[2] <= V.W - 2 && c[1] >= 2 && c[3] <= V.H - 2 && !cajas.some((o) => c[0] < o[2] && c[2] > o[0] && c[1] < o[3] && c[3] > o[1]);
+  const candidatos = E.mapa.marcas.filter((m) => m.x != null && (m.prioridad >= 1 || m.id === E.pueblo || m.id === E.mapa.sel || rel > 2.2))
+    .sort((a, b) => ((b.id === E.mapa.sel) * 100 + (b.id === E.pueblo) * 50 + b.prioridad) - ((a.id === E.mapa.sel) * 100 + (a.id === E.pueblo) * 50 + a.prioridad));
+  for (const m of candidatos) {
+    const w = m.nombre.length * fs * 0.56 + 4, d = m.rr + 4;
+    const opciones = [
+      ["start", m.x + d, m.y + fs * 0.35, [m.x + d - 1, m.y - fs * 0.6, m.x + d + w, m.y + fs * 0.6]],
+      ["end", m.x - d, m.y + fs * 0.35, [m.x - d - w, m.y - fs * 0.6, m.x - d + 1, m.y + fs * 0.6]],
+      ["middle", m.x, m.y - d - 2, [m.x - w / 2, m.y - d - fs - 2, m.x + w / 2, m.y - d]],
+      ["middle", m.x, m.y + d + fs, [m.x - w / 2, m.y + d, m.x + w / 2, m.y + d + fs + 2]],
+      ["start", m.x + d * 0.7, m.y - d * 0.7, [m.x + d * 0.7 - 1, m.y - d * 0.7 - fs, m.x + d * 0.7 + w, m.y - d * 0.7 + 2]],
+      ["start", m.x + d * 0.7, m.y + d * 0.7 + fs * 0.8, [m.x + d * 0.7 - 1, m.y + d * 0.7 - 2, m.x + d * 0.7 + w, m.y + d * 0.7 + fs]],
+      ["end", m.x - d * 0.7, m.y - d * 0.7, [m.x - d * 0.7 - w, m.y - d * 0.7 - fs, m.x - d * 0.7 + 1, m.y - d * 0.7 + 2]],
+      ["end", m.x - d * 0.7, m.y + d * 0.7 + fs * 0.8, [m.x - d * 0.7 - w, m.y + d * 0.7 - 2, m.x - d * 0.7 + 1, m.y + d * 0.7 + fs]],
+    ];
+    for (const [ancla, tx, ty, caja] of opciones) {
+      if (libre(caja)) { cajas.push(caja); gTextos.append(s("text", { x: tx.toFixed(1), y: ty.toFixed(1), "text-anchor": ancla, "font-size": fs }, m.nombre)); break; }
+    }
+  }
+}
+function pintarLeyenda() {
+  const ley = vaciar($("leyenda")), M = E.mapa;
+  const marca = (...dibujos) => { const g = s("svg", { viewBox: "0 0 18 18", "aria-hidden": "true" }); g.append(...dibujos); return g; };
+  const punto = (r, color, extra) => s("circle", Object.assign({ cx: 9, cy: 9, r, fill: color }, extra || {}));
+  if (M.modo === "dia") {
+    if (M.cortes) {
+      ley.append(h("span", {}, marca(punto(6, "var(--corte)", { stroke: "var(--picon)", "stroke-width": 1.5 })), "Corte programado"));
+      ley.append(h("span", {}, marca(punto(4, "var(--agua)")), "Sin corte programado"));
+    }
+    if (M.avisos && avisosActivos()) {
+      if (E.dia !== E.hoy) ley.append(h("span", {}, "Los avisos de vecinos solo se ven en el día de hoy."));
+      else {
+        ley.append(h("span", {}, marca(punto(7.5, mezcla(1))), "Vecinos sin agua"));
+        ley.append(h("span", {}, marca(punto(7.5, mezcla(0))), "Vecinos con poca presión"));
+        ley.append(h("span", {}, "Cuantos más vecinos avisan, más grande el círculo. Tenue: menos de tres avisos."));
+      }
+    }
+  } else {
+    if (M.cortes) {
+      ley.append(h("span", {}, marca(punto(4, "var(--corte)", { "fill-opacity": 0.8 }), ), marca(punto(8, "var(--corte)", { "fill-opacity": 0.8 })), "Horas de corte programadas en el mes: más grande, más horas"));
+      ley.append(h("span", {}, marca(punto(4, "var(--agua)")), "Ningún corte programado en el mes"));
+    }
+    if (M.avisos && avisosActivos()) ley.append(h("span", {}, marca(s("circle", { cx: 9, cy: 9, r: 6.5, fill: "none", stroke: "var(--aviso)", "stroke-width": 3 })), "Días sin agua fuera del calendario, según vecinos"));
+  }
+  if (!M.cortes && !(M.avisos && avisosActivos())) ley.append(h("span", {}, "No hay ninguna capa activa."));
+  ley.append(h("span", {}, "Posiciones aproximadas."));
+}
+function moverDia(n) {
+  if (E.mapa.modo === "dia") E.dia = sumar(E.dia, n);
+  else {
+    const [y, m] = E.dia.split("-").map(Number);
+    const iso = new Date(Date.UTC(y, m - 1 + n, 1)).toISOString().slice(0, 10);
+    E.dia = iso.slice(0, 7) === E.hoy.slice(0, 7) ? E.hoy : iso;
+  }
+  pintarSeccionMapa();
+}
+function pintarSeccionMapa() {
+  const M = E.mapa, esHoy = E.dia === E.hoy, mesActual = E.dia.slice(0, 7) === E.hoy.slice(0, 7);
+  for (const b of document.querySelectorAll(".segmento button")) b.setAttribute("aria-checked", String(b.dataset.modo === M.modo));
+  $("capa-avisos-l").hidden = !avisosActivos();
+  if (M.modo === "dia") {
+    $("dia-cual").textContent = (esHoy ? "Hoy, " : "") + fLargo.format(aFecha(E.dia));
+    $("dia-antes").setAttribute("aria-label", "Día anterior"); $("dia-despues").setAttribute("aria-label", "Día siguiente");
+    $("dia-hoy").textContent = "Hoy"; $("dia-hoy").hidden = esHoy;
+  } else {
+    $("dia-cual").textContent = fMesAnio.format(aFecha(E.dia));
+    $("dia-antes").setAttribute("aria-label", "Mes anterior"); $("dia-despues").setAttribute("aria-label", "Mes siguiente");
+    $("dia-hoy").textContent = "Este mes"; $("dia-hoy").hidden = mesActual;
+  }
+  calcularMarcas(); pintarLeyenda(); pintarFicha(); pedirDibujo();
+  svgMapa && svgMapa.setAttribute("aria-label", resumenMapa());
+  pintarResumen();
+}
+function resumenMapa() {
+  if (E.mapa.modo === "mes") return `Mapa de Lanzarote y La Graciosa con las horas de corte programadas en ${fMesAnio.format(aFecha(E.dia))}. Debajo del mapa está la misma información en texto.`;
+  const n = new Set((E.porFecha.get(E.dia) || []).map((c) => c.localidad)).size;
+  return `Mapa de Lanzarote y La Graciosa. ${n ? plural(n, "pueblo con corte programado", "pueblos con corte programado") : "Ningún pueblo con corte programado"} el ${fLargo.format(aFecha(E.dia))}. Debajo del mapa está la lista.`;
+}
+function pintarResumen() {
+  const caja = vaciar($("dia-resumen")), vec = vaciar($("dia-vecinos"));
+  const sinPunto = E.locs.filter((l) => typeof l.lat !== "number").map((l) => l.nombre).sort(cmp);
+  if (E.mapa.modo === "mes") {
+    const mes = E.dia.slice(0, 7), delMes = E.cal.cortes.filter((c) => c.fecha.startsWith(mes));
+    const n = new Set(delMes.map((c) => c.localidad)).size;
+    caja.append(h("p", { class: "cifra num" + (n ? " hay" : "") }, h("b", {}, nf.format(n)), h("span", {}, n === 1 ? "pueblo con algún corte programado" : "pueblos con algún corte programado")));
+    caja.append(h("p", {}, delMes.length ? `En ${fMesAnio.format(aFecha(E.dia))} hay ${plural(delMes.length, "corte programado", "cortes programados")}, ${nh.format(horasDe(delMes))} horas sumando todos los pueblos. El desglose por pueblo está en «La cuenta del mes».` : "No hay cortes cargados para este mes."));
+  } else {
+    const cortes = E.porFecha.get(E.dia) || [];
+    const ids = [...new Set(cortes.map((c) => c.localidad))];
+    caja.append(h("p", { class: "cifra num" + (ids.length ? " hay" : "") }, h("b", {}, nf.format(ids.length)), h("span", {}, ids.length === 1 ? "pueblo con corte programado" : "pueblos con corte programado")));
+    if (ids.length) {
+      const porMun = new Map();
+      for (const id of ids) { const l = E.porId.get(id); if (!porMun.has(l.municipio)) porMun.set(l.municipio, []); porMun.get(l.municipio).push(id); }
+      const ul = h("ul", { class: "lista-mun" });
+      for (const mun of [...porMun.keys()].sort(cmp)) {
+        const textos = porMun.get(mun).sort((a, b) => cmp(nombre(a), nombre(b))).map((id) => { const cs = cortesDe(id, E.dia); return nombre(id) + (cs.every(todoElDia) ? "" : ` (${cs.map(franja).join(" y ")})`); });
+        ul.append(h("li", {}, h("span", { class: "mun" }, mun), h("span", {}, textos.join(", "))));
+      }
+      caja.append(ul);
+      if (cortes.every(todoElDia)) caja.append(h("p", { class: "mudo", style: "margin-top:8px" }, "Todos previstos para el día entero, de 00:00 a 23:59."));
+    } else caja.append(h("p", { class: "mudo" }, "El calendario no prevé cortes este día."));
+  }
+  if (sinPunto.length) caja.append(h("p", { class: "mudo pequeno", style: "margin-top:10px" }, `Todavía sin punto en el mapa: ${sinPunto.join(", ")}.`));
+
+  if (E.mapa.modo === "dia" && E.dia === E.hoy && avisosActivos()) {
+    const filas = E.locs.map((l) => [l, avisoDe(l.id)]).filter(([, a]) => a).sort((a, b) => (b[1].contrastado - a[1].contrastado) || (b[1].sin + b[1].poca - a[1].sin - a[1].poca));
+    const bloque = h("div", { class: "vecinos" }, h("h3", {}, "Avisos de vecinos en las últimas 6 horas" + (CONFIG.prueba && prueba.ejemplos ? " (de ejemplo, inventados)" : "")));
+    if (!filas.length) bloque.append(h("p", { class: "mudo" }, E.avisos ? "Ningún aviso por ahora." : "No se han podido cargar los avisos."));
+    else {
+      const ul = h("ul");
+      for (const [l, a] of filas) {
+        const clase = !a.contrastado ? "sin contrastar" : a.fuera ? "fuera del calendario" : "coincide con el corte programado";
+        ul.append(h("li", { class: !a.contrastado ? "" : a.fuera ? "fuera" : "dentro" }, h("strong", {}, l.nombre), ": " + textoAviso(a) + " · ", h("span", { class: "clase" }, clase)));
+      }
+      bloque.append(ul, h("p", { class: "mudo pequeno", style: "margin-top:6px" }, "Un aviso cuenta cuando coinciden tres o más vecinos del mismo pueblo."));
+    }
+    if (CONFIG.prueba) {
+      const b = h("button", { type: "button", class: "boton chico", style: "margin-top:12px" }, prueba.ejemplos ? "Quitar los vecinos de ejemplo" : "Ver el mapa con vecinos de ejemplo");
+      b.addEventListener("click", () => { prueba.ejemplos = !prueba.ejemplos; recalcularPrueba(); E.avisos = simulada; pintarTodo(); });
+      bloque.append(b);
+    }
+    vec.append(bloque);
+  }
+}
+
+/* ---------- Semana ---------- */
+function pintarSemana() {
+  const dias = Array.from({ length: 7 }, (_, i) => sumar(E.semana, i));
+  const mismoMes = dias[0].slice(0, 7) === dias[6].slice(0, 7);
+  $("sem-cual").textContent = mismoMes ? `Del ${Number(dias[0].slice(8))} al ${fDiaMes.format(aFecha(dias[6]))}` : `Del ${fDiaMes.format(aFecha(dias[0]))} al ${fDiaMes.format(aFecha(dias[6]))}`;
+  const caja = vaciar($("semana"));
+  if (E.pueblo) {
+    caja.append(h("h3", { class: "subtitulo", style: "margin-top:0" }, `${nombre(E.pueblo)} esta semana`));
+    const tira = h("div", { class: "tu-semana" });
+    for (const d of dias) {
+      const cs = cortesDe(E.pueblo, d);
+      tira.append(h("div", { class: "dia" + (cs.length ? " corte" : "") + (d === E.hoy ? " hoy" : "") }, h("b", {}, fCorto.format(aFecha(d)).replace(",", "")), cs.length ? (cs.every(todoElDia) ? "Corte" : cs.map((c) => `${c.inicio}–${c.fin}`).join(" ")) : "Sin corte"));
+    }
+    caja.append(tira);
+  }
+  const ids = [...new Set(dias.flatMap((d) => (E.porFecha.get(d) || []).map((c) => c.localidad)))];
+  if (!ids.length) { caja.append(h("p", { class: "mudo" }, "El calendario no prevé cortes esta semana.")); return; }
+
+  // Pantallas anchas: tabla
+  const tabla = h("table", { class: "semana num" });
+  tabla.append(h("caption", { class: "oculto-visual" }, "Cortes programados por pueblo y día, en horas."));
+  tabla.append(h("thead", {}, h("tr", {}, h("th", { scope: "col", style: "text-align:left" }, "Pueblo"), dias.map((d) => h("th", { scope: "col", class: d === E.hoy ? "hoy" : "" }, fCorto.format(aFecha(d)).replace(",", ""))))));
+  const cuerpo = h("tbody");
+  const porMun = new Map();
+  for (const id of ids) { const l = E.porId.get(id); if (!porMun.has(l.municipio)) porMun.set(l.municipio, []); porMun.get(l.municipio).push(l); }
+  for (const mun of [...porMun.keys()].sort(cmp)) {
+    cuerpo.append(h("tr", { class: "grupo" }, h("th", { scope: "colgroup", colspan: 8 }, mun)));
+    for (const l of porMun.get(mun).sort((a, b) => cmp(a.nombre, b.nombre))) {
+      cuerpo.append(h("tr", { class: l.id === E.pueblo ? "mio" : "" }, h("th", { scope: "row" }, l.nombre), dias.map((d) => {
+        const cs = cortesDe(l.id, d);
+        if (!cs.length) return h("td", { class: d === E.hoy ? "hoy" : "" }, h("span", { class: "oculto-visual" }, "sin corte"));
+        return h("td", { class: "corte" + (d === E.hoy ? " hoy" : ""), title: cs.map(franja).join(" y ") }, `${nh.format(horasDe(cs))} h`, h("span", { class: "oculto-visual" }, " de corte, " + cs.map(franja).join(" y ")));
+      })));
+    }
+  }
+  tabla.append(cuerpo);
+  caja.append(h("div", { class: "tabla-caja solo-ancho", tabindex: "0", role: "region", "aria-label": "Tabla de la semana" }, tabla));
+
+  // Móvil: un bloque por día
+  const lista = h("div", { class: "lista-dias solo-movil" });
+  for (const d of dias) {
+    const cs = E.porFecha.get(d) || [];
+    const porM = new Map();
+    for (const c of cs) { const l = E.porId.get(c.localidad); if (!porM.has(l.municipio)) porM.set(l.municipio, new Set()); porM.get(l.municipio).add(c.localidad); }
+    const bloque = h("div", { class: "dia-bloque" + (cs.length ? " hay" : "") + (d === E.hoy ? " hoy" : "") }, h("h3", {}, fSemana.format(aFecha(d))));
+    if (!cs.length) bloque.append(h("p", { class: "mudo" }, "Sin cortes programados."));
+    for (const mun of [...porM.keys()].sort(cmp)) {
+      const p = h("p", {}, h("strong", {}, mun + ": "));
+      [...porM.get(mun)].sort((a, b) => cmp(nombre(a), nombre(b))).forEach((id, i) => {
+        if (i) p.append(", ");
+        const c1 = cortesDe(id, d);
+        p.append(h("span", { class: id === E.pueblo ? "mio" : "" }, nombre(id) + (c1.every(todoElDia) ? "" : ` (${c1.map(franja).join(" y ")})`)));
+      });
+      bloque.append(p);
+    }
+    lista.append(bloque);
+  }
+  caja.append(lista);
+}
+
+/* ---------- El mes ---------- */
+function pintarCuenta() {
+  const mes = E.hoy.slice(0, 7), nomMes = fMes.format(aFecha(E.hoy));
+  const delMes = E.cal.cortes.filter((c) => c.fecha.startsWith(mes));
+  const horasMes = horasDe(delMes), horasHastaHoy = horasDe(delMes.filter((c) => c.fecha <= E.hoy));
+  const pueblosMes = new Set(delMes.map((c) => c.localidad));
+  $("cuenta-bajada").textContent = `Lo que el calendario oficial tiene programado para ${fMesAnio.format(aFecha(E.hoy))}. Se suman las horas de todos los pueblos: un día entero de corte en un pueblo son 24 horas.`;
+  const cifras = vaciar($("cifras"));
+  const cifra = (valor, texto, clase) => h("div", { class: clase || "" }, h("b", { class: "num" }, valor), h("span", {}, texto));
+  cifras.append(
+    cifra(nf.format(delMes.length), `cortes programados en ${nomMes}`),
+    cifra(nf.format(pueblosMes.size), "pueblos con algún corte"),
+    cifra(nh.format(horasMes), `horas de corte en ${nomMes}`),
+    cifra(nh.format(horasHastaHoy), "de esas horas ya han pasado")
+  );
+  const pasados = E.cal.cortes.filter((c) => c.fecha <= E.hoy);
+  const primero = E.cal.cortes.reduce((m, c) => (!m || c.fecha < m ? c.fecha : m), null);
+  if (primero && primero.slice(0, 7) < mes) cifras.append(cifra(nh.format(horasDe(pasados)), `horas de corte desde ${fMesAnio.format(aFecha(primero))} hasta hoy`));
+  if (avisosActivos() && E.avisos) {
+    const fuera = (E.avisos.dias || []).filter((d) => cortesDe(d.localidad, d.fecha).length === 0);
+    const desde = E.avisos.desde ? ` desde el ${fDiaMes.format(aFecha(E.avisos.desde))}` : "";
+    cifras.append(cifra(nf.format(fuera.length), `${fuera.length === 1 ? "día" : "días"} sin agua fuera del calendario, con tres o más avisos${desde}`, "vecinal"));
+  }
+  const porPueblo = [...pueblosMes].map((id) => [id, horasDe(delMes.filter((c) => c.localidad === id))]).sort((a, b) => b[1] - a[1] || cmp(nombre(a[0]), nombre(b[0])));
+  $("t-barras").textContent = porPueblo.length ? `Horas de corte por pueblo en ${nomMes}` : "";
+  const barras = vaciar($("barras")), max = porPueblo.length ? porPueblo[0][1] : 1;
+  for (const [id, horas] of porPueblo) barras.append(h("li", {}, h("span", {}, nombre(id)), h("span", { class: "b", "aria-hidden": "true" }, h("i", { style: `width:${(100 * horas / max).toFixed(1)}%` })), h("span", { class: "h num" }, `${nh.format(horas)} h`)));
+  const sinCortes = E.locs.filter((l) => !pueblosMes.has(l.id)).map((l) => l.nombre).sort(cmp);
+  $("fuera-cal").textContent = sinCortes.length && delMes.length ? `Sin cortes con su nombre en ${nomMes}: ${sinCortes.join(", ")}. Alguno puede depender de la red de un pueblo vecino.` : "";
+  const porMes = new Map();
+  for (const c of E.cal.cortes) porMes.set(c.fecha.slice(0, 7), (porMes.get(c.fecha.slice(0, 7)) || 0) + duracion(c));
+  const lm = vaciar($("meses"));
+  $("t-meses").textContent = porMes.size > 1 ? "Horas de corte, mes a mes" : "";
+  if (porMes.size > 1) {
+    const tope = Math.max(...porMes.values());
+    for (const m of [...porMes.keys()].sort()) lm.append(h("li", {}, h("span", {}, mayus(fMesAnio.format(aFecha(m + "-01")))), h("span", { class: "b", "aria-hidden": "true" }, h("i", { style: `width:${(100 * porMes.get(m) / tope).toFixed(1)}%` })), h("span", { class: "h num" }, `${nh.format(porMes.get(m))} h`)));
+  }
+}
+
+/* ---------- Contacto y método ---------- */
+function pintarContacto() {
+  const c = vaciar($("contacto"));
+  c.append(h("p", { style: "max-width:65ch" }, "¿Has visto un error, falta tu pueblo o tienes una idea para mejorar la página? Cuéntanoslo."));
+  if (avisosActivos()) {
+    const tipo = h("select", { id: "op-tipo" },
+      h("option", { value: "error" }, "Hay un error"),
+      h("option", { value: "pueblo" }, "Falta un pueblo o está mal situado"),
+      h("option", { value: "idea" }, "Tengo una idea"),
+      h("option", { value: "otro" }, "Otra cosa"));
+    const texto = h("textarea", { id: "op-texto", rows: "5", maxlength: "1000", required: true });
+    const cuenta = h("span", { class: "mudo pequeno", id: "op-cuenta" }, "0 de 1000");
+    const estadoOp = h("p", { class: "estado-envio", role: "status" });
+    const enviar = h("button", { type: "submit", class: "boton" }, "Enviar");
+    const form = h("form", { class: "buzon", novalidate: true },
+      h("div", { class: "campo" }, h("label", { for: "op-tipo" }, "¿De qué se trata?"), tipo),
+      h("div", { class: "campo", style: "max-width:640px" }, h("label", { for: "op-texto" }, "Tu mensaje"), texto, cuenta),
+      h("p", { class: "mudo pequeno", style: "max-width:65ch" }, "Es anónimo: no guardamos tu IP ni nada que te identifique. No escribas tu nombre, tu teléfono ni datos de otras personas. Por aquí no podemos contestarte."),
+      enviar, estadoOp);
+    texto.addEventListener("input", () => { cuenta.textContent = `${texto.value.length} de 1000`; });
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+      const valor = texto.value.trim();
+      if (valor.length < 3) { estadoOp.textContent = "Escribe algo antes de enviar."; texto.focus(); return; }
+      enviar.disabled = true; estadoOp.textContent = "Enviando…";
+      if (CONFIG.prueba) estadoOp.textContent = "Modo de prueba: el mensaje no sale de esta página.";
+      else {
+        try {
+          const r = await fetch(CONFIG.api.replace(/\/+$/, "") + "/opinion", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: tipo.value, texto: valor }) });
+          estadoOp.textContent = r.status === 201 ? "Mensaje recibido. Gracias." : r.status === 429 ? "Ya has enviado varios mensajes hoy. Prueba mañana." : "No se ha podido enviar. Prueba más tarde.";
+          if (r.status === 201) { texto.value = ""; cuenta.textContent = "0 de 1000"; }
+        } catch (e) { estadoOp.textContent = "No se ha podido enviar: no hay conexión con el servidor."; }
+      }
+      enviar.disabled = false;
+    });
+    c.append(form);
+    if (CONFIG.contacto) c.append(h("p", { class: "mudo", style: "margin-top:16px" }, "Si quieres respuesta, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), "."));
+  } else if (CONFIG.contacto) c.append(h("p", {}, h("a", { class: "correo", href: "mailto:" + CONFIG.contacto }, CONFIG.contacto)));
+  else c.append(h("p", { class: "mudo" }, "El buzón de mensajes aparecerá aquí cuando la página esté publicada."));
+  if (CONFIG.codigo) c.append(h("p", { class: "mudo" }, "El código y los datos son públicos y se pueden revisar: ", h("a", { href: CONFIG.codigo, rel: "noopener noreferrer" }, CONFIG.codigo.replace(/^https?:\/\//, ""))));
+}
+function pintarMetodo() {
+  const ul = vaciar($("metodo"));
+  const li = (...x) => ul.append(h("li", {}, ...x));
+  li("Los cortes programados salen del ", h("a", { href: FUENTE, rel: "noopener noreferrer" }, "calendario oficial de suspensiones"), ". No añadimos ni quitamos ninguno.");
+  li("Las horas son las que anuncia el calendario: un corte de 00:00 a 23:59 cuenta como 24 horas. Son horas previstas, no medidas en el grifo.");
+  if (E.cal.origen === "pdf") li("Los datos vienen de los PDF mensuales del calendario oficial. Si el calendario cambió después de publicarse cada PDF, esos cambios no están aquí.");
+  else li("Los días que ya han pasado se guardan tal como estaban anunciados ese día, aunque el calendario cambie después.");
+  if (avisosActivos()) {
+    li("Los avisos de vecinos se juntan por pueblo. No se publican calles ni casas.");
+    li("Un pueblo cuenta como afectado cuando avisan tres o más vecinos distintos. Con menos, el aviso aparece como «sin contrastar» y no entra en las cuentas. Por eso las cuentas se quedan cortas, nunca largas.");
+    li("Dos avisos hechos desde el mismo móvil o desde la misma conexión cuentan como un solo vecino, aunque cambies de wifi a datos. Cada móvil puede avisar de dos pueblos al día como mucho: el suyo y el de un familiar.");
+    li("Los avisos que llegan desde fuera de España se guardan, pero no cuentan.");
+    li("Nada de esto es infalible. Alguien con varios móviles y varias conexiones podría inventarse un aviso. Por eso enseñamos siempre cuántos vecinos han avisado.");
+  }
+  li("Las averías y los cortes de última hora no salen en el calendario. Si no tienes agua y tu pueblo no aparece aquí, no es un error de la página.");
+  li("El contorno de la isla está trazado sobre la ortofoto de IDECanarias (GRAFCAN). Los puntos de los pueblos están puestos a mano y son aproximados.");
+}
+
+/* ---------- El agua de la isla ---------- */
+const nf1 = new Intl.NumberFormat("es-ES", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const millones = (m3) => nf1.format(m3 / 1e6);
+const SERIES_USO = [["domestico", "Doméstico", "var(--s1)"], ["turistico", "Industrial y turístico", "var(--s2)"], ["agricola", "Agrícola y ganadero", "var(--s3)"]];
+function pintarIsla() {
+  const caja = vaciar($("isla")), I = E.isla;
+  if (!I || !I.resumen2025 || !I.perdidas || !I.consumo_por_uso) { caja.append(h("p", { class: "mudo" }, "No se han podido cargar los datos de la isla.")); return; }
+  const R = I.resumen2025, anio = R.anio;
+  const perdido = R.produccion_m3 - R.consumo_total_m3, pct = 100 * perdido / R.produccion_m3;
+  const alDia = perdido / 365, minPiscina = 1440 / (alDia / 2500);
+  const gwh = R.plantas.reduce((t, x) => t + x.gwh, 0), gwhPerdidos = gwh * perdido / R.produccion_m3;
+  const usos = I.consumo_por_uso.serie, ult = usos[usos.length - 1];
+  caja.append(
+    h("p", { class: "gran-cifra num" }, nf1.format(pct) + " %"),
+    h("p", { class: "gran-frase" }, `del agua potable que salió de las desaladoras en ${anio} no llegó a facturarse.`),
+    h("p", { class: "isla-texto" }, `Las cuatro desaladoras produjeron ${millones(R.produccion_m3)} millones de m³ y se facturaron ${millones(R.consumo_total_m3)} millones. Los otros ${millones(perdido)} millones se quedaron por el camino: fugas y averías de la red, contadores que miden de menos, fraudes o usos que no pasan por contador. Los datos oficiales no separan cada causa.`));
+  const teselas = h("div", { class: "teselas" },
+    h("div", { class: "tesela" }, h("b", { class: "num" }, `${nf.format(Math.round(alDia / 10) * 10)} m³`), h("p", {}, `se pierden cada día de media. Es una piscina olímpica (2.500 m³) cada ${Math.round(minPiscina)} minutos.`)),
+    h("div", { class: "tesela" }, h("b", { class: "num" }, `${nf.format(Math.round(gwhPerdidos))} GWh`), h("p", {}, `de electricidad se gastaron en desalar agua que luego se perdió. Es el ${Math.round(100 * gwhPerdidos / (I.eolica.mwh / 1000))} % de lo que produjeron los parques eólicos de la isla en ${I.eolica.anio}.`)));
+  if (ult && ult.turistico && ult.domestico) teselas.append(h("div", { class: "tesela" }, h("b", { class: "num" }, `${millones(ult.turistico)} y ${millones(ult.domestico)}`),
+    h("p", {}, `millones de m³ facturó en ${ult.anio} el uso industrial y turístico y el doméstico. ${ult.turistico > ult.domestico ? "Hoteles, comercios e industria facturaron más agua que todas las viviendas de la isla juntas." : ""}`)));
+  caja.append(teselas);
+
+  // Gráfica 1: pérdidas por año
+  const P = I.perdidas;
+  const g1 = h("div", { class: "lienzo-grafica" });
+  const conDato = P.serie.filter((x) => typeof x.pct === "number"), pc = I.produccion_consumo;
+  const p0 = conDato[0], desde50 = (() => { let a = null; for (const x of conDato) { if (x.pct >= 50) { if (a === null) a = x.anio; } else a = null; } return a; })();
+  let crecen = "";
+  if (pc && pc.serie.length > 1) {
+    const f0 = pc.serie[0], f1 = pc.serie[pc.serie.length - 1], sube = (a, b) => Math.round(100 * (b / a - 1));
+    crecen = ` Entre ${f0.anio} y ${f1.anio} la producción subió un ${sube(f0.produccion_m3, f1.produccion_m3)} %` + (f0.abonados && f1.abonados ? `, los abonados un ${sube(f0.abonados, f1.abonados)} %` : "") + ` y el agua facturada solo un ${sube(f0.consumo_total_m3, f1.consumo_total_m3)} %.`;
+  }
+  P.serie.forEach((x) => { const f = pc && pc.serie.find((y) => y.anio === x.anio); if (f) { x.prod = f.produccion_m3; x.fact = f.consumo_total_m3; } });
+  caja.append(h("section", { class: "grafica", "aria-labelledby": "g-perdidas" },
+    h("h3", { id: "g-perdidas" }, desde50 && desde50 < conDato[conDato.length - 1].anio ? `Más de la mitad desde ${desde50}` : "Agua que no se factura, año a año"),
+    h("p", { class: "bajada" }, `Porcentaje del agua producida que no se factura. En ${p0.anio} era el ${nf.format(Math.round(p0.pct))} %.` + crecen),
+    h("div", { class: "serie-leyenda" }, h("span", {}, h("i", { style: "background:var(--corte);width:12px;height:12px;border-radius:2px" }), "Agua no facturada"), h("span", {}, h("i", { style: "background:repeating-linear-gradient(90deg,var(--puerta) 0 6px,transparent 6px 10px)" }), `Lo máximo que se perdería con el rendimiento que exigía el contrato (${P.objetivo_pct}\u00a0%)`)),
+    g1,
+    h("details", { class: "datos" }, h("summary", {}, "Ver los datos en tabla"),
+      h("div", { style: "overflow-x:auto" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "Año"), h("th", {}, "Producida (m³)"), h("th", {}, "Facturada (m³)"), h("th", {}, "No facturada"))),
+        h("tbody", {}, P.serie.map((x) => h("tr", {}, h("td", {}, String(x.anio)), h("td", {}, x.prod ? nf.format(x.prod) : "–"), h("td", {}, x.fact ? nf.format(x.fact) : "–"), h("td", {}, typeof x.pct === "number" ? nf1.format(x.pct) + " %" : "sin dato"))))))),
+    h("p", { class: "mudo pequeno", style: "margin-top:6px" }, `${P.nota}${pc && pc.nota ? " " + pc.nota : ""} ${P.objetivo_fuente}`)));
+
+  // Gráfica 2: consumo por uso
+  const g2 = h("div", { class: "lienzo-grafica" });
+  const s19 = usos.find((x) => x.anio === 2019), s21 = usos.find((x) => x.anio === 2021), s20 = usos.find((x) => x.anio === 2020);
+  const caida = s19 && s21 ? Math.round(100 * (1 - s21.turistico / s19.turistico)) : null;
+  const subida = s19 && s20 ? Math.round(100 * (s20.domestico / s19.domestico - 1)) : null;
+  caja.append(h("section", { class: "grafica", "aria-labelledby": "g-usos" },
+    h("h3", { id: "g-usos" }, "Quién usa el agua que sí se cobra"),
+    h("p", { class: "bajada" }, `Millones de m³ facturados al año según la tarifa.` + (caida ? ` Con la pandemia, entre 2019 y 2021 el uso industrial y turístico cayó un ${caida} % y en 2020 el doméstico subió un ${subida} %.` : "") + (I.turismo ? ` En ${I.turismo.anio} llegaron a la isla ${nf.format(I.turismo.turistas)} turistas.` : "")),
+    h("div", { class: "serie-leyenda" }, SERIES_USO.map(([, n, c]) => h("span", {}, h("i", { style: `background:${c}` }), n))),
+    g2,
+    h("details", { class: "datos" }, h("summary", {}, "Ver los datos en tabla"),
+      h("div", { style: "overflow-x:auto" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "Año"), SERIES_USO.map(([, n]) => h("th", {}, n)), h("th", {}, "Total"))),
+        h("tbody", {}, usos.map((x) => h("tr", {}, h("td", {}, String(x.anio)), SERIES_USO.map(([k]) => h("td", {}, x[k] == null ? "sin dato" : nf.format(x[k]))), h("td", {}, x.total == null ? "sin dato" : nf.format(x.total))))))))));
+
+  // Fuentes
+  const fuentes = new Map();
+  const anota = (texto, enlace) => { if (texto && !fuentes.has(texto)) fuentes.set(texto, enlace); };
+  anota(R.fuente, R.enlace); anota(P.fuente, P.enlace); P.serie.forEach((x) => anota(x.fuente, x.enlace)); anota(P.objetivo_fuente, P.objetivo_enlace);
+  anota(I.consumo_por_uso.fuente, I.consumo_por_uso.enlace); anota(I.eolica.fuente, I.eolica.enlace); if (I.turismo) anota(I.turismo.fuente, I.turismo.enlace);
+  caja.append(h("div", { class: "fuentes" }, h("strong", {}, "Fuentes"), h("ol", {}, [...fuentes].map(([texto, enlace]) => h("li", {}, enlace ? h("a", { href: enlace, rel: "noopener noreferrer" }, texto) : texto))),
+    h("p", { style: "margin-top:8px" }, "Equivalencias: piscina olímpica de 2.500 m³. La energía del agua perdida se calcula repartiendo el consumo eléctrico de las desaladoras en proporción al agua que no se factura.")));
+
+  const dibujar = () => { dibujarPerdidas(g1, P); dibujarUsos(g2, usos); };
+  dibujar();
+  if ("ResizeObserver" in window) { let cuadro = 0, ancho = g1.clientWidth; new ResizeObserver(() => { if (g1.clientWidth === ancho) return; ancho = g1.clientWidth; cancelAnimationFrame(cuadro); cuadro = requestAnimationFrame(dibujar); }).observe(g1); }
+}
+function tipEn(cont, x, y, ...contenido) {
+  let tip = cont.querySelector(".tip");
+  if (!tip) { tip = h("div", { class: "tip", role: "status" }); cont.append(tip); }
+  vaciar(tip).append(...contenido); tip.hidden = false;
+  const w = tip.offsetWidth, hgt = tip.offsetHeight, W = cont.clientWidth;
+  tip.style.left = Math.max(0, Math.min(W - w, x + 14 + w > W ? x - w - 14 : x + 14)) + "px";
+  tip.style.top = Math.max(0, y - hgt - 10) + "px";
+}
+function tipFuera(cont) { const t = cont.querySelector(".tip"); if (t) t.hidden = true; }
+function dibujarPerdidas(cont, P) {
+  const W = Math.max(280, cont.clientWidth), H = Math.round(Math.min(340, Math.max(240, W * 0.5)));
+  const m = { l: 40, r: 6, t: 26, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b, max = 70;
+  const y = (v) => m.t + ih - (v / max) * ih;
+  const n = P.serie.length, banda = iw / n, ancho = Math.min(48, banda > 14 ? banda * 0.7 : Math.max(2, banda - 2));
+  const a0 = P.serie[0].anio, a1 = P.serie[n - 1].anio, pocas = banda >= 34;
+  const conEtiqueta = (a) => pocas || a === a0 || a === a1 || (a % 5 === 0 && a - a0 > 2 && a1 - a > 2);
+  const picos = P.serie.filter((d) => typeof d.pct === "number");
+  let pico = picos.reduce((m, d) => (d.pct > m.pct ? d : m), picos[0]);
+  if (!pocas && (a1 - pico.anio) * banda < 13 * 3.3 + 6) pico = null; // no cabe junto a la etiqueta del último año
+  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Gráfica de barras del agua no facturada por año. Los datos están en la tabla de debajo." });
+  for (const v of [0, 20, 40, 60]) {
+    svg.append(s("line", { class: v ? "rejilla" : "eje", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }));
+    svg.append(s("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end", "font-size": 12 }, `${v} %`));
+  }
+  svg.append(s("line", { x1: m.l, x2: W - m.r, y1: y(P.objetivo_pct), y2: y(P.objetivo_pct), stroke: "var(--puerta)", "stroke-width": 2, "stroke-dasharray": "6 4" }));
+  P.serie.forEach((d, i) => {
+    const cx = m.l + banda * (i + 0.5), x0 = cx - ancho / 2, base = y(0);
+    if (conEtiqueta(d.anio)) svg.append(s("text", { x: cx, y: H - 8, "text-anchor": pocas ? "middle" : d.anio === a0 ? "start" : d.anio === a1 ? "end" : "middle", dx: pocas ? 0 : d.anio === a0 ? -banda / 2 : d.anio === a1 ? banda / 2 : 0, "font-size": 12.5 }, String(d.anio)));
+    if (typeof d.pct !== "number") { svg.append(s("text", { x: cx, y: base - 8, "text-anchor": "middle", "font-size": 11 }, banda > 52 ? "sin dato" : "–")); return; }
+    const top = y(d.pct), r = Math.min(4, ancho / 2);
+    svg.append(s("path", { d: `M${x0},${base}V${top + r}Q${x0},${top} ${x0 + r},${top}H${x0 + ancho - r}Q${x0 + ancho},${top} ${x0 + ancho},${top + r}V${base}Z`, fill: "var(--corte)" }));
+    if (pocas || d === pico || d.anio === a0 || d.anio === a1) {
+      const ancla = pocas ? "middle" : d.anio === a0 ? "start" : d.anio === a1 ? "end" : "middle";
+      // La etiqueta va por encima de las barras vecinas que tapa y de la línea del contrato si la cruza.
+      const tam = banda > 60 ? 16 : 13, largo = tam * 3.3, xi = ancla === "start" ? cx - ancho / 2 : ancla === "end" ? cx + ancho / 2 - largo : cx - largo / 2;
+      const tapa = P.serie.filter((e, j) => typeof e.pct === "number" && Math.abs(m.l + banda * (j + 0.5) - (xi + largo / 2)) < largo / 2 + ancho / 2);
+      let yt = y(Math.max(...tapa.map((e) => e.pct))) - 7;
+      const yo = y(P.objetivo_pct); if (yt > yo - 2 && yt - tam < yo + 2) yt = yo - 6;
+      svg.append(s("text", { class: "valor", x: cx, dx: ancla === "start" ? -ancho / 2 : ancla === "end" ? ancho / 2 : 0, y: yt, "text-anchor": ancla, "font-size": banda > 60 ? 16 : 13 }, nf1.format(d.pct).replace(",0", "") + (pocas ? "" : " %")));
+    }
+    const zona = s("rect", { x: cx - banda / 2, y: m.t, width: banda, height: ih, fill: "transparent", style: "cursor:pointer" });
+    const mostrar = () => tipEn(cont, cx, top, h("b", {}, String(d.anio)), h("div", {}, `${nf1.format(d.pct)} % no facturada`), d.prod ? h("div", { class: "mudo", style: "font-size:0.82rem;margin-top:4px" }, `Producida: ${millones(d.prod)} M m³. Facturada: ${millones(d.fact)} M m³.`) : "", d.fuente ? h("div", { class: "mudo", style: "font-size:0.82rem;margin-top:4px" }, d.fuente) : "");
+    zona.addEventListener("pointerenter", mostrar); zona.addEventListener("pointerdown", mostrar); zona.addEventListener("pointerleave", () => tipFuera(cont));
+    svg.append(zona);
+  });
+  vaciar(cont).append(svg);
+}
+function dibujarUsos(cont, serie) {
+  const W = Math.max(280, cont.clientWidth), H = Math.round(Math.min(380, Math.max(260, W * 0.55)));
+  const estrecho = W < 520, m = { l: 34, r: estrecho ? 10 : 150, t: 22, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const a0 = serie[0].anio, a1 = serie[serie.length - 1].anio;
+  const maxV = Math.ceil(Math.max(...serie.flatMap((d) => SERIES_USO.map(([k]) => d[k] || 0))) / 1e6);
+  const x = (a) => m.l + ((a - a0) / (a1 - a0)) * iw, y = (v) => m.t + ih - (v / 1e6 / maxV) * ih;
+  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Gráfica de líneas del agua facturada por tipo de uso desde " + a0 + ". Los datos están en la tabla de debajo." });
+  svg.append(s("rect", { x: x(2019.5), y: m.t, width: x(2021.5) - x(2019.5), height: ih, fill: "var(--isla)" }));
+  svg.append(s("text", { x: (x(2019.5) + x(2021.5)) / 2, y: m.t - 6, "text-anchor": "middle", "font-size": 12 }, "Pandemia"));
+  for (let v = 0; v <= maxV; v += 2) {
+    svg.append(s("line", { class: v ? "rejilla" : "eje", x1: m.l, x2: m.l + iw, y1: y(v * 1e6), y2: y(v * 1e6) }));
+    svg.append(s("text", { x: m.l - 6, y: y(v * 1e6) + 4, "text-anchor": "end", "font-size": 12 }, String(v)));
+  }
+  const marcas = estrecho ? [a0, 2010, 2015, 2020, a1] : [a0, 2008, 2012, 2016, 2020, a1];
+  for (const a of marcas) svg.append(s("text", { x: x(a), y: H - 8, "text-anchor": a === a0 ? "start" : a === a1 && estrecho ? "end" : "middle", "font-size": 12.5 }, String(a)));
+  const finales = [];
+  for (const [k, nombreS, color] of SERIES_USO) {
+    let d = "", pluma = false;
+    serie.forEach((p, i) => {
+      if (p[k] == null) { pluma = false; return; }
+      d += (pluma ? "L" : "M") + x(p.anio).toFixed(1) + "," + y(p[k]).toFixed(1); pluma = true;
+      const suelto = (i === 0 || serie[i - 1][k] == null) && (i === serie.length - 1 || serie[i + 1][k] == null);
+      if (suelto) svg.append(s("circle", { cx: x(p.anio), cy: y(p[k]), r: 3, fill: color }));
+    });
+    svg.append(s("path", { d, fill: "none", stroke: color, "stroke-width": 2.5, "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    const u = serie[serie.length - 1];
+    svg.append(s("circle", { cx: x(u.anio), cy: y(u[k]), r: 4, fill: color, stroke: "var(--cal)", "stroke-width": 2 }));
+    finales.push({ y: y(u[k]), texto: `${nombreS} ${millones(u[k])}`, color });
+  }
+  if (!estrecho) { // nombres al final de cada línea, sin pisarse
+    finales.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < finales.length; i++) if (finales[i].y - finales[i - 1].y < 17) finales[i].y = finales[i - 1].y + 17;
+    for (const f of finales) svg.append(s("text", { class: "valor", x: m.l + iw + 10, y: f.y + 4, "font-size": 13.5 }, f.texto));
+  }
+  const guia = s("line", { x1: 0, x2: 0, y1: m.t, y2: m.t + ih, stroke: "var(--picon)", "stroke-width": 1, visibility: "hidden" });
+  const puntos = SERIES_USO.map(([, , c]) => s("circle", { r: 5, fill: c, stroke: "var(--cal)", "stroke-width": 2, visibility: "hidden" }));
+  svg.append(guia, ...puntos);
+  const capa = s("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent", style: "cursor:crosshair" });
+  const mover = (ev) => {
+    const caja = svg.getBoundingClientRect(), px = (ev.clientX - caja.left) * (W / caja.width);
+    const a = Math.round(a0 + ((px - m.l) / iw) * (a1 - a0)), d = serie.find((p) => p.anio === Math.max(a0, Math.min(a1, a)));
+    if (!d) return;
+    const gx = x(d.anio); guia.setAttribute("x1", gx); guia.setAttribute("x2", gx); guia.setAttribute("visibility", "visible");
+    SERIES_USO.forEach(([k], i) => { if (d[k] == null) { puntos[i].setAttribute("visibility", "hidden"); return; } puntos[i].setAttribute("cx", gx); puntos[i].setAttribute("cy", y(d[k])); puntos[i].setAttribute("visibility", "visible"); });
+    tipEn(cont, gx * (caja.width / W), m.t + 40, h("b", {}, String(d.anio)), ...SERIES_USO.map(([k, n, c]) => h("div", { class: "fila" }, h("i", { style: `background:${c}` }), `${n}: ${d[k] == null ? "sin dato" : millones(d[k]) + " M m³"}`)));
+  };
+  capa.addEventListener("pointermove", mover); capa.addEventListener("pointerdown", mover);
+  capa.addEventListener("pointerleave", () => { guia.setAttribute("visibility", "hidden"); puntos.forEach((c) => c.setAttribute("visibility", "hidden")); tipFuera(cont); });
+  svg.append(capa);
+  vaciar(cont).append(svg);
+}
+
+function pintarPrivacidad() {
+  const ul = vaciar($("privacidad"));
+  const li = (...x) => ul.append(h("li", {}, ...x));
+  li("Esta página no usa cookies ni contadores de visitas, y no carga nada de otros sitios.");
+  li("Tu navegador guarda tu pueblo y el tamaño de letra para la próxima vez que entres. Se quedan en tu móvil o tu ordenador; no nos llegan.");
+  if (avisosActivos()) {
+    li("Si avisas, tu navegador guarda además un número al azar. Sirve para no contar dos veces tu aviso y no dice nada de ti.");
+    li("Del aviso guardamos el pueblo, la respuesta y la hora redondeada a 10 minutos. Para contar a cada vecino una sola vez guardamos también, durante dos días como máximo, dos huellas cifradas: una de tu conexión y otra de ese número al azar. Con ellas no se puede saber quién eres ni recuperar tu IP. A los dos días se borran y solo queda el recuento del día.");
+    li("Los mensajes del buzón se guardan sin la IP y se borran al cabo de un año.");
+  }
+  li("Los servicios que alojan la página (GitHub)" + (avisosActivos() ? " y el servidor de avisos (Cloudflare)" : "") + " registran la IP de quien entra, por seguridad y según sus propias normas. Nosotros no tenemos acceso a esos registros.");
+  if (CONFIG.contacto) li("Si tienes una pregunta sobre tus datos, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), ".");
+}
+
+function pintarTodo() { pintarPueblo(); pintarSeccionMapa(); pintarSemana(); pintarCuenta(); }
+
+/* ---------- Navegación y letra ---------- */
+function controles() {
+  $("dia-antes").addEventListener("click", () => moverDia(-1));
+  $("dia-despues").addEventListener("click", () => moverDia(1));
+  $("dia-hoy").addEventListener("click", () => { E.dia = E.hoy; pintarSeccionMapa(); });
+  for (const b of document.querySelectorAll(".segmento button")) b.addEventListener("click", () => { E.mapa.modo = b.dataset.modo; pintarSeccionMapa(); });
+  $("capa-cortes").addEventListener("change", (e) => { E.mapa.cortes = e.target.checked; pintarSeccionMapa(); });
+  $("capa-avisos").addEventListener("change", (e) => { E.mapa.avisos = e.target.checked; pintarSeccionMapa(); });
+  $("sem-antes").addEventListener("click", () => { E.semana = sumar(E.semana, -7); pintarSemana(); });
+  $("sem-despues").addEventListener("click", () => { E.semana = sumar(E.semana, 7); pintarSemana(); });
+  for (const b of $("paso1").querySelectorAll("button")) b.addEventListener("click", () => b.dataset.estado === "con" ? enviarAviso("con", 0) : mostrarPaso2(b.dataset.estado));
+  for (const b of $("paso2").querySelectorAll("button[data-dias]")) b.addEventListener("click", () => enviarAviso(E.paso2, Number(b.dataset.dias)));
+  $("paso2-volver").addEventListener("click", ocultarPaso2);
+  for (const a of document.querySelectorAll(".atajos a")) a.addEventListener("click", (e) => {
+    const destino = document.getElementById(a.getAttribute("href").slice(1));
+    if (!destino) return;
+    e.preventDefault();
+    destino.scrollIntoView({ behavior: pocoMovimiento() ? "auto" : "smooth", block: "start" });
+    destino.focus({ preventScroll: true });
+  });
+  const arriba = $("arriba");
+  arriba.addEventListener("click", () => window.scrollTo({ top: 0, behavior: pocoMovimiento() ? "auto" : "smooth" }));
+  window.addEventListener("scroll", () => { arriba.hidden = window.scrollY < 700 || E.mapa.abierto; }, { passive: true });
+  for (const b of document.querySelectorAll(".letra button")) b.addEventListener("click", () => ponerLetra(b.dataset.letra));
+  ponerLetra(recordar("letra") || "1");
+}
+function ponerLetra(n) {
+  if (!["1", "2", "3"].includes(n)) n = "1";
+  document.documentElement.dataset.letra = n;
+  recordar("letra", n);
+  for (const b of document.querySelectorAll(".letra button")) b.setAttribute("aria-pressed", String(b.dataset.letra === n));
+  if (svgMapa) pedirDibujo();
+}
+
+/* ---------- Arranque ---------- */
+async function arrancar() {
+  const leer = (u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u); return r.json(); });
+  try {
+    const [cal, catalogo] = await Promise.all([leer("datos/calendario.json"), leer("datos/localidades.json")]);
+    prepararDatos(cal, catalogo);
+  } catch (e) {
+    $("fecha-hoy").textContent = fLargoAnio.format(aFecha(E.hoy));
+    vaciar($("avisos-datos")).append(h("p", { class: "aviso-datos" }, h("strong", {}, "No se han podido cargar los datos"), "Vuelve a intentarlo en un rato o consulta el ", h("a", { href: FUENTE, rel: "noopener noreferrer" }, "calendario oficial"), "."));
+    return;
+  }
+  try { E.costa = await leer("datos/costa.json"); } catch (e) { E.costa = null; }
+  try { E.isla = await leer("datos/isla.json"); } catch (e) { E.isla = null; }
+  pintarCabecera(); pintarSelector(); pintarContacto(); pintarMetodo(); pintarPrivacidad(); controles();
+  montarMapa();
+  pintarIsla();
+  await cargarAvisos(false);
+  pintarTodo();
+  if (CONFIG.api) setInterval(async () => { if (!document.hidden) { await cargarAvisos(false); pintarTodo(); } }, 5 * 60e3);
+  setInterval(() => { if (hoyISO() !== E.hoy) location.reload(); }, 60e3);
+}
+arrancar();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+Subconjuntos (solo caracteres latinos y del español) de dos familias libres:
+- titulares-negrita.woff: TeX Gyre Heros Cn Bold
+- texto.woff, texto-negrita.woff, texto-cursiva.woff: TeX Gyre Schola
+Autoría: GUST e-foundry. Licencia: GUST Font License (LaTeX Project Public License 1.3c), incluida en LICENCIA-GUST.txt.
+Los archivos se han recortado y renombrado; los nombres internos de las fuentes no se han cambiado.

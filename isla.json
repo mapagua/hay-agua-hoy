@@ -1,0 +1,699 @@
+{
+ "nota": "Datos del agua de Lanzarote y La Graciosa. Cada bloque lleva su fuente. Al actualizar, cambiar también 'actualizado'.",
+ "actualizado": "2026-11-23",
+ "resumen2025": {
+  "anio": 2025,
+  "produccion_m3": 31836504,
+  "facturado_contadores_m3": 14116241,
+  "venta_cubas_m3": 87080,
+  "consumo_total_m3": 14203321,
+  "abonados": 76826,
+  "plantas": [
+   {
+    "nombre": "Lanzarote III",
+    "m3": 8950293,
+    "gwh": 27.77
+   },
+   {
+    "nombre": "Lanzarote IV",
+    "m3": 10732957,
+    "gwh": 34.05
+   },
+   {
+    "nombre": "Lanzarote V",
+    "m3": 6388059,
+    "gwh": 20.07
+   },
+   {
+    "nombre": "Janubio",
+    "m3": 5765195,
+    "gwh": 16.45
+   }
+  ],
+  "reutilizada_produccion_m3": 2573142,
+  "reutilizada_consumo_m3": 2015383,
+  "fuente": "Canal Gestión Lanzarote y Consorcio del Agua de Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Resumen de los datos de agua en Lanzarote (2025)».",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua"
+ },
+ "perdidas": {
+  "nota": "Porcentaje del agua potable producida que no se factura (producción menos consumo facturado, con cubas), calculado año a año con la tabla del Centro de Datos.",
+  "serie": [
+   {
+    "anio": 1998,
+    "pct": 25.33
+   },
+   {
+    "anio": 1999,
+    "pct": 23.47
+   },
+   {
+    "anio": 2000,
+    "pct": 23.51
+   },
+   {
+    "anio": 2001,
+    "pct": 29.42
+   },
+   {
+    "anio": 2002,
+    "pct": 32.45
+   },
+   {
+    "anio": 2003,
+    "pct": 31.32
+   },
+   {
+    "anio": 2004,
+    "pct": 31.56
+   },
+   {
+    "anio": 2005,
+    "pct": 42.39
+   },
+   {
+    "anio": 2006,
+    "pct": 35.03
+   },
+   {
+    "anio": 2007,
+    "pct": 38.39
+   },
+   {
+    "anio": 2008,
+    "pct": 39.15
+   },
+   {
+    "anio": 2009,
+    "pct": 46.47
+   },
+   {
+    "anio": 2010,
+    "pct": 51.9
+   },
+   {
+    "anio": 2011,
+    "pct": 53.25
+   },
+   {
+    "anio": 2012,
+    "pct": 55.63
+   },
+   {
+    "anio": 2013,
+    "pct": 57.08
+   },
+   {
+    "anio": 2014,
+    "pct": 53.85
+   },
+   {
+    "anio": 2015,
+    "pct": 54.19
+   },
+   {
+    "anio": 2016,
+    "pct": 54.23
+   },
+   {
+    "anio": 2017,
+    "pct": 53.49
+   },
+   {
+    "anio": 2018,
+    "pct": 51.83
+   },
+   {
+    "anio": 2019,
+    "pct": 53.28
+   },
+   {
+    "anio": 2020,
+    "pct": 56.32
+   },
+   {
+    "anio": 2021,
+    "pct": 61.38
+   },
+   {
+    "anio": 2022,
+    "pct": 56.42
+   },
+   {
+    "anio": 2023,
+    "pct": 54.83
+   },
+   {
+    "anio": 2024,
+    "pct": 56.21
+   },
+   {
+    "anio": 2025,
+    "pct": 55.39
+   }
+  ],
+  "objetivo_pct": 30,
+  "objetivo_fuente": "El pliego del contrato exigía un rendimiento técnico mínimo del 70 % a los cinco años del inicio (2013). Informe técnico del Consorcio del Agua de Lanzarote, 1 de abril de 2026.",
+  "objetivo_enlace": "https://www.lancelotdigital.com/images/00.-20260401_Informe_Informe-tA-cnico_Informe-propuesta-intervencion-Ciclo-I-Agua-definitivo.pdf",
+  "fuente": "Canal Gestión Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Producción, consumo y abonados de agua potable en Lanzarote. Evolución anual».",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua"
+ },
+ "consumo_por_uso": {
+  "unidad": "m3 facturados por contador",
+  "fuente": "Canal Gestión Lanzarote e INALSA. Elaboración: Centro de Datos del Cabildo de Lanzarote. Sin datos para 2005.",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua",
+  "serie": [
+   {
+    "anio": 2004,
+    "domestico": 4864148,
+    "turistico": 6655573,
+    "agricola": 587230,
+    "corporaciones": 772076,
+    "otros": 105217,
+    "total": 12984244
+   },
+   {
+    "anio": 2005,
+    "domestico": null,
+    "turistico": null,
+    "agricola": null,
+    "corporaciones": null,
+    "otros": null,
+    "total": null
+   },
+   {
+    "anio": 2006,
+    "domestico": 5248274,
+    "turistico": 6716303,
+    "agricola": 565703,
+    "corporaciones": 649985,
+    "otros": 144859,
+    "total": 13325124
+   },
+   {
+    "anio": 2007,
+    "domestico": 5227710,
+    "turistico": 6524933,
+    "agricola": 661447,
+    "corporaciones": 639120,
+    "otros": 155211,
+    "total": 13208421
+   },
+   {
+    "anio": 2008,
+    "domestico": 5644150,
+    "turistico": 6270913,
+    "agricola": 672031,
+    "corporaciones": 655356,
+    "otros": 210606,
+    "total": 13453056
+   },
+   {
+    "anio": 2009,
+    "domestico": 5603154,
+    "turistico": 4776720,
+    "agricola": 636707,
+    "corporaciones": 580200,
+    "otros": 465630,
+    "total": 12062411
+   },
+   {
+    "anio": 2010,
+    "domestico": 4987917,
+    "turistico": 4470249,
+    "agricola": 517681,
+    "corporaciones": 514204,
+    "otros": 502658,
+    "total": 10992709
+   },
+   {
+    "anio": 2011,
+    "domestico": 5068920,
+    "turistico": 4538996,
+    "agricola": 534485,
+    "corporaciones": 498283,
+    "otros": 375778,
+    "total": 11016462
+   },
+   {
+    "anio": 2012,
+    "domestico": 4837489,
+    "turistico": 4453548,
+    "agricola": 634835,
+    "corporaciones": 493165,
+    "otros": 230698,
+    "total": 10649735
+   },
+   {
+    "anio": 2013,
+    "domestico": 4496710,
+    "turistico": 4134555,
+    "agricola": 615423,
+    "corporaciones": 457483,
+    "otros": 634407,
+    "total": 10338578
+   },
+   {
+    "anio": 2014,
+    "domestico": 5070524,
+    "turistico": 4702133,
+    "agricola": 609512,
+    "corporaciones": 500305,
+    "otros": 195114,
+    "total": 11077588
+   },
+   {
+    "anio": 2015,
+    "domestico": 5350357,
+    "turistico": 5294961,
+    "agricola": 565419,
+    "corporaciones": 503603,
+    "otros": 1047,
+    "total": 11715387
+   },
+   {
+    "anio": 2016,
+    "domestico": 5109588,
+    "turistico": 5015892,
+    "agricola": 529878,
+    "corporaciones": 446974,
+    "otros": 646,
+    "total": 11102978
+   },
+   {
+    "anio": 2017,
+    "domestico": 5337774,
+    "turistico": 5385465,
+    "agricola": 563841,
+    "corporaciones": 446685,
+    "otros": 900,
+    "total": 11734665
+   },
+   {
+    "anio": 2018,
+    "domestico": 5397747,
+    "turistico": 5346181,
+    "agricola": 579706,
+    "corporaciones": 473748,
+    "otros": 993,
+    "total": 11798375
+   },
+   {
+    "anio": 2019,
+    "domestico": 5512298,
+    "turistico": 5476283,
+    "agricola": 638598,
+    "corporaciones": 494914,
+    "otros": 1735,
+    "total": 12123828
+   },
+   {
+    "anio": 2020,
+    "domestico": 6001183,
+    "turistico": 3808949,
+    "agricola": 801677,
+    "corporaciones": 475623,
+    "otros": 991,
+    "total": 11088423
+   },
+   {
+    "anio": 2021,
+    "domestico": 5688716,
+    "turistico": 3577248,
+    "agricola": 700748,
+    "corporaciones": 438164,
+    "otros": 307,
+    "total": 10405183
+   },
+   {
+    "anio": 2022,
+    "domestico": 5679911,
+    "turistico": 5180839,
+    "agricola": 777548,
+    "corporaciones": 567419,
+    "otros": 309,
+    "total": 12206026
+   },
+   {
+    "anio": 2023,
+    "domestico": 5883797,
+    "turistico": 5974135,
+    "agricola": 801215,
+    "corporaciones": 571944,
+    "otros": 403,
+    "total": 13231494
+   },
+   {
+    "anio": 2024,
+    "domestico": 5895742,
+    "turistico": 6250594,
+    "agricola": 864909,
+    "corporaciones": 569115,
+    "otros": 556,
+    "total": 13580916
+   },
+   {
+    "anio": 2025,
+    "domestico": 6218271,
+    "turistico": 6406012,
+    "agricola": 913512,
+    "corporaciones": 578143,
+    "otros": 303,
+    "total": 14116241
+   }
+  ]
+ },
+ "eolica": {
+  "anio": 2025,
+  "mwh": 79159,
+  "fuente": "Aerogeneradores Canarios, Consorcio del Agua de Lanzarote y Eólicas Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote.",
+  "enlace": "https://www.datosdelanzarote.com/tema/energia-electrica"
+ },
+ "turismo": {
+  "anio": 2025,
+  "turistas": 3455200,
+  "fuente": "ISTAC, Estadística de Movimientos Turísticos en Fronteras, según el Cabildo de Lanzarote",
+  "enlace": "https://rtvc.es/lanzarote-2025-isla-canaria-crecimiento-turistico-mas-contenido-9-febrero-2026/"
+ },
+ "produccion_consumo": {
+  "nota": "La tabla original marca 2005 y la columna de cubas con un asterisco. En 1999 no figuran los abonados. En 2022, contadores más cubas suman 36 m³ más que el total; usamos el total de la tabla.",
+  "fuente": "Canal Gestión Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Producción, consumo y abonados de agua potable en Lanzarote. Evolución anual».",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua",
+  "serie": [
+   {
+    "anio": 1998,
+    "produccion_m3": 12415815,
+    "contadores_m3": 9065922,
+    "abonados": 38418,
+    "cubas_m3": 204689,
+    "consumo_total_m3": 9270611
+   },
+   {
+    "anio": 1999,
+    "produccion_m3": 13163519,
+    "contadores_m3": 9890951,
+    "abonados": null,
+    "cubas_m3": 182509,
+    "consumo_total_m3": 10073460
+   },
+   {
+    "anio": 2000,
+    "produccion_m3": 14294204,
+    "contadores_m3": 10771518,
+    "abonados": 43837,
+    "cubas_m3": 162019,
+    "consumo_total_m3": 10933537
+   },
+   {
+    "anio": 2001,
+    "produccion_m3": 16143636,
+    "contadores_m3": 11175707,
+    "abonados": 46226,
+    "cubas_m3": 217694,
+    "consumo_total_m3": 11393401
+   },
+   {
+    "anio": 2002,
+    "produccion_m3": 17209940,
+    "contadores_m3": 11460706,
+    "abonados": 49148,
+    "cubas_m3": 164527,
+    "consumo_total_m3": 11625233
+   },
+   {
+    "anio": 2003,
+    "produccion_m3": 18305111,
+    "contadores_m3": 12433249,
+    "abonados": 51834,
+    "cubas_m3": 138039,
+    "consumo_total_m3": 12571288
+   },
+   {
+    "anio": 2004,
+    "produccion_m3": 19151174,
+    "contadores_m3": 12984244,
+    "abonados": 54338,
+    "cubas_m3": 122914,
+    "consumo_total_m3": 13107158
+   },
+   {
+    "anio": 2005,
+    "produccion_m3": 20412808,
+    "contadores_m3": 11674554,
+    "abonados": 54537,
+    "cubas_m3": 84469,
+    "consumo_total_m3": 11759023
+   },
+   {
+    "anio": 2006,
+    "produccion_m3": 20620045,
+    "contadores_m3": 13325124,
+    "abonados": 59007,
+    "cubas_m3": 70966,
+    "consumo_total_m3": 13396090
+   },
+   {
+    "anio": 2007,
+    "produccion_m3": 21582838,
+    "contadores_m3": 13206782,
+    "abonados": 62324,
+    "cubas_m3": 89991,
+    "consumo_total_m3": 13296773
+   },
+   {
+    "anio": 2008,
+    "produccion_m3": 22215534,
+    "contadores_m3": 13453056,
+    "abonados": 64238,
+    "cubas_m3": 65791,
+    "consumo_total_m3": 13518847
+   },
+   {
+    "anio": 2009,
+    "produccion_m3": 22648675,
+    "contadores_m3": 12062411,
+    "abonados": 64505,
+    "cubas_m3": 60619,
+    "consumo_total_m3": 12123030
+   },
+   {
+    "anio": 2010,
+    "produccion_m3": 23017465,
+    "contadores_m3": 10992709,
+    "abonados": 65229,
+    "cubas_m3": 78281,
+    "consumo_total_m3": 11070990
+   },
+   {
+    "anio": 2011,
+    "produccion_m3": 23734678,
+    "contadores_m3": 11016462,
+    "abonados": 66507,
+    "cubas_m3": 80017,
+    "consumo_total_m3": 11096479
+   },
+   {
+    "anio": 2012,
+    "produccion_m3": 24171890,
+    "contadores_m3": 10649735,
+    "abonados": 67257,
+    "cubas_m3": 74904,
+    "consumo_total_m3": 10724639
+   },
+   {
+    "anio": 2013,
+    "produccion_m3": 24231337,
+    "contadores_m3": 10338578,
+    "abonados": 68021,
+    "cubas_m3": 60451,
+    "consumo_total_m3": 10399029
+   },
+   {
+    "anio": 2014,
+    "produccion_m3": 24156605,
+    "contadores_m3": 11077588,
+    "abonados": 71435,
+    "cubas_m3": 70304,
+    "consumo_total_m3": 11147892
+   },
+   {
+    "anio": 2015,
+    "produccion_m3": 25770365,
+    "contadores_m3": 11715387,
+    "abonados": 69349,
+    "cubas_m3": 89043,
+    "consumo_total_m3": 11804430
+   },
+   {
+    "anio": 2016,
+    "produccion_m3": 24443227,
+    "contadores_m3": 11102978,
+    "abonados": 69691,
+    "cubas_m3": 84614,
+    "consumo_total_m3": 11187592
+   },
+   {
+    "anio": 2017,
+    "produccion_m3": 25455955,
+    "contadores_m3": 11734665,
+    "abonados": 70771,
+    "cubas_m3": 104412,
+    "consumo_total_m3": 11839077
+   },
+   {
+    "anio": 2018,
+    "produccion_m3": 24698675,
+    "contadores_m3": 11798375,
+    "abonados": 71582,
+    "cubas_m3": 99712,
+    "consumo_total_m3": 11898087
+   },
+   {
+    "anio": 2019,
+    "produccion_m3": 26137020,
+    "contadores_m3": 12123828,
+    "abonados": 72438,
+    "cubas_m3": 87693,
+    "consumo_total_m3": 12211521
+   },
+   {
+    "anio": 2020,
+    "produccion_m3": 25565976,
+    "contadores_m3": 11088423,
+    "abonados": 73048,
+    "cubas_m3": 77578,
+    "consumo_total_m3": 11166001
+   },
+   {
+    "anio": 2021,
+    "produccion_m3": 27152578,
+    "contadores_m3": 10405183,
+    "abonados": 74053,
+    "cubas_m3": 80714,
+    "consumo_total_m3": 10485897
+   },
+   {
+    "anio": 2022,
+    "produccion_m3": 28172408,
+    "contadores_m3": 12206062,
+    "abonados": 74914,
+    "cubas_m3": 71145,
+    "consumo_total_m3": 12277171
+   },
+   {
+    "anio": 2023,
+    "produccion_m3": 29487726,
+    "contadores_m3": 13231494,
+    "abonados": 75589,
+    "cubas_m3": 87938,
+    "consumo_total_m3": 13319432
+   },
+   {
+    "anio": 2024,
+    "produccion_m3": 31230853,
+    "contadores_m3": 13580916,
+    "abonados": 76320,
+    "cubas_m3": 94461,
+    "consumo_total_m3": 13675377
+   },
+   {
+    "anio": 2025,
+    "produccion_m3": 31836504,
+    "contadores_m3": 14116241,
+    "abonados": 76826,
+    "cubas_m3": 87080,
+    "consumo_total_m3": 14203321
+   }
+  ]
+ },
+ "facturacion_mensual_2025": {
+  "nota": "No se muestra en la página. Es el agua facturada en cada mes, no la consumida ese mes: los picos pueden deberse a cuándo se emiten las facturas, y la reutilizada se factura cada dos meses. No sirve para comparar con el turismo mensual sin más.",
+  "fuente": "Canal Gestión Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Consumo de agua en Lanzarote según tipo y mes (2025)».",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua",
+  "serie": [
+   {
+    "mes": "enero",
+    "potable_contadores_m3": 1021657,
+    "potable_cubas_m3": 7055,
+    "reutilizada_m3": 49253,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "febrero",
+    "potable_contadores_m3": 1145180,
+    "potable_cubas_m3": 6863,
+    "reutilizada_m3": 282406,
+    "reutilizada_cubas_m3": 400
+   },
+   {
+    "mes": "marzo",
+    "potable_contadores_m3": 1047463,
+    "potable_cubas_m3": 4768,
+    "reutilizada_m3": 0,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "abril",
+    "potable_contadores_m3": 1338212,
+    "potable_cubas_m3": 6382,
+    "reutilizada_m3": 300234,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "mayo",
+    "potable_contadores_m3": 1108616,
+    "potable_cubas_m3": 7682,
+    "reutilizada_m3": 0,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "junio",
+    "potable_contadores_m3": 1191164,
+    "potable_cubas_m3": 7762,
+    "reutilizada_m3": 337612,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "julio",
+    "potable_contadores_m3": 1036888,
+    "potable_cubas_m3": 10005,
+    "reutilizada_m3": 0,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "agosto",
+    "potable_contadores_m3": 1175082,
+    "potable_cubas_m3": 8428,
+    "reutilizada_m3": 324948,
+    "reutilizada_cubas_m3": 3320
+   },
+   {
+    "mes": "septiembre",
+    "potable_contadores_m3": 1197532,
+    "potable_cubas_m3": 8062,
+    "reutilizada_m3": 0,
+    "reutilizada_cubas_m3": 0
+   },
+   {
+    "mes": "octubre",
+    "potable_contadores_m3": 1496652,
+    "potable_cubas_m3": 7019,
+    "reutilizada_m3": 392200,
+    "reutilizada_cubas_m3": 930
+   },
+   {
+    "mes": "noviembre",
+    "potable_contadores_m3": 1135433,
+    "potable_cubas_m3": 7153,
+    "reutilizada_m3": 0,
+    "reutilizada_cubas_m3": 300
+   },
+   {
+    "mes": "diciembre",
+    "potable_contadores_m3": 1222362,
+    "potable_cubas_m3": 5901,
+    "reutilizada_m3": 323780,
+    "reutilizada_cubas_m3": 0
+   }
+  ]
+ }
+}
