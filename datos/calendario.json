@@ -1,0 +1,28 @@
+{
+  "fuente": "https://aguasdelanzaroteylagraciosa.com/suspensiones-programadas-del-suministro/",
+  "leido": "2026-11-15T12:00:00Z",
+  "completo": false,
+  "nota": "Muestra parcial: 20 cortes de noviembre de 2026 recogidos a mano de la página oficial. Faltan entradas. Se sustituye entera en la primera lectura automática.",
+  "cortes": [
+    {"fecha": "2026-11-02", "municipio": "Tías", "localidad": "conil", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-02", "municipio": "Tías", "localidad": "masdache", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-03", "municipio": "San Bartolomé", "localidad": "san-bartolome", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-03", "municipio": "San Bartolomé", "localidad": "guime", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-03", "municipio": "San Bartolomé", "localidad": "el-islote-tomaren", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-03", "municipio": "Teguise", "localidad": "tao", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-03", "municipio": "Tinajo", "localidad": "tinajo-casco", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-03", "municipio": "Tinajo", "localidad": "el-cuchillo", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-04", "municipio": "Teguise", "localidad": "villa-de-teguise", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-04", "municipio": "Teguise", "localidad": "tahiche", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-04", "municipio": "Teguise", "localidad": "nazaret", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-07", "municipio": "Haría", "localidad": "maguez", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-07", "municipio": "Yaiza", "localidad": "uga", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-09", "municipio": "Tías", "localidad": "tias-pueblo", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-09", "municipio": "Tías", "localidad": "la-asomada", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-09", "municipio": "Tías", "localidad": "conil", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-09", "municipio": "Tías", "localidad": "masdache", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-10", "municipio": "San Bartolomé", "localidad": "san-bartolome", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-10", "municipio": "San Bartolomé", "localidad": "guime", "inicio": "00:00", "fin": "23:59"},
+    {"fecha": "2026-11-10", "municipio": "Teguise", "localidad": "tao", "inicio": "00:00", "fin": "23:59"}
+  ]
+}
