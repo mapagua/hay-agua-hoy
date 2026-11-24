@@ -229,12 +229,12 @@
   },
   {
    "id": "caleta-de-sebo",
-   "nombre": "Caleta de Sebo (La Graciosa)",
-   "municipio": "Teguise",
+   "nombre": "Caleta de Sebo",
+   "municipio": "La Graciosa",
    "lat": 29.231,
    "lon": -13.503,
    "alias": [
-    "Caleta de Sebo",
+    "Caleta de Sebo (La Graciosa)",
     "La Graciosa",
     "Caleta del Sebo"
    ]
@@ -461,16 +461,16 @@
    "id": "los-cocoteros",
    "nombre": "Los Cocoteros",
    "municipio": "Teguise",
-   "lat": null,
-   "lon": null,
+   "lat": 29.058,
+   "lon": -13.462,
    "alias": []
   },
   {
    "id": "zonas-altas-de-puerto-del-carmen",
    "nombre": "Zonas altas de Puerto del Carmen",
    "municipio": "Tías",
-   "lat": null,
-   "lon": null,
+   "lat": 28.933,
+   "lon": -13.668,
    "alias": []
   },
   {
@@ -479,6 +479,102 @@
    "municipio": "Tías",
    "lat": null,
    "lon": null,
+   "alias": []
+  },
+  {
+   "id": "pedro-barba",
+   "nombre": "Pedro Barba",
+   "municipio": "La Graciosa",
+   "lat": 29.259,
+   "lon": -13.489,
+   "alias": []
+  },
+  {
+   "id": "las-nieves",
+   "nombre": "Las Nieves",
+   "municipio": "Teguise",
+   "lat": 29.106,
+   "lon": -13.527,
+   "alias": []
+  },
+  {
+   "id": "caleta-caballo",
+   "nombre": "Caleta Caballo",
+   "municipio": "Teguise",
+   "lat": 29.119,
+   "lon": -13.617,
+   "alias": []
+  },
+  {
+   "id": "tajaste",
+   "nombre": "Tajaste",
+   "municipio": "Tinajo",
+   "lat": 29.06,
+   "lon": -13.667,
+   "alias": []
+  },
+  {
+   "id": "tinguaton",
+   "nombre": "Tinguatón",
+   "municipio": "Tinajo",
+   "lat": 29.04,
+   "lon": -13.705,
+   "alias": []
+  },
+  {
+   "id": "la-costa",
+   "nombre": "La Costa",
+   "municipio": "Tinajo",
+   "lat": 29.0731,
+   "lon": -13.6757,
+   "alias": []
+  },
+  {
+   "id": "los-roferos",
+   "nombre": "Los Roferos",
+   "municipio": "Tinajo",
+   "lat": null,
+   "lon": null,
+   "alias": []
+  },
+  {
+   "id": "la-degollada",
+   "nombre": "La Degollada",
+   "municipio": "Yaiza",
+   "lat": 28.945,
+   "lon": -13.785,
+   "alias": []
+  },
+  {
+   "id": "las-casitas-de-femes",
+   "nombre": "Las Casitas de Femés",
+   "municipio": "Yaiza",
+   "lat": 28.917,
+   "lon": -13.757,
+   "alias": []
+  },
+  {
+   "id": "maciot",
+   "nombre": "Maciot",
+   "municipio": "Yaiza",
+   "lat": 28.903,
+   "lon": -13.795,
+   "alias": []
+  },
+  {
+   "id": "la-hoya",
+   "nombre": "La Hoya",
+   "municipio": "Yaiza",
+   "lat": 28.9389,
+   "lon": -13.8141,
+   "alias": []
+  },
+  {
+   "id": "temuime",
+   "nombre": "Temuime",
+   "municipio": "Yaiza",
+   "lat": 28.933,
+   "lon": -13.717,
    "alias": []
   }
  ]
