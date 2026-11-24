@@ -36,8 +36,56 @@
   "enlace": "https://www.datosdelanzarote.com/tema/agua"
  },
  "perdidas": {
-  "nota": "Porcentaje del agua potable producida que no se factura (producción menos consumo facturado, con cubas), calculado año a año con la tabla del Centro de Datos.",
+  "nota": "Porcentaje del agua potable producida que no se factura (producción menos consumo facturado, cubas incluidas), calculado año a año.",
   "serie": [
+   {
+    "anio": 1986,
+    "pct": 11.25
+   },
+   {
+    "anio": 1987,
+    "pct": 6.16
+   },
+   {
+    "anio": 1988,
+    "pct": 9.72
+   },
+   {
+    "anio": 1989,
+    "pct": 6.17
+   },
+   {
+    "anio": 1990,
+    "pct": 15.39
+   },
+   {
+    "anio": 1991,
+    "pct": 20.4
+   },
+   {
+    "anio": 1992,
+    "pct": 23.51
+   },
+   {
+    "anio": 1993,
+    "pct": 23.59
+   },
+   {
+    "anio": 1994,
+    "pct": null
+   },
+   {
+    "anio": 1995,
+    "pct": 18.41
+   },
+   {
+    "anio": 1996,
+    "pct": 25.8
+   },
+   {
+    "anio": 1997,
+    "pct": 26.35
+   },
    {
     "anio": 1998,
     "pct": 25.33
@@ -68,7 +116,8 @@
    },
    {
     "anio": 2005,
-    "pct": 42.39
+    "pct": 42.39,
+    "no_comparable": true
    },
    {
     "anio": 2006,
@@ -151,11 +200,15 @@
     "pct": 55.39
    }
   ],
-  "objetivo_pct": 30,
-  "objetivo_fuente": "El pliego del contrato exigía un rendimiento técnico mínimo del 70 % a los cinco años del inicio (2013). Informe técnico del Consorcio del Agua de Lanzarote, 1 de abril de 2026.",
-  "objetivo_enlace": "https://www.lancelotdigital.com/images/00.-20260401_Informe_Informe-tA-cnico_Informe-propuesta-intervencion-Ciclo-I-Agua-definitivo.pdf",
-  "fuente": "Canal Gestión Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Producción, consumo y abonados de agua potable en Lanzarote. Evolución anual».",
-  "enlace": "https://www.datosdelanzarote.com/tema/agua"
+  "fuente": "Canal Gestión Lanzarote e INALSA. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Producción, consumo y abonados de agua potable en Lanzarote. Evolución anual».",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua",
+  "referencia": {
+   "pct": 23.1,
+   "anio": 2024,
+   "etiqueta": "Media de España",
+   "fuente": "INE, Estadística sobre el suministro y saneamiento del agua, año 2024: 984 de los 4.267 hm³ suministrados a las redes públicas fueron agua no registrada (pérdidas reales y aparentes).",
+   "enlace": "https://ine.es/dyngs/Prensa/es/ESSA2024.htm"
+  }
  },
  "consumo_por_uso": {
   "unidad": "m3 facturados por contador",
@@ -366,7 +419,142 @@
   "anio": 2025,
   "mwh": 79159,
   "fuente": "Aerogeneradores Canarios, Consorcio del Agua de Lanzarote y Eólicas Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote.",
-  "enlace": "https://www.datosdelanzarote.com/tema/energia-electrica"
+  "enlace": "https://www.datosdelanzarote.com/tema/energia-electrica",
+  "serie": [
+   {
+    "anio": 1993,
+    "mwh": 11981
+   },
+   {
+    "anio": 1994,
+    "mwh": 18121
+   },
+   {
+    "anio": 1995,
+    "mwh": 16882
+   },
+   {
+    "anio": 1996,
+    "mwh": 18756
+   },
+   {
+    "anio": 1997,
+    "mwh": 12758
+   },
+   {
+    "anio": 1998,
+    "mwh": 17443
+   },
+   {
+    "anio": 1999,
+    "mwh": 17934
+   },
+   {
+    "anio": 2000,
+    "mwh": 16108
+   },
+   {
+    "anio": 2001,
+    "mwh": 15803
+   },
+   {
+    "anio": 2002,
+    "mwh": 14918
+   },
+   {
+    "anio": 2003,
+    "mwh": 13448
+   },
+   {
+    "anio": 2004,
+    "mwh": 9308
+   },
+   {
+    "anio": 2005,
+    "mwh": 4404
+   },
+   {
+    "anio": 2006,
+    "mwh": 16114
+   },
+   {
+    "anio": 2007,
+    "mwh": 27195
+   },
+   {
+    "anio": 2008,
+    "mwh": 31280
+   },
+   {
+    "anio": 2009,
+    "mwh": 26937
+   },
+   {
+    "anio": 2010,
+    "mwh": 25486
+   },
+   {
+    "anio": 2011,
+    "mwh": 27273
+   },
+   {
+    "anio": 2012,
+    "mwh": 29922
+   },
+   {
+    "anio": 2013,
+    "mwh": 26452
+   },
+   {
+    "anio": 2014,
+    "mwh": 26727
+   },
+   {
+    "anio": 2015,
+    "mwh": 24073
+   },
+   {
+    "anio": 2016,
+    "mwh": 24330
+   },
+   {
+    "anio": 2017,
+    "mwh": 31974
+   },
+   {
+    "anio": 2018,
+    "mwh": 57590
+   },
+   {
+    "anio": 2019,
+    "mwh": 67520
+   },
+   {
+    "anio": 2020,
+    "mwh": 58902
+   },
+   {
+    "anio": 2021,
+    "mwh": 56352
+   },
+   {
+    "anio": 2022,
+    "mwh": 72434
+   },
+   {
+    "anio": 2023,
+    "mwh": 58261
+   },
+   {
+    "anio": 2024,
+    "mwh": 65316
+   },
+   {
+    "anio": 2025,
+    "mwh": 79159
+   }
+  ],
+  "nota": "Producción de los parques eólicos de la isla. Punta Grande funciona desde finales de 2016, Teguise I desde marzo de 2018, Arrecife desde mayo de 2021 y San Bartolomé desde mayo de 2025. Montaña Mina dejó de funcionar en 2013."
  },
  "turismo": {
   "anio": 2025,
@@ -375,10 +563,186 @@
   "enlace": "https://rtvc.es/lanzarote-2025-isla-canaria-crecimiento-turistico-mas-contenido-9-febrero-2026/"
  },
  "produccion_consumo": {
-  "nota": "La tabla original marca 2005 y la columna de cubas con un asterisco. En 1999 no figuran los abonados. En 2022, contadores más cubas suman 36 m³ más que el total; usamos el total de la tabla.",
-  "fuente": "Canal Gestión Lanzarote. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Producción, consumo y abonados de agua potable en Lanzarote. Evolución anual».",
+  "nota": "Entre 1986 y 1993 las cubas incluyen agua doméstica e industrial. En 1994 no hay dato de consumo. En 2005 solo se contabilizaron cinco de las seis facturaciones del año (informe de INALSA), así que ese año no es comparable. En 1999 no figuran los abonados. Las tablas del Centro de Datos difieren en algunos metros cúbicos en 2007 y 2022; no cambia ningún porcentaje.",
+  "fuente": "Canal Gestión Lanzarote e INALSA. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Producción, consumo y abonados de agua potable en Lanzarote. Evolución anual».",
   "enlace": "https://www.datosdelanzarote.com/tema/agua",
   "serie": [
+   {
+    "anio": 1976,
+    "produccion_m3": 1175374,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1977,
+    "produccion_m3": 1725161,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1978,
+    "produccion_m3": 1707492,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1979,
+    "produccion_m3": 1806046,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1980,
+    "produccion_m3": 1839403,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1981,
+    "produccion_m3": 2081226,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1982,
+    "produccion_m3": 2222779,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1983,
+    "produccion_m3": 2528387,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1984,
+    "produccion_m3": 2694659,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1985,
+    "produccion_m3": 2861785,
+    "contadores_m3": null,
+    "abonados": 6602,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1986,
+    "produccion_m3": 3277136,
+    "contadores_m3": 2770088,
+    "abonados": 8453,
+    "cubas_m3": 138297,
+    "consumo_total_m3": 2908385
+   },
+   {
+    "anio": 1987,
+    "produccion_m3": 4309307,
+    "contadores_m3": 3576634,
+    "abonados": 10508,
+    "cubas_m3": 467362,
+    "consumo_total_m3": 4043996
+   },
+   {
+    "anio": 1988,
+    "produccion_m3": 4686618,
+    "contadores_m3": 3860596,
+    "abonados": 13274,
+    "cubas_m3": 370714,
+    "consumo_total_m3": 4231310
+   },
+   {
+    "anio": 1989,
+    "produccion_m3": 4862291,
+    "contadores_m3": 4228990,
+    "abonados": 17863,
+    "cubas_m3": 333304,
+    "consumo_total_m3": 4562294
+   },
+   {
+    "anio": 1990,
+    "produccion_m3": 5627317,
+    "contadores_m3": 4480200,
+    "abonados": 19450,
+    "cubas_m3": 281108,
+    "consumo_total_m3": 4761308
+   },
+   {
+    "anio": 1991,
+    "produccion_m3": 6057176,
+    "contadores_m3": 4629594,
+    "abonados": 24271,
+    "cubas_m3": 191692,
+    "consumo_total_m3": 4821286
+   },
+   {
+    "anio": 1992,
+    "produccion_m3": 6527629,
+    "contadores_m3": 4849672,
+    "abonados": 25982,
+    "cubas_m3": 143007,
+    "consumo_total_m3": 4992679
+   },
+   {
+    "anio": 1993,
+    "produccion_m3": 6838026,
+    "contadores_m3": 5092057,
+    "abonados": 27811,
+    "cubas_m3": 132814,
+    "consumo_total_m3": 5224871
+   },
+   {
+    "anio": 1994,
+    "produccion_m3": 7889495,
+    "contadores_m3": null,
+    "abonados": null,
+    "cubas_m3": null,
+    "consumo_total_m3": null
+   },
+   {
+    "anio": 1995,
+    "produccion_m3": 9506773,
+    "contadores_m3": null,
+    "abonados": 30580,
+    "cubas_m3": null,
+    "consumo_total_m3": 7756355
+   },
+   {
+    "anio": 1996,
+    "produccion_m3": 10269800,
+    "contadores_m3": 7494325,
+    "abonados": 32300,
+    "cubas_m3": 126278,
+    "consumo_total_m3": 7620603
+   },
+   {
+    "anio": 1997,
+    "produccion_m3": 11028818,
+    "contadores_m3": 7972665,
+    "abonados": 34980,
+    "cubas_m3": 149758,
+    "consumo_total_m3": 8122423
+   },
    {
     "anio": 1998,
     "produccion_m3": 12415815,
@@ -695,5 +1059,391 @@
     "reutilizada_cubas_m3": 0
    }
   ]
+ },
+ "por_municipio": {
+  "unidad": "m3 facturados por contador",
+  "municipios": [
+   "Arrecife",
+   "Haría",
+   "San Bartolomé",
+   "Teguise y La Graciosa",
+   "Tías",
+   "Tinajo",
+   "Yaiza"
+  ],
+  "serie": [
+   {
+    "anio": 2000,
+    "Arrecife": 2177706,
+    "Haría": 350417,
+    "San Bartolomé": 1536118,
+    "Teguise y La Graciosa": 1989707,
+    "Tías": 3677352,
+    "Tinajo": 267207,
+    "Yaiza": 773011
+   },
+   {
+    "anio": 2001,
+    "Arrecife": 2367340,
+    "Haría": 390494,
+    "San Bartolomé": 1430999,
+    "Teguise y La Graciosa": 2074669,
+    "Tías": 3642809,
+    "Tinajo": 295222,
+    "Yaiza": 974174
+   },
+   {
+    "anio": 2002,
+    "Arrecife": 2322820,
+    "Haría": 418970,
+    "San Bartolomé": 1559411,
+    "Teguise y La Graciosa": 2219408,
+    "Tías": 3596148,
+    "Tinajo": 298203,
+    "Yaiza": 1045746
+   },
+   {
+    "anio": 2003,
+    "Arrecife": 2547536,
+    "Haría": 508433,
+    "San Bartolomé": 1543307,
+    "Teguise y La Graciosa": 2411226,
+    "Tías": 3787217,
+    "Tinajo": 334485,
+    "Yaiza": 1307060
+   },
+   {
+    "anio": 2004,
+    "Arrecife": 2827168,
+    "Haría": 496182,
+    "San Bartolomé": 1520540,
+    "Teguise y La Graciosa": 2462204,
+    "Tías": 3759086,
+    "Tinajo": 370522,
+    "Yaiza": 1548542
+   },
+   {
+    "anio": 2006,
+    "Arrecife": 2846092,
+    "Haría": 452760,
+    "San Bartolomé": 1680787,
+    "Teguise y La Graciosa": 2664633,
+    "Tías": 3661206,
+    "Tinajo": 360309,
+    "Yaiza": 1659337
+   },
+   {
+    "anio": 2007,
+    "Arrecife": 2844065,
+    "Haría": 463623,
+    "San Bartolomé": 1727867,
+    "Teguise y La Graciosa": 2646802,
+    "Tías": 3503090,
+    "Tinajo": 372451,
+    "Yaiza": 1650523
+   },
+   {
+    "anio": 2008,
+    "Arrecife": 2917381,
+    "Haría": 515849,
+    "San Bartolomé": 1815896,
+    "Teguise y La Graciosa": 2633422,
+    "Tías": 3483509,
+    "Tinajo": 412356,
+    "Yaiza": 1674643
+   },
+   {
+    "anio": 2009,
+    "Arrecife": 2836044,
+    "Haría": 498862,
+    "San Bartolomé": 1536101,
+    "Teguise y La Graciosa": 2150468,
+    "Tías": 3215564,
+    "Tinajo": 393054,
+    "Yaiza": 1432318
+   },
+   {
+    "anio": 2010,
+    "Arrecife": 2454014,
+    "Haría": 444963,
+    "San Bartolomé": 1405635,
+    "Teguise y La Graciosa": 2043511,
+    "Tías": 2953463,
+    "Tinajo": 361805,
+    "Yaiza": 1329318
+   },
+   {
+    "anio": 2011,
+    "Arrecife": 2461121,
+    "Haría": 425849,
+    "San Bartolomé": 1385979,
+    "Teguise y La Graciosa": 2117114,
+    "Tías": 2835512,
+    "Tinajo": 366205,
+    "Yaiza": 1424682
+   },
+   {
+    "anio": 2012,
+    "Arrecife": 2237233,
+    "Haría": 441942,
+    "San Bartolomé": 1323891,
+    "Teguise y La Graciosa": 2141823,
+    "Tías": 2689834,
+    "Tinajo": 371599,
+    "Yaiza": 1443413
+   },
+   {
+    "anio": 2013,
+    "Arrecife": 2291925,
+    "Haría": 470633,
+    "San Bartolomé": 1183874,
+    "Teguise y La Graciosa": 1952441,
+    "Tías": 2619789,
+    "Tinajo": 333614,
+    "Yaiza": 1486302
+   },
+   {
+    "anio": 2014,
+    "Arrecife": 2412700,
+    "Haría": 363093,
+    "San Bartolomé": 1124945,
+    "Teguise y La Graciosa": 2154133,
+    "Tías": 2872582,
+    "Tinajo": 305700,
+    "Yaiza": 1844435
+   },
+   {
+    "anio": 2015,
+    "Arrecife": 2373762,
+    "Haría": 433178,
+    "San Bartolomé": 1152790,
+    "Teguise y La Graciosa": 2232430,
+    "Tías": 2711587,
+    "Tinajo": 394153,
+    "Yaiza": 2417487
+   },
+   {
+    "anio": 2016,
+    "Arrecife": 2414388,
+    "Haría": 381094,
+    "San Bartolomé": 1124939,
+    "Teguise y La Graciosa": 2133418,
+    "Tías": 2839193,
+    "Tinajo": 355786,
+    "Yaiza": 1854160
+   },
+   {
+    "anio": 2017,
+    "Arrecife": 2588541,
+    "Haría": 370324,
+    "San Bartolomé": 1234431,
+    "Teguise y La Graciosa": 2178459,
+    "Tías": 3145879,
+    "Tinajo": 391011,
+    "Yaiza": 1826020
+   },
+   {
+    "anio": 2018,
+    "Arrecife": 2610938,
+    "Haría": 495146,
+    "San Bartolomé": 1207816,
+    "Teguise y La Graciosa": 2315303,
+    "Tías": 3024878,
+    "Tinajo": 367765,
+    "Yaiza": 1776529
+   },
+   {
+    "anio": 2019,
+    "Arrecife": 2642456,
+    "Haría": 473421,
+    "San Bartolomé": 1293037,
+    "Teguise y La Graciosa": 2334039,
+    "Tías": 2994319,
+    "Tinajo": 411717,
+    "Yaiza": 1974839
+   },
+   {
+    "anio": 2020,
+    "Arrecife": 2846528,
+    "Haría": 471686,
+    "San Bartolomé": 1292225,
+    "Teguise y La Graciosa": 2123370,
+    "Tías": 2478767,
+    "Tinajo": 449705,
+    "Yaiza": 1426142
+   },
+   {
+    "anio": 2021,
+    "Arrecife": 2704205,
+    "Haría": 429841,
+    "San Bartolomé": 1252424,
+    "Teguise y La Graciosa": 1992010,
+    "Tías": 2121737,
+    "Tinajo": 415288,
+    "Yaiza": 1489678
+   },
+   {
+    "anio": 2022,
+    "Arrecife": 2634307,
+    "Haría": 478301,
+    "San Bartolomé": 1216541,
+    "Teguise y La Graciosa": 2404455,
+    "Tías": 2951704,
+    "Tinajo": 454450,
+    "Yaiza": 2066304
+   },
+   {
+    "anio": 2023,
+    "Arrecife": 2823116,
+    "Haría": 452887,
+    "San Bartolomé": 1280008,
+    "Teguise y La Graciosa": 2557361,
+    "Tías": 3255773,
+    "Tinajo": 462761,
+    "Yaiza": 2399588
+   },
+   {
+    "anio": 2024,
+    "Arrecife": 2884852,
+    "Haría": 445015,
+    "San Bartolomé": 1350803,
+    "Teguise y La Graciosa": 2564571,
+    "Tías": 3283200,
+    "Tinajo": 495050,
+    "Yaiza": 2557425
+   },
+   {
+    "anio": 2025,
+    "Arrecife": 3043000,
+    "Haría": 477826,
+    "San Bartolomé": 1413935,
+    "Teguise y La Graciosa": 2622809,
+    "Tías": 3443974,
+    "Tinajo": 507079,
+    "Yaiza": 2607618
+   }
+  ],
+  "nota": "Agua facturada por los contadores de cada municipio: viviendas, hoteles, comercios, campo y administraciones. Teguise y La Graciosa van juntos. Sin dato en 2005.",
+  "fuente": "Canal Gestión Lanzarote e INALSA. Elaboración: Centro de Datos del Cabildo de Lanzarote, «Consumo de agua en Lanzarote por contadores según municipio. Evolución anual».",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua"
+ },
+ "reutilizada": {
+  "nota": "No se muestra en la página. Agua depurada que se vende para riego. 2008 y 2009 tienen la misma cifra en la tabla original.",
+  "fuente": "Canal Gestión Lanzarote e INALSA. Elaboración: Centro de Datos del Cabildo de Lanzarote.",
+  "enlace": "https://www.datosdelanzarote.com/tema/agua",
+  "serie": [
+   {
+    "anio": 1998,
+    "m3": 667836
+   },
+   {
+    "anio": 2001,
+    "m3": 830887
+   },
+   {
+    "anio": 2002,
+    "m3": 982024
+   },
+   {
+    "anio": 2003,
+    "m3": 892665
+   },
+   {
+    "anio": 2004,
+    "m3": 1030960
+   },
+   {
+    "anio": 2006,
+    "m3": 1282056
+   },
+   {
+    "anio": 2007,
+    "m3": 1922634
+   },
+   {
+    "anio": 2008,
+    "m3": 1896989
+   },
+   {
+    "anio": 2009,
+    "m3": 1896989
+   },
+   {
+    "anio": 2010,
+    "m3": 1593637
+   },
+   {
+    "anio": 2011,
+    "m3": 1728774
+   },
+   {
+    "anio": 2012,
+    "m3": 1920964
+   },
+   {
+    "anio": 2013,
+    "m3": 1914968
+   },
+   {
+    "anio": 2014,
+    "m3": 1804144
+   },
+   {
+    "anio": 2015,
+    "m3": 2497840
+   },
+   {
+    "anio": 2016,
+    "m3": 2024525
+   },
+   {
+    "anio": 2017,
+    "m3": 2030810
+   },
+   {
+    "anio": 2018,
+    "m3": 2051767
+   },
+   {
+    "anio": 2019,
+    "m3": 2087312
+   },
+   {
+    "anio": 2020,
+    "m3": 1717586
+   },
+   {
+    "anio": 2021,
+    "m3": 1687218
+   },
+   {
+    "anio": 2022,
+    "m3": 2046331
+   },
+   {
+    "anio": 2023,
+    "m3": 1974322
+   },
+   {
+    "anio": 2024,
+    "m3": 1949724
+   },
+   {
+    "anio": 2025,
+    "m3": 2015383
+   }
+  ]
+ },
+ "malgasto": {
+  "nota": "Estimación de lo que cuesta, en un año, el agua producida que no se factura. La energía sale de los datos reales de las cuatro desaladoras en 2025; el resto, de factores de referencia.",
+  "co2_kg_kwh": 0.776,
+  "co2_fuente": "Factor de emisión de la electricidad en los sistemas eléctricos insulares de España: 0,776 kg de CO₂ equivalente por kWh (IDAE, 2016), recogido en un estudio de la Universidad de Las Palmas de Gran Canaria.",
+  "co2_enlace": "https://accedacris.ulpgc.es/bitstream/10553/124517/2/069564-0184open.pdf",
+  "conversion": 0.45,
+  "conversion_fuente": "Conversión típica de una desaladora de ósmosis inversa de agua de mar: el 45 % del agua que entra sale como agua potable y el resto como salmuera (Universidad de Sevilla, proyecto de planta desaladora).",
+  "conversion_enlace": "https://biblus.us.es/bibing/proyectos/abreproy/90909/fichero/Anexo+I_Memoria+Justificativa+de+C%C3%A1lculos.pdf",
+  "precio_m3": 1.09,
+  "precio_fuente": "Coste unitario medio del suministro de agua en España en 2024: 1,09 € por m³, sin contar saneamiento (INE).",
+  "precio_enlace": "https://ine.es/dyngs/Prensa/es/ESSA2024.htm"
  }
 }
