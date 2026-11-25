@@ -208,6 +208,11 @@
    "etiqueta": "Media de España",
    "fuente": "INE, Estadística sobre el suministro y saneamiento del agua, año 2024: 984 de los 4.267 hm³ suministrados a las redes públicas fueron agua no registrada (pérdidas reales y aparentes).",
    "enlace": "https://ine.es/dyngs/Prensa/es/ESSA2024.htm"
+  },
+  "contrato": {
+   "pct": 30,
+   "etiqueta": "Compromiso del contrato",
+   "fuente": "El pliego del contrato de concesión de 2013 exigía a la empresa un rendimiento mínimo del 70 % de la red, es decir, no perder más del 30 % del agua."
   }
  },
  "consumo_por_uso": {
