@@ -7,16 +7,14 @@ Página que enseña los cortes de agua programados en Lanzarote y La Graciosa, p
 | Archivo o carpeta | Para qué sirve |
 |---|---|
 | `index.html` | La página entera: textos, diseño y funcionamiento. No carga nada de otros sitios. |
-| `datos/calendario.json` | Los cortes programados (julio a noviembre de 2026, sacados de los PDF oficiales). |
+| `datos/calendario.json` | Los cortes programados. Se actualiza solo dos veces al día desde la web oficial. |
 | `datos/localidades.json` | La lista de pueblos y dónde va cada punto en el mapa. |
 | `datos/costa.json` | El contorno de Lanzarote y La Graciosa, trazado sobre la ortofoto de GRAFCAN. |
 | `datos/isla.json` | Las cifras de «El agua de la isla», cada una con su fuente. |
-| `fuentes/` | Las dos tipografías de la página (libres, licencia GUST). |
 | `manifest.webmanifest`, `icono*.png`, `icono.svg` | Permiten añadir la página a la pantalla de inicio del móvil como si fuera una app. |
 | `herramientas/actualizar_calendario.py` | Lee el calendario de la web oficial y actualiza `datos/`. |
 | `herramientas/importar_pdf.py` | Carga el PDF mensual del calendario oficial. |
 | `.github/workflows/actualizar.yml` | Hace que GitHub ejecute el lector de la web dos veces al día. |
-| `servidor/` | El servidor de avisos de vecinos (opcional, para la fase 2). |
 
 ## Cómo se actualiza el calendario
 
@@ -39,18 +37,24 @@ Mientras falte el calendario del mes en curso, la página lo avisa arriba.
 
 ## Fase 2: avisos de vecinos
 
-Sin esta parte la página funciona igual, solo con el calendario oficial. Conviene que alguien de confianza revise `servidor/worker.js` antes de activarla.
+Sin esta parte la página funciona igual, solo con el calendario oficial.
+
+El código del servidor (`worker.js` y `esquema.sql`) no está en este repositorio: se guarda aparte y solo se pega en Cloudflare. Cloudflare se usa con una cuenta propia del proyecto, que no se usa para nada más.
 
 1. Crea una cuenta de Cloudflare.
-2. Crea una base de datos D1 y pega `servidor/esquema.sql` en su consola.
-3. Crea un Worker y pega `servidor/worker.js`.
-4. En la configuración del Worker añade:
+2. Crea una base de datos D1 y pega `esquema.sql` en su consola.
+3. Crea un Worker y pega `worker.js`.
+4. En la configuración del Worker añade (sin `DB`, `SAL` y `ORIGEN` el servidor no funciona, a propósito):
    - un enlace a la base de datos D1 llamado `DB`;
-   - un secreto `SAL`: una frase larga al azar (30 caracteres o más) que no uses en ningún otro sitio;
+   - un secreto `SAL`: una frase larga al azar, de 30 caracteres o más, que no uses en ningún otro sitio;
    - una variable `ORIGEN` con la dirección de la página sin barra final, por ejemplo `https://usuario.github.io`;
    - una variable `SITIO` con la dirección completa, por ejemplo `https://usuario.github.io/repositorio/`.
-5. En `index.html`, pon la dirección del Worker en `api: ""`.
-6. No actives los registros («logs») del Worker: guardarían direcciones IP.
+5. Tarea programada: Settings → Triggers → Cron Triggers → Add, escribe `0 * * * *` (cada hora en punto) y guarda. Es la que borra las huellas aunque nadie abra la página.
+6. Registros: en Settings → Observability, comprueba que «Workers Logs» está desactivado. Si estuviera activo guardaría datos de cada petición, IP incluida.
+7. En `index.html`:
+   - pon la dirección del Worker en `api: ""`;
+   - en la línea 7 (`Content-Security-Policy`), cambia `connect-src 'self';` por `connect-src 'self' https://LA-DIRECCION-DEL-WORKER;` con la dirección exacta.
+8. Para ver las visitas: consola de D1 → `SELECT * FROM visitas ORDER BY fecha DESC LIMIT 30;`
 
 ### Reglas de los avisos
 
@@ -58,14 +62,17 @@ Sin esta parte la página funciona igual, solo con el calendario oficial. Convie
 - Quien no tiene agua puede decir desde cuándo: hoy, desde ayer o desde anteayer.
 - Una misma conexión cuenta como un solo vecino por pueblo y día, avise las veces que avise.
 - Con tres o más vecinos distintos, el aviso cuenta. Con menos, sale como «sin contrastar» y no entra en las cuentas.
-- La dirección IP no se guarda nunca. La huella cifrada de la conexión se borra a los dos días.
+- La dirección IP no se guarda nunca. Las huellas cifradas de la conexión y del móvil se borran como mucho a los tres días.
+- Los mensajes del buzón se borran a los 90 días.
 
-Límite conocido: alguien con tres conexiones distintas (móvil, wifi y otra red) puede inventarse un aviso él solo. Las reglas lo frenan, no lo impiden.
+Límite conocido: una sola persona puede fabricar varios «vecinos» poniendo y quitando el modo avión (cambia la IP) y borrando los datos del navegador (cambia el número del móvil). No tiene arreglo sin pedir datos a la gente. Por eso los avisos salen siempre como «sin comprobar» y no se mezclan con los cortes oficiales.
+
+Con la fase 2 activa la página trata datos seudónimos (las huellas). El RGPD pide que el responsable de esos datos diga quién es: consultarlo antes de activarla (una asociación o una persona de confianza que figure como responsable).
 
 ## Estado: qué está probado y qué no
 
 - La página está probada en navegador de móvil y de escritorio: mapa, pantalla completa, avisos de prueba, semana, letra grande.
-- El servidor de avisos pasa 44 pruebas automáticas, pero no se ha ejecutado nunca en Cloudflare.
+- El servidor de avisos pasa 56 pruebas automáticas (con una base de datos que imita a D1), pero no se ha ejecutado nunca en Cloudflare.
 - El lector de la web oficial solo se ha probado con una página de ejemplo.
 - El contorno de la isla tiene un error de posición de hasta 1 km. Los puntos de los pueblos están puestos a mano y son aproximados.
 - Sin punto en el mapa: Barranco de las Truchas y Los Roferos.
