@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; manifest-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://avisos.aguahay.workers.dev; img-src 'self' data:; font-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'">
 <title>¿Hay agua hoy? Lanzarote</title>
 <meta name="description" content="Cortes de agua programados en Lanzarote y La Graciosa, pueblo a pueblo, según el calendario oficial.">
 <meta name="theme-color" content="#f2f2f7">
@@ -421,7 +421,7 @@ footer .ancho { padding-top: 16px; padding-bottom: 80px; display: flex; flex-dir
     <p>Página independiente. No pertenece al Consorcio del Agua de Lanzarote ni a ninguna empresa del servicio.</p>
     <p>Cortes programados: <a id="enlace-fuente" rel="noopener noreferrer">calendario oficial de suspensiones</a>. <span id="pie-leido"></span></p>
     <p>Contorno de la isla trazado sobre la ortofoto de IDECanarias (GRAFCAN). Fuente: Gobierno de Canarias, licencia CC BY 3.0. El Gobierno de Canarias no respalda esta página.</p>
-    <p>Sin cookies ni contadores de visitas. Más detalles en el apartado de <a href="#s-privacidad">privacidad</a>.</p>
+    <p>Sin cookies ni registro. Solo contamos cuántas visitas hay cada día. Más detalles en el apartado de <a href="#s-privacidad">privacidad</a>.</p>
   </div>
 </footer>
 <button type="button" class="arriba" id="arriba" hidden>↑ Arriba</button>
@@ -430,7 +430,7 @@ footer .ancho { padding-top: 16px; padding-bottom: 80px; display: flex; flex-dir
 "use strict";
 /* ---------- Configuración ---------- */
 const CONFIG = {
-  api: "",        // dirección del servidor de avisos, p. ej. "https://avisos.ejemplo.workers.dev". Vacío: sin avisos.
+  api: "https://avisos.aguahay.workers.dev",        // dirección del servidor de avisos, p. ej. "https://avisos.ejemplo.workers.dev". Vacío: sin avisos.
   prueba: false,  // true: enseña los avisos de vecinos sin enviar nada (solo para probar)
   contacto: "aguahay@protonmail.com",   // correo de contacto del proyecto
   codigo: ""      // dirección del repositorio público, si se quiere enseñar
@@ -480,18 +480,9 @@ const cmp = new Intl.Collator("es").compare;
 const mayus = (t) => t.charAt(0).toUpperCase() + t.slice(1);
 const pocoMovimiento = () => window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const tactil = () => window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
-// Número al azar que identifica este móvil ante el servidor de avisos, para no contar dos veces a la
-// misma persona. Solo se crea cuando alguien avisa. Si el navegador no deja guardarlo, dura lo que la visita.
-let movilSesion = "";
-function numeroMovil() {
-  let n = recordar("movil");
-  if (!n || !/^[0-9a-f]{32}$/.test(n)) {
-    n = movilSesion || [...crypto.getRandomValues(new Uint8Array(16))].map((b) => b.toString(16).padStart(2, "0")).join("");
-    movilSesion = n; recordar("movil", n);
-  }
-  return n;
-}
 function recordar(clave, valor) { try { if (valor === undefined) return localStorage.getItem(clave); localStorage.setItem(clave, valor); } catch (e) { return null; } }
+// Las versiones anteriores guardaban un número al azar del móvil. Ya no hace falta: se borra.
+try { localStorage.removeItem("movil"); } catch (e) { /* nada */ }
 
 /* ---------- Estado ---------- */
 const E = {
@@ -556,14 +547,14 @@ function avisoDe(id) {
 }
 function textoAviso(av) {
   const partes = [];
-  if (av.sin) partes.push(plural(av.sin, "vecino sin agua", "vecinos sin agua"));
-  if (av.poca) partes.push(`${nf.format(av.poca)} con poca presión`);
+  if (av.sin) partes.push(plural(av.sin, "aviso de «sin agua»", "avisos de «sin agua»"));
+  if (av.poca) partes.push(plural(av.poca, "de «poca presión»", "de «poca presión»"));
   return partes.join(", ");
 }
 const MENSAJES = {
   "reciente": "Ya has avisado hace poco de este pueblo. Podrás volver a hacerlo dentro de media hora.",
-  "limite-pueblos": "Desde este móvil ya has avisado hoy de dos pueblos. Es el máximo, para que una sola persona no pueda llenar el mapa.",
-  "limite-diario": "Desde esta conexión ya se ha avisado hoy de muchos pueblos. Prueba mañana.",
+  "limite-pueblos": "Ya has avisado hoy de dos pueblos. Es el máximo, para que una sola persona no pueda llenar el mapa.",
+  "limite-diario": "Hoy ya han llegado muchos avisos de este pueblo. Prueba mañana.",
   "saturado": "Están llegando muchos avisos a la vez. Prueba dentro de un rato.",
 };
 function mostrarPaso2(estado) {
@@ -585,14 +576,14 @@ async function enviarAviso(estado, dias) {
     else {
       prueba.mio[E.pueblo] = estado;
       recalcularPrueba();
-      msg.textContent = "Modo de prueba: el aviso no sale de esta página. Cuentas como un solo vecino por pueblo; si vuelves a pulsar, se cambia tu respuesta.";
+      msg.textContent = "Modo de prueba: el aviso no sale de esta página.";
     }
   } else {
     try {
-      const r = await fetch(CONFIG.api.replace(/\/+$/, "") + "/aviso", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ localidad: E.pueblo, estado, dias, movil: numeroMovil() }) });
+      const r = await fetch(CONFIG.api.replace(/\/+$/, "") + "/aviso", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ localidad: E.pueblo, estado, dias }) });
       let datos = {};
       try { datos = await r.json(); } catch (e) { datos = {}; }
-      if (r.status === 201) msg.textContent = datos.cuenta === false ? "Aviso guardado, pero no cuenta: llega desde fuera de España (por ejemplo, a través de una VPN)." : "Aviso recibido. Gracias.";
+      if (r.status === 201) msg.textContent = datos.cuenta === false ? "No se ha guardado: el aviso llega desde fuera de España (por ejemplo, a través de una VPN)." : "Aviso recibido. Gracias.";
       else msg.textContent = MENSAJES[datos.error] || "No se ha podido guardar el aviso. Prueba más tarde.";
     } catch (e) { msg.textContent = "No se ha podido enviar: no hay conexión con el servidor de avisos."; }
   }
@@ -896,7 +887,7 @@ function pintarFicha() {
   if (E.mapa.modo === "dia" && E.dia !== E.hoy) f.append(h("p", {}, `${mayus(fLargo.format(aFecha(E.dia)))}: ` + (elDia.length ? `corte programado, ${elDia.map(franja).join(" y ")}.` : "sin corte programado.")));
   if (prox) f.append(h("p", {}, `Próximo corte: ${fLargo.format(aFecha(prox.fecha))}.`));
   f.append(h("p", { class: "num" }, `En ${fMes.format(aFecha(E.dia))}: ` + (delMes.length ? `${plural(delMes.length, "corte", "cortes")}, ${nh.format(horasDe(delMes))} horas.` : "ningún corte programado.")));
-  if (av) f.append(h("p", {}, `Vecinos ahora: ${textoAviso(av)}` + (av.contrastado ? "." : " (sin contrastar).")));
+  if (av) f.append(h("p", {}, `Avisos de vecinos ahora: ${textoAviso(av)}` + (av.contrastado ? "." : " (sin contrastar).")));
   const acciones = h("div", { class: "acciones" });
   if (E.pueblo !== id) { const b = h("button", { type: "button", class: "boton chico" }, "Es mi pueblo"); b.addEventListener("click", () => elegirPueblo(id)); acciones.append(b); }
   const c = h("button", { type: "button", class: "boton chico" }, "Cerrar"); c.addEventListener("click", cerrarFicha); acciones.append(c);
@@ -1071,7 +1062,7 @@ function pintarResumen() {
         const clase = !a.contrastado ? "sin contrastar" : a.fuera ? "fuera del calendario" : "coincide con el corte programado";
         ul.append(h("li", { class: !a.contrastado ? "" : a.fuera ? "fuera" : "dentro" }, h("strong", {}, l.nombre), ": " + textoAviso(a) + " · ", h("span", { class: "clase" }, clase)));
       }
-      bloque.append(ul, h("p", { class: "mudo pequeno", style: "margin-top:6px" }, "Un aviso cuenta cuando coinciden tres o más vecinos del mismo pueblo."));
+      bloque.append(ul, h("p", { class: "mudo pequeno", style: "margin-top:6px" }, "Un pueblo cuenta como afectado a partir de tres avisos."));
     }
     if (CONFIG.prueba) {
       const b = h("button", { type: "button", class: "boton chico", style: "margin-top:12px" }, prueba.ejemplos ? "Quitar los vecinos de ejemplo" : "Ver el mapa con vecinos de ejemplo");
@@ -1218,7 +1209,7 @@ function pintarContacto() {
       else {
         try {
           const r = await fetch(CONFIG.api.replace(/\/+$/, "") + "/opinion", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ tipo: tipo.value, texto: valor }) });
-          estadoOp.textContent = r.status === 201 ? "Mensaje recibido. Gracias." : r.status === 429 ? "Ya has enviado varios mensajes hoy. Prueba mañana." : "No se ha podido enviar. Prueba más tarde.";
+          estadoOp.textContent = r.status === 201 ? "Mensaje recibido. Gracias." : r.status === 429 ? "Están llegando muchos mensajes. Prueba más tarde." : "No se ha podido enviar. Prueba más tarde.";
           if (r.status === 201) { texto.value = ""; cuenta.textContent = "0 de 1000"; }
         } catch (e) { estadoOp.textContent = "No se ha podido enviar: no hay conexión con el servidor."; }
       }
@@ -1239,10 +1230,10 @@ function pintarMetodo() {
   else li("Los días que ya han pasado se guardan tal como estaban anunciados ese día, aunque el calendario cambie después.");
   if (avisosActivos()) {
     li("Los avisos de vecinos se juntan por pueblo. No se publican calles ni casas.");
-    li("Un pueblo cuenta como afectado cuando avisan tres o más vecinos distintos. Con menos, el aviso aparece como «sin contrastar» y no entra en las cuentas. Por eso las cuentas se quedan cortas, nunca largas.");
-    li("Dos avisos hechos desde el mismo móvil o desde la misma conexión cuentan como un solo vecino, aunque cambies de wifi a datos. Cada móvil puede avisar de dos pueblos al día como mucho: el suyo y el de un familiar.");
-    li("Los avisos que llegan desde fuera de España se guardan, pero no cuentan.");
-    li("Nada de esto es infalible: basta con cambiar de conexión y borrar los datos del navegador para avisar más de una vez. Por eso los avisos de vecinos se enseñan siempre como «sin comprobar», con cuántos vecinos han avisado, y no se mezclan con los cortes del calendario oficial.");
+    li("Un pueblo cuenta como afectado a partir de tres avisos de «sin agua». Con menos, sale como «sin contrastar» y no entra en las cuentas.");
+    li("Desde una misma conexión solo se puede avisar una vez cada media hora de cada pueblo. Hay además un máximo de avisos por pueblo y hora, para que nadie pueda llenar el mapa.");
+    li("Los avisos que llegan desde fuera de España no se guardan.");
+    li("No pedimos ningún dato, así que no sabemos si dos avisos son de la misma persona: basta con cambiar de conexión para avisar otra vez. Por eso los avisos de vecinos se enseñan siempre como «sin comprobar» y no se mezclan con los cortes del calendario oficial.");
   }
   li("Las averías y los cortes de última hora no salen en el calendario. Si no tienes agua y tu pueblo no aparece aquí, no es un error de la página.");
   li("El contorno de la isla está trazado sobre la ortofoto de IDECanarias (GRAFCAN). Los puntos de los pueblos están puestos a mano y son aproximados.");
@@ -1560,15 +1551,15 @@ function pintarPrivacidad() {
   const li = (...x) => ul.append(h("li", {}, ...x));
   li("Esta página no usa cookies.");
   li("Tu navegador guarda tu pueblo y el tamaño de letra para la próxima vez. Se quedan en tu móvil o tu ordenador. Para quitarlos, borra los datos de esta página en el navegador.");
-  if (CONFIG.api) li("La página se conecta al servidor de avisos (Cloudflare) para saber qué pueblos están sin agua y para sumar una visita al contador del día. El contador es solo un número por día: no guarda tu IP ni nada en tu móvil.");
+  if (CONFIG.api) li("La página se conecta al servidor de avisos (Cloudflare) para saber qué pueblos están sin agua y para sumar una visita al contador del día. El contador es solo un número por día.");
   if (avisosActivos()) {
-    li("Si avisas, tu navegador guarda también un número al azar. No lleva ningún dato tuyo: sirve para que tu aviso no cuente dos veces.");
-    li("De cada aviso guardamos el pueblo, la respuesta y la hora redondeada a 10 minutos. Tu IP no se guarda. Para contar a cada vecino una sola vez guardamos también, como mucho tres días, dos huellas: una de tu conexión y otra de ese número al azar. Se calculan con una clave secreta, y sin esa clave no se puede volver a tu IP. Después se borran y solo queda cuántos vecinos avisaron ese día en cada pueblo.");
+    li("De los avisos solo guardamos cuántos hay de cada tipo en cada pueblo y cada día. No guardamos tu IP, ni la hora exacta, ni nada de tu móvil.");
+    li("Para que no se pueda avisar muchas veces seguidas, durante media hora guardamos una marca cifrada de tu conexión y del pueblo. Se hace con una clave que cambia cada día. La marca se borra a la media hora y la clave al día siguiente; después nadie, tampoco nosotros, puede saber de qué conexión vino un aviso.");
     li("Los mensajes del buzón se guardan sin la IP y se borran a los 90 días. Se guarda lo que escribas, así que no pongas datos tuyos ni de otras personas.");
-    li("Usamos estos datos solo para enseñar los avisos y para frenar los avisos falsos (es nuestro interés legítimo). No se venden ni se dan a nadie. Cloudflare los guarda por encargo nuestro y puede tratarlos fuera de la Unión Europea, con las garantías del acuerdo de privacidad entre la UE y Estados Unidos.");
+    li("Cloudflare guarda estos datos por encargo nuestro y puede tratarlos fuera de la Unión Europea, con las garantías del acuerdo de privacidad entre la UE y Estados Unidos. No se venden ni se dan a nadie.");
   }
   li(CONFIG.api ? "GitHub, que aloja la página, y Cloudflare, que aloja el servidor de avisos, reciben tu IP al conectarte, como cualquier web, y la tratan según sus propias normas. Nosotros no vemos esos registros." : "GitHub, que aloja la página, recibe tu IP al conectarte, como cualquier web, y la trata según sus propias normas. Nosotros no vemos esos registros.");
-  if (CONFIG.contacto) li("Si tienes una pregunta sobre tus datos, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), "." + (CONFIG.api ? " Como no guardamos nada que te identifique, normalmente no podremos encontrar tus avisos." : "") + " También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).");
+  if (CONFIG.contacto) li("Si tienes una pregunta sobre tus datos, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), "." + (CONFIG.api ? " Como no guardamos nada que te identifique, no podremos encontrar tus avisos." : "") + " También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).");
 }
 
 function pintarTodo() { pintarPueblo(); pintarSeccionMapa(); pintarSemana(); pintarCuenta(); }
