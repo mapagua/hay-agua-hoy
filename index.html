@@ -4,34 +4,35 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self' https://*.workers.dev; img-src 'self' data:; manifest-src 'self'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; manifest-src 'self'; base-uri 'none'; form-action 'none'">
 <title>¿Hay agua hoy? Lanzarote</title>
 <meta name="description" content="Cortes de agua programados en Lanzarote y La Graciosa, pueblo a pueblo, según el calendario oficial.">
-<meta name="theme-color" content="#0f3a63">
+<meta name="theme-color" content="#f2f2f7">
 <link rel="icon" href="icono.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icono-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>
-/* Estructura: una sola página con barra de secciones fija. El mapa ocupa el centro y se puede abrir a pantalla completa. */
+/* Una sola página. Fondo gris muy claro y bloques blancos redondeados, como las listas agrupadas de los móviles. */
 :root {
-  --cal: #f5f9fc;
+  --cal: #f2f2f7;
   --papel: #ffffff;
-  --picon: #13202f;
-  --ceniza: #4e5b6a;
-  --linea: #d3deea;
-  --puerta: #1659a3;
+  --picon: #1c1c1e;
+  --ceniza: #5c5c63;
+  --linea: #dcdce1;
+  --puerta: #0a5fd1;
+  --tinte-suave: #e7f0fd;
   --meta: #1c5b3b;
-  --barra: #0f3a63;
-  --barra-texto: #ffffff;
-  --corte: #b42318;
-  --corte-suave: #fbe9e6;
+  --corte: #c41230;
+  --corte-suave: #fdecef;
   --aviso: #a35c00;
-  --aviso-suave: #fbefd9;
-  --agua: #1f6fb2;
-  --mar: #d6e7f5;
-  --isla: #f3efe6;
-  --costa: #8a867b;
-  --punto: #9a968c;
+  --aviso-suave: #fdf2df;
+  --agua: #1e6ef4;
+  --mar: #dbe9f6;
+  --isla: #f5f2eb;
+  --costa: #8f8b80;
+  --punto: #9a9890;
+  --radio: 14px;
+  --sombra: 0 1px 2px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
   --texto: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   --titular: var(--texto);
   --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a;
@@ -42,115 +43,116 @@ html[data-letra="2"] { font-size: 120%; }
 html[data-letra="3"] { font-size: 137.5%; }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-body { margin: 0; background: var(--cal); color: var(--picon); font: 1rem/1.6 var(--texto); }
+body { margin: 0; background: var(--cal); color: var(--picon); font: 1rem/1.55 var(--texto); }
 h1, h2, h3, .boton, .atajos a, .segmento button, .cual, .cifra b, .cifras b, .respuesta .titular, .ficha h3, .letra button, .arriba, .gran-cifra, .tesela b, .leyenda-caja summary { font-family: var(--titular); font-weight: 700; }
 body.mapa-abierto { overflow: hidden; }
-.ancho { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+.ancho { max-width: 980px; margin: 0 auto; padding: 0 16px; }
 h1, h2, h3, p { margin: 0; }
 h1, h2 { text-wrap: balance; }
 a { color: var(--puerta); text-underline-offset: 2px; }
 :focus-visible { outline: 3px solid var(--puerta); outline-offset: 2px; }
 .num { font-variant-numeric: tabular-nums; }
 .mudo { color: var(--ceniza); }
-.pequeno { font-size: 0.9rem; }
+.pequeno { font-size: 0.88rem; }
 .oculto-visual { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 button, select { font: inherit; color: inherit; }
+.tarjeta { background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
 
 /* Cabecera */
-.cabecera .ancho { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 4px 24px; padding-top: 20px; padding-bottom: 12px; }
-.cabecera .ancho { padding-top: 26px; }
-.cabecera h1 { font-size: clamp(2.5rem, 10.5vw, 4.6rem); line-height: 1.05; }
+.cabecera .ancho { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2px 24px; padding-top: 28px; padding-bottom: 10px; }
+.cabecera h1 { font-size: clamp(2.1rem, 8vw, 2.9rem); line-height: 1.1; letter-spacing: -0.01em; }
 .cabecera h1 .azul { color: var(--agua); }
-.lugar { font-family: var(--titular); font-weight: 600; font-size: clamp(1.15rem, 3.6vw, 1.5rem); line-height: 1.25; margin-top: 8px; }
+.lugar { font-weight: 600; font-size: 1.15rem; line-height: 1.3; margin-top: 2px; }
 .fecha { color: var(--ceniza); }
 .fecha::first-letter, .cual::first-letter { text-transform: uppercase; }
-.independiente { color: var(--ceniza); font-size: 0.9rem; padding-top: 8px; padding-bottom: 4px; }
+.independiente { color: var(--ceniza); font-size: 0.88rem; padding-top: 6px; padding-bottom: 10px; }
 
-/* Barra de secciones */
-.atajos { position: sticky; top: 0; z-index: 50; background: var(--barra); color: var(--barra-texto); }
-.atajos .ancho { display: flex; align-items: center; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-top: 6px; padding-bottom: 6px; }
+/* Barra de secciones: blanca y translúcida, con enlaces en azul */
+.atajos { position: sticky; top: 0; z-index: 50; background: rgba(249,249,251,.88); -webkit-backdrop-filter: saturate(180%) blur(14px); backdrop-filter: saturate(180%) blur(14px); border-bottom: 1px solid var(--linea); }
+.atajos .ancho { display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; padding-top: 4px; padding-bottom: 4px; }
 .atajos .ancho::-webkit-scrollbar { display: none; }
-.atajos a { flex: none; text-decoration: none; color: var(--barra-texto); font-weight: 600; font-size: 1.1rem; padding: 8px 10px; min-height: 44px; display: inline-flex; align-items: center; }
-.atajos a:hover { text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
-.atajos :focus-visible { outline-color: var(--barra-texto); }
-.letra { margin-left: auto; display: flex; align-items: center; gap: 2px; flex: none; padding-left: 8px; }
-.letra span { font-size: 0.85rem; margin-right: 4px; opacity: 0.8; }
-.letra button { min-width: 44px; min-height: 44px; border: 1px solid currentColor; background: transparent; color: var(--barra-texto); border-radius: 4px; cursor: pointer; line-height: 1; }
-.letra button[aria-pressed="true"] { background: var(--barra-texto); color: var(--barra); }
-.letra button:nth-of-type(1) { font-size: 0.85rem; } .letra button:nth-of-type(2) { font-size: 1rem; } .letra button:nth-of-type(3) { font-size: 1.2rem; }
+.atajos a { flex: none; text-decoration: none; color: var(--puerta); font-weight: 600; font-size: 1rem; padding: 8px 10px; min-height: 44px; display: inline-flex; align-items: center; border-radius: 10px; }
+.atajos a:hover { background: var(--tinte-suave); }
+.letra { margin-left: auto; display: flex; align-items: center; gap: 2px; flex: none; padding: 2px; background: #e6e6eb; border-radius: 10px; }
+.letra span { font-size: 0.8rem; margin: 0 6px 0 4px; color: var(--ceniza); }
+.letra button { min-width: 40px; min-height: 40px; border: 0; background: transparent; color: var(--picon); border-radius: 8px; cursor: pointer; line-height: 1; }
+.letra button[aria-pressed="true"] { background: var(--papel); box-shadow: 0 1px 3px rgba(0,0,0,.14); }
+.letra button:nth-of-type(1) { font-size: 0.8rem; } .letra button:nth-of-type(2) { font-size: 0.98rem; } .letra button:nth-of-type(3) { font-size: 1.18rem; }
 
-.aviso-datos { border-left: 6px solid var(--aviso); background: var(--aviso-suave); padding: 12px 14px; margin-top: 14px; }
+.aviso-datos { background: var(--aviso-suave); border-radius: 12px; padding: 12px 14px; margin-top: 14px; }
 .aviso-datos strong { display: block; }
 
-main { display: flex; flex-direction: column; gap: 40px; padding-top: 22px; padding-bottom: 48px; }
-section { scroll-margin-top: 72px; }
+main { display: flex; flex-direction: column; gap: 48px; padding-top: 24px; padding-bottom: 48px; }
+section { scroll-margin-top: 64px; }
 section:focus { outline: none; }
-section > h2 { font-size: clamp(1.8rem, 6vw, 2.5rem); line-height: 1.15; border-top: 4px solid var(--agua); padding-top: 12px; margin-bottom: 14px; }
+section > h2 { font-size: clamp(1.7rem, 5.5vw, 2.1rem); line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 12px; }
 .bajada { color: var(--ceniza); max-width: 65ch; margin-bottom: 14px; }
 
-/* Botones comunes */
-.boton { min-height: 52px; padding: 10px 14px; border: 2px solid var(--picon); border-radius: 6px; background: var(--papel); font-size: 1.1rem; cursor: pointer; text-align: center; }
-.boton:hover { background: var(--isla); }
-.boton.sin { border-color: var(--corte); color: var(--corte); }
-.boton.poca { border-color: var(--aviso); color: var(--aviso); }
-.boton.con { border-color: var(--agua); color: var(--agua); }
-.boton[disabled] { opacity: 0.55; cursor: default; }
-.boton.chico { min-height: 44px; padding: 6px 12px; font-weight: 600; }
+/* Botones */
+.boton { min-height: 48px; padding: 10px 16px; border: 0; border-radius: 12px; background: var(--tinte-suave); color: var(--puerta); font-size: 1.05rem; font-weight: 600; cursor: pointer; text-align: center; }
+.boton:hover { filter: brightness(0.97); }
+.boton.sin { background: var(--corte-suave); color: var(--corte); }
+.boton.poca { background: var(--aviso-suave); color: var(--aviso); }
+.boton.con { background: var(--tinte-suave); color: var(--puerta); }
+.boton[disabled] { opacity: 0.5; cursor: default; }
+.boton.chico { min-height: 44px; padding: 6px 14px; }
 .enlace { background: none; border: 0; padding: 8px 0; color: var(--puerta); text-decoration: underline; cursor: pointer; min-height: 44px; }
 
 /* Tu pueblo */
 .campo { display: flex; flex-direction: column; gap: 6px; max-width: 440px; }
-.campo label { font-weight: 700; }
+.campo label { font-weight: 600; }
 .nota-privada { margin-top: 8px; max-width: 60ch; }
-select { padding: 12px 10px; border: 2px solid var(--picon); border-radius: 4px; background: var(--papel); min-height: 52px; }
-.respuesta { margin-top: 16px; background: var(--papel); border: 1px solid var(--linea); border-left: 8px solid var(--linea); padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
-.respuesta.hay-corte { border-left-color: var(--corte); }
-.respuesta.sin-corte { border-left-color: var(--agua); }
-.respuesta .titular { font-size: 1.6rem; line-height: 1.05; }
+select { padding: 12px 12px; border: 1px solid #c7c7cc; border-radius: 12px; background: var(--papel); min-height: 50px; }
+.respuesta { margin-top: 16px; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); padding: 18px 18px 18px 64px; position: relative; display: flex; flex-direction: column; gap: 6px; max-width: 760px; }
+.respuesta::before { content: "i"; position: absolute; left: 18px; top: 18px; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; font: 700 1.05rem/1 var(--texto); color: #fff; background: var(--ceniza); }
+.respuesta.hay-corte::before { content: "!"; background: var(--corte); }
+.respuesta.sin-corte::before { content: "✓"; background: var(--agua); }
+.respuesta .titular { font-size: 1.35rem; line-height: 1.2; }
 .respuesta.hay-corte .titular { color: var(--corte); }
 .avisar { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; max-width: 760px; }
 .avisar h3 { font-size: 1.1rem; }
 .botones { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
 .paso2-titulo { font-weight: 700; }
 .estado-envio { min-height: 1.5em; font-weight: 600; }
-.etiqueta-prueba { display: inline-block; background: var(--picon); color: var(--cal); font-size: 0.8rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; vertical-align: middle; }
+.etiqueta-prueba { display: inline-block; background: var(--picon); color: #fff; font-size: 0.78rem; font-weight: 700; padding: 2px 8px; border-radius: 6px; vertical-align: middle; }
 
 /* Mapa */
-.mapa-marco { background: var(--papel); border: 1px solid var(--linea); display: flex; flex-direction: column; }
-.mapa-cabecera { display: flex; flex-direction: column; gap: 10px; padding: 10px; border-bottom: 1px solid var(--linea); }
+.mapa-marco { background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); overflow: hidden; display: flex; flex-direction: column; }
+.mapa-cabecera { display: flex; flex-direction: column; gap: 10px; padding: 12px; border-bottom: 1px solid var(--linea); }
 .mapa-fila { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
-.segmento { display: inline-flex; border: 2px solid var(--picon); border-radius: 2px; overflow: hidden; }
-.segmento button { border: 0; background: var(--papel); padding: 8px 14px; min-height: 44px; cursor: pointer; font-size: 1.05rem; }
-.segmento button + button { border-left: 2px solid var(--picon); }
-.segmento button[aria-checked="true"] { background: var(--picon); color: var(--cal); }
+.segmento { display: inline-flex; padding: 2px; background: #e6e6eb; border-radius: 10px; gap: 2px; }
+.segmento button { border: 0; background: transparent; padding: 8px 16px; min-height: 40px; cursor: pointer; font-size: 1rem; font-weight: 600; border-radius: 8px; }
+.segmento button[aria-checked="true"] { background: var(--papel); box-shadow: 0 1px 3px rgba(0,0,0,.14); }
 .capas { display: flex; flex-wrap: wrap; gap: 4px 16px; }
-.capas label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; font-weight: 600; }
-.capas input { width: 22px; height: 22px; accent-color: var(--picon); }
+.capas label { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; font-weight: 500; }
+.capas input { width: 22px; height: 22px; accent-color: var(--puerta); }
 .navegar { display: flex; align-items: center; gap: 8px; }
-.navegar .cual { font-weight: 700; margin: 0 4px; flex: 1; text-align: center; min-width: 0; }
-.navegar .flecha { min-width: 48px; min-height: 48px; padding: 0; font-size: 1.4rem; line-height: 1; flex: none; }
+.navegar .cual { font-weight: 600; margin: 0 4px; flex: 1; text-align: center; min-width: 0; }
+.navegar .flecha { min-width: 44px; min-height: 44px; padding: 0; font-size: 1.4rem; line-height: 1; flex: none; }
 .navegar .hoy-b { flex: none; }
 .mapa-lienzo { position: relative; height: min(118vw, 560px); min-height: 340px; touch-action: pan-y; overflow: hidden; background: var(--mar); cursor: grab; }
 .mapa-lienzo:active { cursor: grabbing; }
 .mapa-lienzo svg { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-select: none; }
 .mapa-lienzo .mar { fill: var(--mar); }
-.mapa-lienzo .isla { fill: var(--isla); stroke: var(--costa); stroke-width: 1.2; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
-.mapa-lienzo .textos text { font-family: var(--titular); font-weight: 700; fill: var(--picon); paint-order: stroke; stroke: var(--isla); stroke-width: 3.5px; stroke-linejoin: round; }
-.mapa-botones { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 6px; }
-.mapa-botones button { width: 46px; height: 46px; border: 1px solid var(--linea); background: var(--papel); border-radius: 6px; cursor: pointer; font-size: 1.35rem; font-weight: 700; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,.18); display: grid; place-items: center; }
+.mapa-lienzo .isla { fill: var(--isla); stroke: var(--costa); stroke-width: 1; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.mapa-lienzo .textos text { font-family: var(--titular); font-weight: 600; fill: var(--picon); paint-order: stroke; stroke: var(--isla); stroke-width: 3.5px; stroke-linejoin: round; }
+.mapa-botones { position: absolute; top: 10px; right: 10px; display: flex; flex-direction: column; gap: 8px; }
+.mapa-botones button { width: 44px; height: 44px; border: 0; background: rgba(255,255,255,.94); color: var(--picon); border-radius: 12px; cursor: pointer; font-size: 1.35rem; font-weight: 600; line-height: 1; box-shadow: 0 1px 3px rgba(0,0,0,.18), 0 0 0 0.5px rgba(0,0,0,.08); display: grid; place-items: center; }
 .mapa-botones button svg { width: 22px; height: 22px; }
 .mapa-pista { position: absolute; left: 10px; bottom: 10px; right: 66px; font-size: 0.85rem; color: var(--ceniza); pointer-events: none; }
-.mapa-pista span { background: var(--papel); padding: 3px 7px; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; line-height: 1.7; }
-.ficha { position: absolute; left: 10px; right: 66px; bottom: 10px; max-width: 420px; background: var(--papel); border: 1px solid var(--linea); border-left: 6px solid var(--agua); border-radius: 4px; padding: 12px 14px; box-shadow: 0 4px 14px rgba(0,0,0,.22); display: flex; flex-direction: column; gap: 4px; max-height: 70%; overflow-y: auto; }
-.ficha.corte { border-left-color: var(--corte); }
+.mapa-pista span { background: rgba(255,255,255,.94); padding: 3px 8px; border-radius: 8px; box-decoration-break: clone; -webkit-box-decoration-break: clone; line-height: 1.75; }
+.ficha { position: absolute; left: 10px; right: 66px; bottom: 10px; max-width: 420px; background: var(--papel); border-radius: var(--radio); padding: 14px 16px; box-shadow: 0 6px 24px rgba(0,0,0,.18); display: flex; flex-direction: column; gap: 4px; max-height: 70%; overflow-y: auto; }
 .ficha h3 { font-size: 1.1rem; }
+.ficha.corte h3 { color: var(--corte); }
 .ficha .acciones { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .leyenda-caja { border-top: 1px solid var(--linea); }
-.leyenda-caja summary { cursor: pointer; padding: 10px; font-weight: 700; min-height: 44px; }
-.leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9rem; color: var(--ceniza); padding: 0 10px 10px; }
+.leyenda-caja summary { cursor: pointer; padding: 10px 12px; font-weight: 600; min-height: 44px; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 0.9rem; color: var(--ceniza); padding: 0 12px 12px; }
 .leyenda span { display: inline-flex; align-items: center; gap: 6px; }
 .leyenda svg { width: 18px; height: 18px; flex: none; }
-.mapa-marco.abierto { position: fixed; inset: 0; z-index: 1000; border: 0; }
+.mapa-marco.abierto { position: fixed; inset: 0; z-index: 1000; border-radius: 0; box-shadow: none; }
+.mapa-marco.abierto .modo-capas { display: none; }
+.mapa-marco.abierto .mapa-cabecera { padding: 6px 10px; }
 .mapa-marco.abierto .mapa-lienzo { flex: 1; height: auto; min-height: 0; touch-action: none; }
 .mapa-marco.abierto .leyenda { max-height: 22vh; overflow-y: auto; }
 @media (max-width: 600px) {
@@ -162,102 +164,111 @@ select { padding: 12px 10px; border: 2px solid var(--picon); border-radius: 4px;
 .dia-rejilla { display: grid; gap: 20px 32px; grid-template-columns: 1fr; margin-top: 18px; }
 @media (min-width: 760px) { .dia-rejilla { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 .cifra { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; }
-.cifra b { font-size: 3.6rem; line-height: 1; }
+.cifra b { font-size: 3.2rem; line-height: 1; letter-spacing: -0.02em; }
 .cifra.hay b { color: var(--corte); }
-.cifra span { font-weight: 600; max-width: 18ch; line-height: 1.2; }
-.lista-mun { list-style: none; margin: 0; padding: 0; }
-.lista-mun li { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: 10px; padding: 8px 0; border-top: 1px solid var(--linea); }
-.lista-mun .mun { font-weight: 700; }
+.cifra span { font-weight: 600; max-width: 18ch; line-height: 1.25; }
+.lista-mun { list-style: none; margin: 0; padding: 0 16px; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
+.lista-mun li { display: grid; grid-template-columns: minmax(0, 8em) minmax(0, 1fr); gap: 10px; padding: 10px 0; border-top: 1px solid var(--linea); }
+.lista-mun li:first-child { border-top: 0; }
+.lista-mun .mun { font-weight: 600; }
 .vecinos h3 { font-size: 1rem; margin-bottom: 4px; }
-.vecinos ul { list-style: none; margin: 0; padding: 0; }
-.vecinos li { padding: 7px 0 7px 12px; border-top: 1px solid var(--linea); border-left: 5px solid var(--punto); }
-.vecinos li.fuera { border-left-color: var(--aviso); }
-.vecinos li.dentro { border-left-color: var(--corte); }
+.vecinos ul { list-style: none; margin: 0; padding: 0 16px; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
+.vecinos li { padding: 9px 0 9px 18px; border-top: 1px solid var(--linea); position: relative; }
+.vecinos li:first-child { border-top: 0; }
+.vecinos li::before { content: ""; position: absolute; left: 0; top: 17px; width: 9px; height: 9px; border-radius: 50%; background: var(--punto); }
+.vecinos li.fuera::before { background: var(--aviso); }
+.vecinos li.dentro::before { background: var(--corte); }
 .vecinos .clase { font-weight: 700; }
 .vecinos li.fuera .clase { color: var(--aviso); }
 
 /* Semana */
 .tu-semana { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
-.tu-semana .dia { min-width: 64px; padding: 6px 8px; border: 1px solid var(--linea); border-radius: 4px; background: var(--papel); text-align: center; font-size: 0.9rem; line-height: 1.25; }
+.tu-semana .dia { min-width: 64px; padding: 7px 8px; border-radius: 12px; background: var(--papel); box-shadow: var(--sombra); text-align: center; font-size: 0.9rem; line-height: 1.25; }
 .tu-semana .dia b { display: block; }
-.tu-semana .dia.corte { background: var(--corte-suave); border-color: var(--corte); color: var(--corte); }
-.tu-semana .dia.hoy { outline: 2px solid var(--picon); outline-offset: 1px; }
-.tabla-caja { position: relative; overflow-x: auto; border: 1px solid var(--linea); background: var(--papel); }
+.tu-semana .dia.corte { background: var(--corte-suave); color: var(--corte); box-shadow: inset 0 0 0 1.5px var(--corte); }
+.tu-semana .dia.hoy { outline: 2px solid var(--picon); outline-offset: 2px; }
+.tabla-caja { position: relative; overflow-x: auto; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
 table.semana { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
-.semana th, .semana td { padding: 7px 6px; border-bottom: 1px solid var(--linea); text-align: center; }
-.semana thead th { font-weight: 700; border-bottom: 2px solid var(--picon); white-space: nowrap; }
-.semana thead th.hoy { background: var(--picon); color: var(--cal); }
-.semana tbody th { text-align: left; font-weight: 500; white-space: nowrap; position: sticky; left: 0; background: var(--papel); }
-.semana tr.grupo th { font-family: var(--titular); font-weight: 700; font-size: 1rem; color: var(--picon); padding-top: 14px; border-bottom: 2px solid var(--picon); }
-.semana td.corte { background: var(--corte-suave); color: var(--corte); font-weight: 700; box-shadow: inset 0 3px 0 var(--corte); }
-.semana td.hoy { outline: 1px dashed var(--ceniza); outline-offset: -2px; }
-.semana tr.mio th { font-weight: 800; color: var(--puerta); }
-.lista-dias { display: flex; flex-direction: column; border-top: 1px solid var(--linea); }
-.lista-dias .dia-bloque { padding: 10px 0 10px 12px; border-bottom: 1px solid var(--linea); border-left: 5px solid var(--linea); }
-.lista-dias .dia-bloque.hay { border-left-color: var(--corte); }
-.lista-dias .dia-bloque.hoy h3::after { content: " · hoy"; color: var(--ceniza); font-weight: 600; }
+.semana th, .semana td { padding: 8px 6px; border-bottom: 1px solid var(--linea); text-align: center; }
+.semana thead th { font-weight: 600; white-space: nowrap; color: var(--ceniza); }
+.semana thead th.hoy { color: var(--puerta); }
+.semana tbody th { text-align: left; font-weight: 500; white-space: nowrap; position: sticky; left: 0; background: var(--papel); padding-left: 14px; }
+.semana tr.grupo th { font-weight: 700; font-size: 1rem; color: var(--picon); padding-top: 16px; }
+.semana td.corte { background: var(--corte-suave); color: var(--corte); font-weight: 700; }
+.semana td.hoy { background-image: linear-gradient(var(--tinte-suave), var(--tinte-suave)); }
+.semana td.corte.hoy { background: var(--corte-suave); box-shadow: inset 0 0 0 2px var(--corte); }
+.semana tr.mio th { font-weight: 700; color: var(--puerta); }
+.lista-dias { display: flex; flex-direction: column; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); padding: 0 16px; }
+.lista-dias .dia-bloque { padding: 12px 0 12px 20px; border-top: 1px solid var(--linea); position: relative; }
+.lista-dias .dia-bloque:first-child { border-top: 0; }
+.lista-dias .dia-bloque::before { content: ""; position: absolute; left: 0; top: 19px; width: 10px; height: 10px; border-radius: 50%; background: var(--linea); }
+.lista-dias .dia-bloque.hay::before { background: var(--corte); }
+.lista-dias .dia-bloque.hoy h3::after { content: " · hoy"; color: var(--ceniza); font-weight: 500; }
 .lista-dias h3 { font-size: 1rem; }
 .lista-dias h3::first-letter { text-transform: uppercase; }
 .lista-dias p { margin-top: 2px; }
-.lista-dias .mio { font-weight: 800; color: var(--corte); }
+.lista-dias .mio { font-weight: 700; color: var(--corte); }
 @media (max-width: 719px) { .solo-ancho { display: none !important; } }
 @media (min-width: 720px) { .solo-movil { display: none !important; } }
 
 /* El mes */
-.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); border: 1px solid var(--linea); background: var(--papel); margin-bottom: 20px; }
-.cifras div { padding: 14px 16px; border-right: 1px solid var(--linea); border-bottom: 1px solid var(--linea); margin: 0 -1px -1px 0; }
-.cifras b { display: block; font-size: 2.4rem; line-height: 1; }
-.cifras span { color: var(--ceniza); font-size: 0.92rem; line-height: 1.3; display: block; margin-top: 4px; }
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.cifras div { padding: 14px 16px; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
+.cifras b { display: block; font-size: 1.9rem; line-height: 1.1; letter-spacing: -0.01em; }
+.cifras span { color: var(--ceniza); font-size: 0.9rem; line-height: 1.3; display: block; margin-top: 4px; }
 .cifras .vecinal b { color: var(--aviso); }
-.barras { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 11em) minmax(40px, 1fr) max-content; gap: 6px 12px; align-items: center; }
+.barras { list-style: none; margin: 0; padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 10em) minmax(40px, 1fr) max-content; gap: 8px 12px; align-items: center; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
 .barras li { display: contents; }
-.barras .b { height: 14px; background: var(--isla); }
-.barras .b i { display: block; height: 100%; background: var(--corte); min-width: 2px; }
-.barras .h { text-align: right; color: var(--ceniza); }
-.subtitulo { font-size: 1rem; margin: 22px 0 10px; }
+.barras .b { height: 12px; background: #ececf0; border-radius: 6px; overflow: hidden; }
+.barras .b i { display: block; height: 100%; background: var(--corte); min-width: 3px; border-radius: 6px; }
+.barras .h { text-align: right; font-weight: 600; white-space: nowrap; }
+.barras .h small { font-weight: 400; color: var(--ceniza); font-size: 0.85rem; }
+.subtitulo { font-size: 1.05rem; margin: 24px 0 10px; }
 
 /* El agua de la isla */
-.gran-cifra { font-size: clamp(4.5rem, 22vw, 9rem); line-height: 0.95; color: var(--corte); }
-.gran-frase { font-family: var(--titular); font-weight: 600; font-size: clamp(1.35rem, 4.5vw, 2rem); line-height: 1.25; max-width: 24ch; margin-top: 8px; }
+.gran-cifra { font-size: clamp(4rem, 20vw, 7.5rem); line-height: 1; letter-spacing: -0.03em; color: var(--corte); }
+.gran-frase { font-weight: 600; font-size: clamp(1.25rem, 4vw, 1.7rem); line-height: 1.3; max-width: 26ch; margin-top: 6px; }
 .isla-texto { max-width: 65ch; margin-top: 14px; }
-.teselas { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border-top: 6px solid var(--picon); margin-top: 28px; }
-.tesela { padding: 14px 16px 16px 0; border-bottom: 1px solid var(--linea); }
-.tesela + .tesela { padding-left: 16px; border-left: 1px solid var(--linea); }
-@media (max-width: 520px) { .tesela + .tesela { padding-left: 0; border-left: 0; } }
-.tesela b { display: block; font-size: 2.3rem; line-height: 1.1; }
-.tesela p { margin-top: 6px; max-width: 34ch; }
-.grafica { margin-top: 36px; }
-.grafica h3 { font-size: clamp(1.5rem, 5vw, 2.1rem); line-height: 1; }
+.teselas-titulo { font-size: 1.2rem; margin-top: 32px; }
+.teselas { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 12px; }
+.tesela { padding: 16px; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); }
+.tesela b { display: block; font-size: 2rem; line-height: 1.1; letter-spacing: -0.01em; }
+.tesela b span { display: block; font-size: 0.95rem; font-weight: 600; letter-spacing: 0; margin-top: 2px; }
+.tesela p { margin-top: 6px; color: var(--ceniza); font-size: 0.95rem; }
+@media (max-width: 700px) { .tesela:last-child:nth-child(odd) { grid-column: 1 / -1; } }
+.metodo-isla ul { margin: 0; padding: 4px 0 0 20px; max-width: 70ch; display: flex; flex-direction: column; gap: 6px; font-size: 0.92rem; color: var(--ceniza); }
+.grafica { margin-top: 40px; background: var(--papel); border-radius: var(--radio); box-shadow: var(--sombra); padding: 18px 16px 14px; }
+.grafica h3 { font-size: clamp(1.25rem, 4vw, 1.55rem); line-height: 1.2; letter-spacing: -0.01em; }
 .grafica .bajada { margin: 8px 0 12px; }
 .lienzo-grafica { position: relative; }
 .lienzo-grafica svg { display: block; width: 100%; overflow: visible; }
 .lienzo-grafica text { font-family: var(--texto); fill: var(--ceniza); }
-.lienzo-grafica .valor { font-family: var(--titular); fill: var(--picon); }
-.lienzo-grafica .rejilla { stroke: var(--linea); stroke-width: 1; }
-.lienzo-grafica .eje { stroke: var(--picon); stroke-width: 1.5; }
-.tip { position: absolute; pointer-events: none; background: var(--papel); border: 1px solid var(--picon); padding: 8px 10px; font-size: 0.9rem; line-height: 1.35; min-width: 150px; max-width: 260px; box-shadow: 3px 3px 0 var(--picon); z-index: 5; }
-.tip b { font-family: var(--titular); font-size: 1.05rem; }
+.lienzo-grafica .valor { font-family: var(--titular); font-weight: 600; fill: var(--picon); }
+.lienzo-grafica .rejilla { stroke: #e6e6eb; stroke-width: 1; }
+.lienzo-grafica .eje { stroke: #8e8e93; stroke-width: 1; }
+.tip { position: absolute; pointer-events: none; background: rgba(255,255,255,.97); border-radius: 12px; padding: 9px 12px; font-size: 0.88rem; line-height: 1.4; min-width: 150px; max-width: 260px; box-shadow: 0 6px 24px rgba(0,0,0,.16), 0 0 0 0.5px rgba(0,0,0,.08); z-index: 5; }
+.tip b { font-size: 1rem; }
 .tip .fila { display: flex; align-items: center; gap: 6px; }
-.tip i { width: 12px; height: 3px; flex: none; }
-.serie-leyenda { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 8px; font-size: 0.95rem; }
+.tip i { width: 12px; height: 3px; flex: none; border-radius: 2px; }
+.serie-leyenda { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 8px; font-size: 0.92rem; }
 .serie-leyenda span { display: inline-flex; align-items: center; gap: 8px; }
-.serie-leyenda i { width: 18px; height: 3px; display: inline-block; flex: none; }
+.serie-leyenda i { width: 18px; height: 3px; display: inline-block; flex: none; border-radius: 2px; }
 details.datos { margin-top: 10px; }
-details.datos summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; }
+details.datos summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 600; color: var(--puerta); }
 details.datos table { border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
-details.datos th, details.datos td { padding: 4px 10px 4px 0; border-bottom: 1px solid var(--linea); text-align: right; }
+details.datos th, details.datos td { padding: 5px 12px 5px 0; border-bottom: 1px solid var(--linea); text-align: right; }
 details.datos th:first-child, details.datos td:first-child { text-align: left; }
-.fuentes { margin-top: 28px; font-size: 0.9rem; color: var(--ceniza); max-width: 75ch; }
+.fuentes { margin-top: 28px; font-size: 0.88rem; color: var(--ceniza); max-width: 75ch; }
 .fuentes ol { padding-left: 30px; display: flex; flex-direction: column; gap: 4px; margin: 6px 0 0; }
 .metodo ul { margin: 0; padding-left: 20px; max-width: 70ch; display: flex; flex-direction: column; gap: 8px; }
 .contacto p + p { margin-top: 8px; }
-.correo { font-weight: 700; font-size: 1.1rem; word-break: break-all; }
+.correo { font-weight: 600; font-size: 1.1rem; word-break: break-all; }
 .buzon { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
-.buzon .boton { align-self: flex-start; min-width: 160px; }
-textarea { font: inherit; color: inherit; padding: 10px; border: 2px solid var(--picon); border-radius: 4px; background: var(--papel); resize: vertical; min-height: 120px; }
-footer { border-top: 3px solid var(--picon); color: var(--ceniza); font-size: 0.92rem; }
+.buzon .boton { align-self: flex-start; min-width: 160px; background: var(--puerta); color: #fff; }
+textarea { font: inherit; color: inherit; padding: 12px; border: 1px solid #c7c7cc; border-radius: 12px; background: var(--papel); resize: vertical; min-height: 120px; }
+footer { border-top: 1px solid var(--linea); color: var(--ceniza); font-size: 0.9rem; }
 footer .ancho { padding-top: 16px; padding-bottom: 80px; display: flex; flex-direction: column; gap: 6px; }
-.arriba { position: fixed; right: 14px; bottom: 14px; z-index: 40; min-height: 48px; padding: 8px 14px; border: 2px solid var(--picon); border-radius: 24px; background: var(--papel); font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.arriba { position: fixed; right: 14px; bottom: 14px; z-index: 40; min-height: 44px; padding: 8px 16px; border: 0; border-radius: 22px; background: rgba(255,255,255,.94); color: var(--puerta); font-weight: 600; cursor: pointer; box-shadow: 0 2px 12px rgba(0,0,0,.16), 0 0 0 0.5px rgba(0,0,0,.08); }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 </style>
 </head>
@@ -328,7 +339,7 @@ footer .ancho { padding-top: 16px; padding-bottom: 80px; display: flex; flex-dir
     <h2 id="t-mapa">Mapa</h2>
     <div class="mapa-marco" id="mapa-marco">
       <div class="mapa-cabecera">
-        <div class="mapa-fila">
+        <div class="mapa-fila modo-capas">
           <div class="segmento" role="radiogroup" aria-label="Qué enseña el mapa">
             <button type="button" role="radio" data-modo="dia" aria-checked="true">Un día</button>
             <button type="button" role="radio" data-modo="mes" aria-checked="false">Todo el mes</button>
@@ -651,8 +662,9 @@ function pintarPueblo() {
   } else if (todos.length) {
     lineas.push(h("p", { class: "titular" }, `Hoy no hay corte programado en ${nom}`));
   } else {
-    lineas.push(h("p", { class: "titular" }, `${nom} no sale con su nombre en el calendario de cortes`));
-    lineas.push(h("p", {}, "Puede que dependa de la red de un pueblo vecino que sí sale."));
+    lineas.push(h("p", { class: "titular" }, `${nom} no tiene cortes programados`));
+    const fechas = E.cal.cortes.map((c) => c.fecha).sort();
+    if (fechas.length) lineas.push(h("p", {}, `No aparece en ningún corte del calendario oficial entre el ${fDiaMes.format(aFecha(fechas[0]))} y el ${fDiaMes.format(aFecha(fechas[fechas.length - 1]))}.`));
   }
   if (proximo) lineas.push(h("p", {}, `Próximo corte: ${fLargo.format(aFecha(proximo.fecha))}, ${franja(proximo)}.`));
   else if (todos.length) lineas.push(h("p", {}, "No hay más cortes en el calendario cargado."));
@@ -674,6 +686,41 @@ const aMundo = (lat, lon) => [(lon - LON0) * KX, (LAT0 - lat) * KY];
 const V = { W: 0, H: 0, s: 1, tx: 0, ty: 0, fit: 1, caja: [0, 0, 47, 54], punteros: new Map(), gesto: null, cuadro: 0, listo: false };
 let svgMapa, gTierra, gPuntos, gTextos;
 
+// La costa trazada tiene un error de hasta 1 km: si un pueblo cae en el mar, se dibuja en la orilla más cercana.
+function tierra() {
+  if (!E._tierra) E._tierra = E.costa && Array.isArray(E.costa.islas) ? E.costa.islas.map((i) => i.puntos.map(([lo, la]) => aMundo(la, lo))) : [];
+  return E._tierra;
+}
+function dentroDe([x, y], pol) {
+  let d = false;
+  for (let i = 0, j = pol.length - 1; i < pol.length; j = i++) {
+    const [xi, yi] = pol[i], [xj, yj] = pol[j];
+    if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) d = !d;
+  }
+  return d;
+}
+function posicion(l) {
+  if (l._pos) return l._pos;
+  let p = aMundo(l.lat, l.lon);
+  const T = tierra();
+  if (T.length && !T.some((pol) => dentroDe(p, pol))) {
+    let mejor = null, dist = Infinity;
+    for (const pol of T) for (let i = 0; i < pol.length; i++) {
+      const [ax, ay] = pol[i], [bx, by] = pol[(i + 1) % pol.length], dx = bx - ax, dy = by - ay;
+      const k = Math.max(0, Math.min(1, ((p[0] - ax) * dx + (p[1] - ay) * dy) / (dx * dx + dy * dy || 1)));
+      const q = [ax + k * dx, ay + k * dy], d = Math.hypot(q[0] - p[0], q[1] - p[1]);
+      if (d < dist) { dist = d; mejor = q; }
+    }
+    if (mejor) {
+      const ux = (mejor[0] - p[0]) / (dist || 1), uy = (mejor[1] - p[1]) / (dist || 1);
+      let nuevo = mejor;
+      for (const paso of [0.35, 0.7, 1.2]) { const c = [mejor[0] + ux * paso, mejor[1] + uy * paso]; if (T.some((pol) => dentroDe(c, pol))) { nuevo = c; break; } }
+      p = nuevo;
+    }
+  }
+  l._pos = p;
+  return p;
+}
 function mezcla(parteSin) { // 1 = todos sin agua (rojo); 0 = todos con poca presión (naranja)
   const a = [232, 140, 0], b = [196, 36, 22];
   return "rgb(" + a.map((v, i) => Math.round(v + (b[i] - v) * parteSin)).join(",") + ")";
@@ -819,7 +866,7 @@ function pantallaCompleta(abrir) {
   if (abrir) { ley.dataset.antes = ley.open ? "1" : ""; if (window.innerWidth < 700 || window.innerHeight < 700) ley.open = false; }
   else ley.open = ley.dataset.antes !== "";
   pista();
-  requestAnimationFrame(medirMapa);
+  requestAnimationFrame(() => { medirMapa(); encuadrar(); pedirDibujo(); });
   if (abrir) $("mapa-lienzo").focus({ preventScroll: true });
 }
 function tocar(x, y) {
@@ -869,7 +916,7 @@ function calcularMarcas() {
   }
   for (const l of E.locs) {
     if (typeof l.lat !== "number" || typeof l.lon !== "number") continue;
-    const [wx, wy] = aMundo(l.lat, l.lon);
+    const [wx, wy] = posicion(l);
     const m = { id: l.id, nombre: l.nombre, wx, wy, r: 3, color: "var(--punto)", opacidad: 1, borde: null, grosor: 0, discont: false, anillo: null, prioridad: 0 };
     if (M.modo === "dia") {
       const corte = M.cortes && cortesDe(l.id, E.dia).length > 0;
@@ -1016,7 +1063,7 @@ function pintarResumen() {
 
   if (E.mapa.modo === "dia" && E.dia === E.hoy && avisosActivos()) {
     const filas = E.locs.map((l) => [l, avisoDe(l.id)]).filter(([, a]) => a).sort((a, b) => (b[1].contrastado - a[1].contrastado) || (b[1].sin + b[1].poca - a[1].sin - a[1].poca));
-    const bloque = h("div", { class: "vecinos" }, h("h3", {}, "Avisos de vecinos en las últimas 6 horas" + (CONFIG.prueba && prueba.ejemplos ? " (de ejemplo, inventados)" : "")));
+    const bloque = h("div", { class: "vecinos" }, h("h3", {}, "Avisos de vecinos en las últimas 6 horas, sin comprobar" + (CONFIG.prueba && prueba.ejemplos ? " (de ejemplo, inventados)" : "")));
     if (!filas.length) bloque.append(h("p", { class: "mudo" }, E.avisos ? "Ningún aviso por ahora." : "No se han podido cargar los avisos."));
     else {
       const ul = h("ul");
@@ -1096,41 +1143,49 @@ function pintarSemana() {
 }
 
 /* ---------- El mes ---------- */
+function enDias(horas) { // los cortes de día entero acaban a las 23:59: se redondea a la hora
+  const hr = Math.round(horas);
+  if (hr >= 240) return `${nf.format(Math.round(hr / 24))} días`;
+  const d = Math.floor(hr / 24), r = hr - d * 24;
+  if (!d) return `${r} h`;
+  return `${d} ${d === 1 ? "día" : "días"}` + (r ? ` y ${r} h` : "");
+}
+const conHoras = (horas) => (horas >= 24 ? ` (${nf.format(Math.round(horas))} h)` : "");
 function pintarCuenta() {
   const mes = E.hoy.slice(0, 7), nomMes = fMes.format(aFecha(E.hoy));
   const delMes = E.cal.cortes.filter((c) => c.fecha.startsWith(mes));
   const horasMes = horasDe(delMes), horasHastaHoy = horasDe(delMes.filter((c) => c.fecha <= E.hoy));
   const pueblosMes = new Set(delMes.map((c) => c.localidad));
-  $("cuenta-bajada").textContent = `Lo que el calendario oficial tiene programado para ${fMesAnio.format(aFecha(E.hoy))}. Se suman las horas de todos los pueblos: un día entero de corte en un pueblo son 24 horas.`;
+  $("cuenta-bajada").textContent = `Lo que el calendario oficial tiene programado para ${fMesAnio.format(aFecha(E.hoy))}. Se suma el tiempo de todos los pueblos: un día entero de corte en dos pueblos cuenta como dos días.`;
   const cifras = vaciar($("cifras"));
   const cifra = (valor, texto, clase) => h("div", { class: clase || "" }, h("b", { class: "num" }, valor), h("span", {}, texto));
   cifras.append(
     cifra(nf.format(delMes.length), `cortes programados en ${nomMes}`),
     cifra(nf.format(pueblosMes.size), "pueblos con algún corte"),
-    cifra(nh.format(horasMes), `horas de corte en ${nomMes}`),
-    cifra(nh.format(horasHastaHoy), "de esas horas ya han pasado")
+    cifra(enDias(horasMes), `de corte en ${nomMes}, sumando todos los pueblos${conHoras(horasMes)}`),
+    cifra(enDias(horasHastaHoy), `ya han pasado${conHoras(horasHastaHoy)}`)
   );
   const pasados = E.cal.cortes.filter((c) => c.fecha <= E.hoy);
   const primero = E.cal.cortes.reduce((m, c) => (!m || c.fecha < m ? c.fecha : m), null);
-  if (primero && primero.slice(0, 7) < mes) cifras.append(cifra(nh.format(horasDe(pasados)), `horas de corte desde ${fMesAnio.format(aFecha(primero))} hasta hoy`));
+  if (primero && primero.slice(0, 7) < mes) cifras.append(cifra(enDias(horasDe(pasados)), `de corte desde ${fMesAnio.format(aFecha(primero))} hasta hoy, sumando todos los pueblos${conHoras(horasDe(pasados))}`));
   if (avisosActivos() && E.avisos) {
     const fuera = (E.avisos.dias || []).filter((d) => cortesDe(d.localidad, d.fecha).length === 0);
     const desde = E.avisos.desde ? ` desde el ${fDiaMes.format(aFecha(E.avisos.desde))}` : "";
-    cifras.append(cifra(nf.format(fuera.length), `${fuera.length === 1 ? "día" : "días"} sin agua fuera del calendario, con tres o más avisos${desde}`, "vecinal"));
+    cifras.append(cifra(nf.format(fuera.length), `${fuera.length === 1 ? "día" : "días"} sin agua fuera del calendario según los vecinos (tres o más avisos, sin comprobar)${desde}`, "vecinal"));
   }
   const porPueblo = [...pueblosMes].map((id) => [id, horasDe(delMes.filter((c) => c.localidad === id))]).sort((a, b) => b[1] - a[1] || cmp(nombre(a[0]), nombre(b[0])));
-  $("t-barras").textContent = porPueblo.length ? `Horas de corte por pueblo en ${nomMes}` : "";
+  $("t-barras").textContent = porPueblo.length ? `Tiempo sin agua programado por pueblo en ${nomMes}` : "";
   const barras = vaciar($("barras")), max = porPueblo.length ? porPueblo[0][1] : 1;
-  for (const [id, horas] of porPueblo) barras.append(h("li", {}, h("span", {}, nombre(id)), h("span", { class: "b", "aria-hidden": "true" }, h("i", { style: `width:${(100 * horas / max).toFixed(1)}%` })), h("span", { class: "h num" }, `${nh.format(horas)} h`)));
+  for (const [id, horas] of porPueblo) barras.append(h("li", {}, h("span", {}, nombre(id)), h("span", { class: "b", "aria-hidden": "true" }, h("i", { style: `width:${(100 * horas / max).toFixed(1)}%` })), h("span", { class: "h num" }, enDias(horas), horas >= 24 ? h("small", {}, ` ${nf.format(Math.round(horas))} h`) : "")));
   const sinCortes = E.locs.filter((l) => !pueblosMes.has(l.id)).map((l) => l.nombre).sort(cmp);
-  $("fuera-cal").textContent = sinCortes.length && delMes.length ? `Sin cortes con su nombre en ${nomMes}: ${sinCortes.join(", ")}. Alguno puede depender de la red de un pueblo vecino.` : "";
+  $("fuera-cal").textContent = sinCortes.length && delMes.length ? `Sin cortes programados en ${nomMes}: ${sinCortes.join(", ")}.` : "";
   const porMes = new Map();
   for (const c of E.cal.cortes) porMes.set(c.fecha.slice(0, 7), (porMes.get(c.fecha.slice(0, 7)) || 0) + duracion(c));
   const lm = vaciar($("meses"));
-  $("t-meses").textContent = porMes.size > 1 ? "Horas de corte, mes a mes" : "";
+  $("t-meses").textContent = porMes.size > 1 ? "Tiempo de corte mes a mes, sumando todos los pueblos" : "";
   if (porMes.size > 1) {
     const tope = Math.max(...porMes.values());
-    for (const m of [...porMes.keys()].sort()) lm.append(h("li", {}, h("span", {}, mayus(fMesAnio.format(aFecha(m + "-01")))), h("span", { class: "b", "aria-hidden": "true" }, h("i", { style: `width:${(100 * porMes.get(m) / tope).toFixed(1)}%` })), h("span", { class: "h num" }, `${nh.format(porMes.get(m))} h`)));
+    for (const m of [...porMes.keys()].sort()) lm.append(h("li", {}, h("span", {}, mayus(fMesAnio.format(aFecha(m + "-01")))), h("span", { class: "b", "aria-hidden": "true" }, h("i", { style: `width:${(100 * porMes.get(m) / tope).toFixed(1)}%` })), h("span", { class: "h num" }, enDias(porMes.get(m)), h("small", {}, ` ${nf.format(Math.round(porMes.get(m)))} h`))));
   }
 }
 
@@ -1151,7 +1206,7 @@ function pintarContacto() {
     const form = h("form", { class: "buzon", novalidate: true },
       h("div", { class: "campo" }, h("label", { for: "op-tipo" }, "¿De qué se trata?"), tipo),
       h("div", { class: "campo", style: "max-width:640px" }, h("label", { for: "op-texto" }, "Tu mensaje"), texto, cuenta),
-      h("p", { class: "mudo pequeno", style: "max-width:65ch" }, "Es anónimo: no guardamos tu IP ni nada que te identifique. No escribas tu nombre, tu teléfono ni datos de otras personas. Por aquí no podemos contestarte."),
+      h("p", { class: "mudo pequeno", style: "max-width:65ch" }, "No guardamos tu IP. No escribas tu nombre, tu teléfono ni datos de otras personas: se guarda lo que escribas. Por aquí no podemos contestarte."),
       enviar, estadoOp);
     texto.addEventListener("input", () => { cuenta.textContent = `${texto.value.length} de 1000`; });
     form.addEventListener("submit", async (ev) => {
@@ -1173,7 +1228,7 @@ function pintarContacto() {
     if (CONFIG.contacto) c.append(h("p", { class: "mudo", style: "margin-top:16px" }, "Si quieres respuesta, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), "."));
   } else if (CONFIG.contacto) c.append(h("p", {}, h("a", { class: "correo", href: "mailto:" + CONFIG.contacto }, CONFIG.contacto)));
   else c.append(h("p", { class: "mudo" }, "El buzón de mensajes aparecerá aquí cuando la página esté publicada."));
-  if (CONFIG.codigo) c.append(h("p", { class: "mudo" }, "El código y los datos son públicos y se pueden revisar: ", h("a", { href: CONFIG.codigo, rel: "noopener noreferrer" }, CONFIG.codigo.replace(/^https?:\/\//, ""))));
+  if (/^https:\/\//.test(CONFIG.codigo || "")) c.append(h("p", { class: "mudo" }, "El código y los datos son públicos y se pueden revisar: ", h("a", { href: CONFIG.codigo, rel: "noopener noreferrer" }, CONFIG.codigo.replace(/^https?:\/\//, ""))));
 }
 function pintarMetodo() {
   const ul = vaciar($("metodo"));
@@ -1187,7 +1242,7 @@ function pintarMetodo() {
     li("Un pueblo cuenta como afectado cuando avisan tres o más vecinos distintos. Con menos, el aviso aparece como «sin contrastar» y no entra en las cuentas. Por eso las cuentas se quedan cortas, nunca largas.");
     li("Dos avisos hechos desde el mismo móvil o desde la misma conexión cuentan como un solo vecino, aunque cambies de wifi a datos. Cada móvil puede avisar de dos pueblos al día como mucho: el suyo y el de un familiar.");
     li("Los avisos que llegan desde fuera de España se guardan, pero no cuentan.");
-    li("Nada de esto es infalible. Alguien con varios móviles y varias conexiones podría inventarse un aviso. Por eso enseñamos siempre cuántos vecinos han avisado.");
+    li("Nada de esto es infalible: basta con cambiar de conexión y borrar los datos del navegador para avisar más de una vez. Por eso los avisos de vecinos se enseñan siempre como «sin comprobar», con cuántos vecinos han avisado, y no se mezclan con los cortes del calendario oficial.");
   }
   li("Las averías y los cortes de última hora no salen en el calendario. Si no tienes agua y tu pueblo no aparece aquí, no es un error de la página.");
   li("El contorno de la isla está trazado sobre la ortofoto de IDECanarias (GRAFCAN). Los puntos de los pueblos están puestos a mano y son aproximados.");
@@ -1208,13 +1263,39 @@ function pintarIsla() {
   caja.append(
     h("p", { class: "gran-cifra num" }, nf1.format(pct) + " %"),
     h("p", { class: "gran-frase" }, `del agua potable que salió de las desaladoras en ${anio} no llegó a facturarse.`),
-    h("p", { class: "isla-texto" }, `Las cuatro desaladoras produjeron ${millones(R.produccion_m3)} millones de m³ y se facturaron ${millones(R.consumo_total_m3)} millones. Los otros ${millones(perdido)} millones se quedaron por el camino: fugas y averías de la red, contadores que miden de menos, fraudes o usos que no pasan por contador. Los datos oficiales no separan cada causa.`));
+    h("p", { class: "isla-texto" }, `Las cuatro desaladoras produjeron ${millones(R.produccion_m3)} millones de m³ y se facturaron ${millones(R.consumo_total_m3)} millones. Los otros ${millones(perdido)} millones no se facturaron. Una parte se pierde en fugas y averías de la red; otra se usa pero no se cobra: contadores que miden de menos, fraudes o usos sin contador. Los datos oficiales no dicen cuánto es cada cosa. En el conjunto de España, unas seis de cada diez partes del agua sin registrar son fugas (INE, 2024).`));
+  const G = I.malgasto, kwhM3 = gwh * 1e6 / R.produccion_m3, kwhPerdidos = perdido * kwhM3;
+  const pieza = (cifra, unidad, texto) => h("div", { class: "tesela" }, h("b", { class: "num" }, cifra, h("span", {}, unidad)), h("p", {}, texto));
   const teselas = h("div", { class: "teselas" },
-    h("div", { class: "tesela" }, h("b", { class: "num" }, `${nf.format(Math.round(alDia / 10) * 10)} m³`), h("p", {}, `se pierden cada día de media. Es una piscina olímpica (2.500 m³) cada ${Math.round(minPiscina)} minutos.`)),
-    h("div", { class: "tesela" }, h("b", { class: "num" }, `${nf.format(Math.round(gwhPerdidos))} GWh`), h("p", {}, `de electricidad se gastaron en desalar agua que luego se perdió. Es el ${Math.round(100 * gwhPerdidos / (I.eolica.mwh / 1000))} % de lo que produjeron los parques eólicos de la isla en ${I.eolica.anio}.`)));
-  if (ult && ult.turistico && ult.domestico) teselas.append(h("div", { class: "tesela" }, h("b", { class: "num" }, `${millones(ult.turistico)} y ${millones(ult.domestico)}`),
-    h("p", {}, `millones de m³ facturó en ${ult.anio} el uso industrial y turístico y el doméstico. ${ult.turistico > ult.domestico ? "Hoteles, comercios e industria facturaron más agua que todas las viviendas de la isla juntas." : ""}`)));
-  caja.append(teselas);
+    pieza(millones(perdido), "millones de m³", `de agua potable sin facturar. Una piscina olímpica (2.500 m³) cada ${Math.round(minPiscina)} minutos.`),
+    pieza(nf.format(Math.round(gwhPerdidos)), "GWh", `de electricidad para desalarla: el ${Math.round(100 * gwhPerdidos / (I.eolica.mwh / 1000))}\u00a0% de lo que dieron los parques eólicos de la isla en ${I.eolica.anio}.`));
+  if (G) teselas.append(
+    pieza(nf.format(Math.round(kwhPerdidos * G.co2_kg_kwh / 1e6) * 1000), "toneladas de CO₂", "aproximadamente, si toda esa electricidad salió de la red de la isla."),
+    pieza(millones(perdido * (1 - G.conversion) / G.conversion), "millones de m³", "de salmuera devuelta al mar para producir esa agua."),
+    pieza(nf.format(Math.round(perdido * G.precio_m3 / 1e6)), "millones de euros", `es lo que valdría esa agua al precio medio del suministro en España (${nh.format(G.precio_m3)} €/m³).`));
+  caja.append(h("h3", { class: "teselas-titulo" }, `El agua que no se facturó en ${anio}`), teselas);
+  if (G) caja.append(h("details", { class: "datos metodo-isla" }, h("summary", {}, "Cómo se ha calculado"),
+    h("ul", {},
+      h("li", {}, `Agua: producción de las cuatro desaladoras menos agua facturada (contadores y cubas) en ${anio}.`),
+      h("li", {}, `Energía: las desaladoras gastaron ${nh.format(Math.round(gwh * 10) / 10)} GWh en ${anio}, ${nh.format(Math.round(kwhM3 * 100) / 100)} kWh por m³. Se aplica a los m³ no facturados. No incluye el bombeo por la red.`),
+      h("li", {}, `CO₂: ${nh.format(G.co2_kg_kwh)} kg por kWh. ${G.co2_fuente} Es un factor general de las islas, de 2016. Si parte de la electricidad de las desaladoras es eólica, el CO₂ real es menor.`),
+      h("li", {}, `Salmuera, con una conversión típica del 45 %, no la medida en las plantas de Lanzarote: ${G.conversion_fuente} Por cada m³ de agua potable salen ${nh.format(Math.round((1 - G.conversion) / G.conversion * 100) / 100)} m³ de salmuera.`),
+      h("li", {}, `Euros: ${G.precio_fuente} Es lo que paga de media quien recibe el agua, no lo que cuesta producirla aquí. El precio en Lanzarote depende de la tarifa y del uso.`))));
+
+  // Gráfica 0: producción y facturación en m³
+  const pc0 = I.produccion_consumo, g0 = h("div", { class: "lienzo-grafica" });
+  const serieProd = pc0 ? pc0.serie.filter((f) => f.anio >= 1986 && f.produccion_m3) : [];
+  if (serieProd.length > 1) {
+    const base = serieProd.find((f) => f.anio === 2000 && f.consumo_total_m3) || serieProd[0], fin = serieProd[serieProd.length - 1];
+    const veces = fin.produccion_m3 / base.produccion_m3, subeF = Math.round(100 * (fin.consumo_total_m3 / base.consumo_total_m3 - 1));
+    caja.append(h("section", { class: "grafica", "aria-labelledby": "g-prod" },
+      h("h3", { id: "g-prod" }, `Desde ${base.anio} se desala ${veces >= 2 ? "más del doble" : "mucho más"}, y se factura solo un ${subeF}\u00a0% más`),
+      h("p", { class: "bajada" }, `Millones de m³ de agua potable al año. La parte roja es lo que sale de las desaladoras y no se llega a cobrar.`),
+      g0,
+      h("details", { class: "datos" }, h("summary", {}, "Ver los datos en tabla"),
+        h("div", { style: "overflow-x:auto" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "Año"), h("th", {}, "Producida (m³)"), h("th", {}, "Facturada (m³)"), h("th", {}, "No facturada (m³)"))),
+          h("tbody", {}, [...serieProd].reverse().map((f) => h("tr", {}, h("td", {}, String(f.anio)), h("td", {}, nf.format(f.produccion_m3)), h("td", {}, f.consumo_total_m3 ? nf.format(f.consumo_total_m3) : "sin dato"), h("td", {}, f.consumo_total_m3 ? nf.format(f.produccion_m3 - f.consumo_total_m3) : "sin dato")))))))));
+  }
 
   // Gráfica 1: pérdidas por año
   const P = I.perdidas;
@@ -1225,18 +1306,17 @@ function pintarIsla() {
   if (pc && pc.serie.length > 1) {
     const completos = pc.serie.filter((f) => f.produccion_m3 && f.abonados && f.consumo_total_m3);
     const f0 = completos.find((f) => f.anio === 2000) || completos[0], f1 = completos[completos.length - 1], sube = (a, b) => Math.round(100 * (b / a - 1));
-    crecen = ` Entre ${f0.anio} y ${f1.anio} la producción subió un ${sube(f0.produccion_m3, f1.produccion_m3)} %` + (f0.abonados && f1.abonados ? `, los abonados un ${sube(f0.abonados, f1.abonados)} %` : "") + ` y el agua facturada solo un ${sube(f0.consumo_total_m3, f1.consumo_total_m3)} %.`;
+    crecen = f0.abonados && f1.abonados ? ` Entre ${f0.anio} y ${f1.anio} los abonados aumentaron un ${sube(f0.abonados, f1.abonados)}\u00a0%.` : "";
   }
   P.serie.forEach((x) => { const f = pc && pc.serie.find((y) => y.anio === x.anio); if (f) { x.prod = f.produccion_m3; x.fact = f.consumo_total_m3; } });
   caja.append(h("section", { class: "grafica", "aria-labelledby": "g-perdidas" },
     h("h3", { id: "g-perdidas" }, desde50 && desde50 < conDato[conDato.length - 1].anio ? `Más de la mitad desde ${desde50}` : "Agua que no se factura, año a año"),
-    h("p", { class: "bajada" }, `Porcentaje del agua producida que no se factura. En ${p0.anio} era el ${nf.format(Math.round(p0.pct))} %.` + crecen),
-    h("div", { class: "serie-leyenda" }, h("span", {}, h("i", { style: "background:var(--corte);width:12px;height:12px;border-radius:2px" }), "Agua no facturada"), h("span", {}, h("i", { style: "background:repeating-linear-gradient(90deg,var(--meta) 0 6px,transparent 6px 10px)" }), `Lo máximo que se perdería con el rendimiento que exigía el contrato (${P.objetivo_pct}\u00a0%)`)),
+    h("p", { class: "bajada" }, `Porcentaje del agua producida que no se llega a cobrar. Incluye fugas y roturas de la red, contadores que miden de menos, fraudes y usos sin contador: los datos oficiales no separan cada causa. En ${p0.anio} era el ${nf.format(Math.round(p0.pct))}\u00a0%.` + crecen + (P.serie.some((x) => x.anio === 2021) ? " El pico de 2021 es año de pandemia: con los hoteles cerrados se facturó mucho menos agua, aunque se siguió produciendo." : "") + (P.contrato ? ` La línea de arriba es lo máximo que permitía perder el contrato de 2013 (${P.contrato.pct}\u00a0%).` : "") + (P.referencia ? ` La de abajo, la media de España (${nh.format(P.referencia.pct)}\u00a0% en ${P.referencia.anio}).` : "")),
     g1,
     h("details", { class: "datos" }, h("summary", {}, "Ver los datos en tabla"),
       h("div", { style: "overflow-x:auto" }, h("table", {}, h("thead", {}, h("tr", {}, h("th", {}, "Año"), h("th", {}, "Producida (m³)"), h("th", {}, "Facturada (m³)"), h("th", {}, "No facturada"))),
         h("tbody", {}, P.serie.map((x) => h("tr", {}, h("td", {}, String(x.anio)), h("td", {}, x.prod ? nf.format(x.prod) : "–"), h("td", {}, x.fact ? nf.format(x.fact) : "–"), h("td", {}, typeof x.pct === "number" ? nf1.format(x.pct) + " %" + (x.no_comparable ? " (no comparable)" : "") : "sin dato"))))))),
-    h("p", { class: "mudo pequeno", style: "margin-top:6px" }, `${P.nota}${pc && pc.nota ? " " + pc.nota : ""} ${P.objetivo_fuente}`)));
+    h("p", { class: "mudo pequeno", style: "margin-top:6px" }, `${P.nota}${pc && pc.nota ? " " + pc.nota : ""}${P.contrato ? " " + P.contrato.fuente : ""}${P.referencia ? " Media de España: " + P.referencia.fuente : ""}`)));
 
   // Gráfica 2: consumo por uso
   const g2 = h("div", { class: "lienzo-grafica" });
@@ -1245,7 +1325,7 @@ function pintarIsla() {
   const subida = s19 && s20 ? Math.round(100 * (s20.domestico / s19.domestico - 1)) : null;
   caja.append(h("section", { class: "grafica", "aria-labelledby": "g-usos" },
     h("h3", { id: "g-usos" }, "Quién usa el agua que sí se cobra"),
-    h("p", { class: "bajada" }, `Millones de m³ facturados al año según la tarifa.` + (caida ? ` Con la pandemia, entre 2019 y 2021 el uso industrial y turístico cayó un ${caida} % y en 2020 el doméstico subió un ${subida} %.` : "") + (I.turismo ? ` En ${I.turismo.anio} llegaron a la isla ${nf.format(I.turismo.turistas)} turistas.` : "")),
+    h("p", { class: "bajada" }, `Millones de m³ facturados al año según la tarifa.` + (ult && ult.turistico > ult.domestico ? ` En ${ult.anio} hoteles, comercios e industria facturaron más agua que todas las viviendas juntas.` : "") + (caida ? ` Con la pandemia, entre 2019 y 2021 el uso industrial y turístico cayó un ${caida}\u00a0% y en 2020 el doméstico subió un ${subida}\u00a0%.` : "") + (I.turismo ? ` En ${I.turismo.anio} llegaron a la isla ${nf.format(I.turismo.turistas)} turistas.` : "")),
     h("div", { class: "serie-leyenda" }, SERIES_USO.map(([, n, c]) => h("span", {}, h("i", { style: `background:${c}` }), n))),
     g2,
     h("details", { class: "datos" }, h("summary", {}, "Ver los datos en tabla"),
@@ -1273,12 +1353,12 @@ function pintarIsla() {
   // Fuentes
   const fuentes = new Map();
   const anota = (texto, enlace) => { if (texto && !fuentes.has(texto)) fuentes.set(texto, enlace); };
-  anota(R.fuente, R.enlace); anota(P.fuente, P.enlace); P.serie.forEach((x) => anota(x.fuente, x.enlace)); anota(P.objetivo_fuente, P.objetivo_enlace);
+  anota(R.fuente, R.enlace); anota(P.fuente, P.enlace); P.serie.forEach((x) => anota(x.fuente, x.enlace)); if (P.contrato) anota(P.contrato.fuente); if (P.referencia) anota(P.referencia.fuente, P.referencia.enlace); if (G) { anota(G.co2_fuente, G.co2_enlace); anota(G.conversion_fuente, G.conversion_enlace); anota(G.precio_fuente, G.precio_enlace); }
   anota(I.consumo_por_uso.fuente, I.consumo_por_uso.enlace); anota(I.eolica.fuente, I.eolica.enlace); if (M) anota(M.fuente, M.enlace); if (I.turismo) anota(I.turismo.fuente, I.turismo.enlace);
-  caja.append(h("div", { class: "fuentes" }, h("strong", {}, "Fuentes"), h("ol", {}, [...fuentes].map(([texto, enlace]) => h("li", {}, enlace ? h("a", { href: enlace, rel: "noopener noreferrer" }, texto) : texto))),
+  caja.append(h("div", { class: "fuentes" }, h("strong", {}, "Fuentes"), h("ol", {}, [...fuentes].map(([texto, enlace]) => h("li", {}, enlace && /^https:\/\//.test(enlace) ? h("a", { href: enlace, rel: "noopener noreferrer" }, texto) : texto))),
     h("p", { style: "margin-top:8px" }, "Equivalencias: piscina olímpica de 2.500 m³. La energía del agua perdida se calcula repartiendo el consumo eléctrico de las desaladoras en proporción al agua que no se factura.")));
 
-  const dibujar = () => { dibujarPerdidas(g1, P); dibujarUsos(g2, usos); if (filasMun.length) dibujarMunicipios(g3, filasMun, M.serie[0].anio, M.serie[M.serie.length - 1].anio); };
+  const dibujar = () => { if (serieProd.length > 1) dibujarProduccion(g0, serieProd); dibujarPerdidas(g1, P); dibujarUsos(g2, usos); if (filasMun.length) dibujarMunicipios(g3, filasMun, M.serie[0].anio, M.serie[M.serie.length - 1].anio); };
   dibujar();
   if ("ResizeObserver" in window) { let cuadro = 0, ancho = g1.clientWidth; new ResizeObserver(() => { if (g1.clientWidth === ancho) return; ancho = g1.clientWidth; cancelAnimationFrame(cuadro); cuadro = requestAnimationFrame(dibujar); }).observe(g1); }
 }
@@ -1305,9 +1385,9 @@ function dibujarPerdidas(cont, P) {
   const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": "Gráfica de barras del agua no facturada por año. Los datos están en la tabla de debajo." });
   for (const v of [0, 20, 40, 60]) {
     svg.append(s("line", { class: v ? "rejilla" : "eje", x1: m.l, x2: W - m.r, y1: y(v), y2: y(v) }));
-    svg.append(s("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end", "font-size": 12 }, `${v} %`));
+    svg.append(s("text", { x: m.l - 6, y: y(v) + 4, "text-anchor": "end", "font-size": 12 }, `${v}\u00a0%`));
   }
-  svg.append(s("line", { x1: m.l, x2: W - m.r, y1: y(P.objetivo_pct), y2: y(P.objetivo_pct), stroke: "var(--meta)", "stroke-width": 2, "stroke-dasharray": "6 4" }));
+  const lineasRef = [P.contrato && { ...P.contrato, arriba: true }, P.referencia && { ...P.referencia, arriba: false }].filter(Boolean);
   P.serie.forEach((d, i) => {
     const cx = m.l + banda * (i + 0.5), x0 = cx - ancho / 2, base = y(0);
     if (conEtiqueta(d.anio)) svg.append(s("text", { x: cx, y: H - 8, "text-anchor": pocas ? "middle" : d.anio === a0 ? "start" : d.anio === a1 ? "end" : "middle", dx: pocas ? 0 : d.anio === a0 ? -banda / 2 : d.anio === a1 ? banda / 2 : 0, "font-size": 12.5 }, String(d.anio)));
@@ -1320,15 +1400,77 @@ function dibujarPerdidas(cont, P) {
       const tam = banda > 60 ? 16 : 13, largo = tam * 3.3, xi = ancla === "start" ? cx - ancho / 2 : ancla === "end" ? cx + ancho / 2 - largo : cx - largo / 2;
       const tapa = P.serie.filter((e, j) => typeof e.pct === "number" && Math.abs(m.l + banda * (j + 0.5) - (xi + largo / 2)) < largo / 2 + ancho / 2);
       let yt = y(Math.max(...tapa.map((e) => e.pct))) - 7;
-      const yo = y(P.objetivo_pct), cruza = yt > yo - 2 && yt - tam < yo + 2;
-      if (cruza) yt = yo - 6;
+      let cruza = false;
+      for (const L of [...lineasRef].sort((a, b) => a.pct - b.pct)) { const yo = y(L.pct); if (yt > yo - 2 && yt - tam < yo + 2) { cruza = true; yt = yo - 6; } }
       if (!(cruza && !pocas && d.anio === a0)) svg.append(s("text", { class: "valor", x: cx, dx: ancla === "start" ? -ancho / 2 : ancla === "end" ? ancho / 2 : 0, y: yt, "text-anchor": ancla, "font-size": banda > 60 ? 16 : 13 }, nf1.format(d.pct).replace(",0", "") + (pocas ? "" : " %")));
     }
     const zona = s("rect", { x: cx - banda / 2, y: m.t, width: banda, height: ih, fill: "transparent", style: "cursor:pointer" });
-    const mostrar = () => tipEn(cont, cx, top, h("b", {}, String(d.anio)), h("div", {}, `${nf1.format(d.pct)} % no facturada`), d.no_comparable ? h("div", { style: "font-size:0.82rem;margin-top:4px" }, "No comparable: ese año solo se contabilizaron cinco de las seis facturaciones.") : "", d.prod ? h("div", { class: "mudo", style: "font-size:0.82rem;margin-top:4px" }, `Producida: ${millones(d.prod)} M m³. Facturada: ${millones(d.fact)} M m³.`) : "", d.fuente ? h("div", { class: "mudo", style: "font-size:0.82rem;margin-top:4px" }, d.fuente) : "");
+    const mostrar = () => tipEn(cont, cx, top, h("b", {}, String(d.anio)), h("div", {}, `${nf1.format(d.pct)}\u00a0% no facturada`), d.no_comparable ? h("div", { style: "font-size:0.82rem;margin-top:4px" }, "No comparable: ese año solo se contabilizaron cinco de las seis facturaciones.") : "", d.prod ? h("div", { class: "mudo", style: "font-size:0.82rem;margin-top:4px" }, `Producida: ${millones(d.prod)} M m³. Facturada: ${millones(d.fact)} M m³.`) : "", d.fuente ? h("div", { class: "mudo", style: "font-size:0.82rem;margin-top:4px" }, d.fuente) : "");
     zona.addEventListener("pointerenter", mostrar); zona.addEventListener("pointerdown", mostrar); zona.addEventListener("pointerleave", () => tipFuera(cont));
     svg.append(zona);
   });
+  for (const L of lineasRef) { // líneas de referencia con su nombre escrito al lado: la de arriba encima, la de abajo debajo
+    const yr = y(L.pct), txt = `${L.etiqueta}: ${nh.format(L.pct)}\u00a0%`, ancho2 = txt.length * 7.2 + 14, ry = L.arriba ? yr - 26 : yr + 4;
+    svg.append(s("line", { x1: m.l, x2: W - m.r, y1: yr, y2: yr, stroke: "var(--picon)", "stroke-width": 2, "stroke-dasharray": L.arriba ? "none" : "5 4", "pointer-events": "none" }));
+    svg.append(s("rect", { x: m.l + 4, y: ry, width: ancho2, height: 22, rx: 6, fill: "var(--papel)", stroke: "var(--picon)", "stroke-width": 1, "pointer-events": "none" }));
+    svg.append(s("text", { class: "valor", x: m.l + 11, y: ry + 16, "font-size": 13, "pointer-events": "none" }, txt));
+  }
+  vaciar(cont).append(svg);
+}
+function dibujarProduccion(cont, serie) {
+  const W = Math.max(280, cont.clientWidth), H = Math.round(Math.min(380, Math.max(270, W * 0.5)));
+  const estrecho = W < 520, m = { l: 34, r: 10, t: 30, b: 28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const a0 = serie[0].anio, a1 = serie[serie.length - 1].anio, maxV = Math.ceil(Math.max(...serie.map((f) => f.produccion_m3)) / 5e6) * 5;
+  const x = (a) => m.l + ((a - a0) / (a1 - a0)) * iw, y = (v) => m.t + ih - (v / 1e6 / maxV) * ih;
+  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, height: H, role: "img", "aria-label": `Agua producida y facturada cada año desde ${a0}. Los datos están en la tabla de debajo.` });
+  for (let v = 0; v <= maxV; v += 10) {
+    svg.append(s("line", { class: v ? "rejilla" : "eje", x1: m.l, x2: m.l + iw, y1: y(v * 1e6), y2: y(v * 1e6) }));
+    svg.append(s("text", { x: m.l - 6, y: y(v * 1e6) + 4, "text-anchor": "end", "font-size": 12 }, String(v)));
+  }
+  // tramos sin huecos (1994 no tiene consumo)
+  const tramos = []; let actual = [];
+  for (const f of serie) { if (f.consumo_total_m3) actual.push(f); else { if (actual.length) tramos.push(actual); actual = []; } }
+  if (actual.length) tramos.push(actual);
+  for (const tr of tramos) {
+    const arriba = tr.map((f) => `${x(f.anio).toFixed(1)},${y(f.produccion_m3).toFixed(1)}`), medio = tr.map((f) => `${x(f.anio).toFixed(1)},${y(f.consumo_total_m3).toFixed(1)}`);
+    const abajo = [`${x(tr[tr.length - 1].anio).toFixed(1)},${y(0).toFixed(1)}`, `${x(tr[0].anio).toFixed(1)},${y(0).toFixed(1)}`];
+    svg.append(s("path", { d: "M" + medio.join("L") + "L" + abajo.join("L") + "Z", fill: "var(--s1)" }));
+    svg.append(s("path", { d: "M" + arriba.join("L") + "L" + [...medio].reverse().join("L") + "Z", fill: "var(--corte)", "fill-opacity": 0.82 }));
+  }
+  serie.forEach((f, i) => { // años sin dato de consumo: gris
+    if (f.consumo_total_m3 || !i || i === serie.length - 1) return;
+    const a = serie[i - 1], b = serie[i + 1];
+    svg.append(s("path", { d: `M${x(a.anio)},${y(a.produccion_m3)}L${x(f.anio)},${y(f.produccion_m3)}L${x(b.anio)},${y(b.produccion_m3)}L${x(b.anio)},${y(0)}L${x(a.anio)},${y(0)}Z`, fill: "#e6e6eb" }));
+  });
+  svg.append(s("path", { d: "M" + serie.map((f) => `${x(f.anio).toFixed(1)},${y(f.produccion_m3).toFixed(1)}`).join("L"), fill: "none", stroke: "var(--picon)", "stroke-width": 2, "stroke-linejoin": "round" }));
+  const marcas = estrecho ? [a0, 2000, 2010, a1] : [a0, 1990, 1995, 2000, 2005, 2010, 2015, 2020, a1];
+  for (const a of [...new Set(marcas)]) if (a === a0 || a === a1 || (a - a0 > 3 && a1 - a > 3)) svg.append(s("text", { x: x(a), y: H - 8, "text-anchor": a === a0 ? "start" : a === a1 ? "end" : "middle", "font-size": 12.5 }, String(a)));
+  const u = serie[serie.length - 1], xu = x(u.anio) - 8;
+  svg.append(s("text", { class: "valor", x: x(u.anio), y: y(u.produccion_m3) - 9, "text-anchor": "end", "font-size": 13.5 }, `Producida: ${millones(u.produccion_m3)}`));
+  // las etiquetas se centran en el hueco que dejan los años que tapan
+  const tapados = (largo) => serie.filter((f) => f.consumo_total_m3 && x(f.anio) >= xu - largo);
+  const t1 = tapados(150), t2 = tapados(120);
+  const banda = (y(Math.min(...t1.map((f) => f.produccion_m3))) + y(Math.max(...t1.map((f) => f.consumo_total_m3)))) / 2;
+  const azul = (y(0) + y(Math.min(...t2.map((f) => f.consumo_total_m3)))) / 2;
+  svg.append(s("text", { x: xu, y: banda + 5, "text-anchor": "end", "font-size": 13.5, "font-weight": 700, fill: "#fff", style: "fill:#fff" }, `No facturada: ${millones(u.produccion_m3 - u.consumo_total_m3)}`));
+  svg.append(s("text", { x: xu, y: azul + 5, "text-anchor": "end", "font-size": 13.5, "font-weight": 700, fill: "#fff", style: "fill:#fff" }, `Facturada: ${millones(u.consumo_total_m3)}`));
+  const guia = s("line", { x1: 0, x2: 0, y1: m.t, y2: m.t + ih, stroke: "var(--picon)", "stroke-width": 1, visibility: "hidden" });
+  svg.append(guia);
+  const capa = s("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent", style: "cursor:crosshair" });
+  const mover = (ev) => {
+    const caja = svg.getBoundingClientRect(), px = (ev.clientX - caja.left) * (W / caja.width);
+    const a = Math.round(a0 + ((px - m.l) / iw) * (a1 - a0)), d = serie.find((f) => f.anio === Math.max(a0, Math.min(a1, a)));
+    if (!d) return;
+    const gx = x(d.anio); guia.setAttribute("x1", gx); guia.setAttribute("x2", gx); guia.setAttribute("visibility", "visible");
+    const nf2 = d.consumo_total_m3 ? d.produccion_m3 - d.consumo_total_m3 : null;
+    tipEn(cont, gx * (caja.width / W), m.t + 30, h("b", {}, String(d.anio)),
+      h("div", { class: "fila" }, h("i", { style: "background:var(--picon)" }), `Producida: ${millones(d.produccion_m3)} M m³`),
+      h("div", { class: "fila" }, h("i", { style: "background:var(--s1)" }), `Facturada: ${d.consumo_total_m3 ? millones(d.consumo_total_m3) + " M m³" : "sin dato"}`),
+      h("div", { class: "fila" }, h("i", { style: "background:var(--corte)" }), `No facturada: ${nf2 == null ? "sin dato" : millones(nf2) + " M m³ (" + nf.format(Math.round(100 * nf2 / d.produccion_m3)) + " %)"}`));
+  };
+  capa.addEventListener("pointermove", mover); capa.addEventListener("pointerdown", mover);
+  capa.addEventListener("pointerleave", () => { guia.setAttribute("visibility", "hidden"); tipFuera(cont); });
+  svg.append(capa);
   vaciar(cont).append(svg);
 }
 function dibujarMunicipios(cont, filas, a0, a1) {
@@ -1342,9 +1484,9 @@ function dibujarMunicipios(cont, filas, a0, a1) {
   }
   filas.forEach((f, i) => {
     const yc = m.t + fila * i + (estrecho ? 34 : fila / 2), xa = x(f.a), xb = x(f.b);
-    const cambio = `${f.c > 0 ? "+" : ""}${f.c} %`;
+    const cambio = `${f.c > 0 ? "+" : ""}${f.c}\u00a0%`;
     if (estrecho) {
-      const halo = { stroke: "var(--cal)", "stroke-width": 5, "paint-order": "stroke", "stroke-linejoin": "round" };
+      const halo = { stroke: "var(--papel)", "stroke-width": 5, "paint-order": "stroke", "stroke-linejoin": "round" };
       svg.append(s("text", { x: m.l + 4, y: yc - 14, "font-size": 13.5, ...halo }, f.n));
       svg.append(s("text", { class: "valor", x: W - m.r, y: yc - 14, "text-anchor": "end", "font-size": 13, ...halo }, `${millones(f.b)} · ${cambio}`));
     } else {
@@ -1352,8 +1494,8 @@ function dibujarMunicipios(cont, filas, a0, a1) {
       svg.append(s("text", { class: "valor", x: W - m.r + 14, y: yc + 5, "font-size": 14 }, `${millones(f.b)} · ${cambio}`));
     }
     svg.append(s("line", { x1: xa, x2: xb, y1: yc, y2: yc, stroke: "var(--linea)", "stroke-width": 4, "stroke-linecap": "round" }));
-    svg.append(s("circle", { cx: xa, cy: yc, r: 5.5, fill: "var(--cal)", stroke: "var(--ceniza)", "stroke-width": 2 }));
-    svg.append(s("circle", { cx: xb, cy: yc, r: 6, fill: "var(--s1)", stroke: "var(--cal)", "stroke-width": 2 }));
+    svg.append(s("circle", { cx: xa, cy: yc, r: 5.5, fill: "var(--papel)", stroke: "var(--ceniza)", "stroke-width": 2 }));
+    svg.append(s("circle", { cx: xb, cy: yc, r: 6, fill: "var(--s1)", stroke: "var(--papel)", "stroke-width": 2 }));
     const zona = s("rect", { x: 0, y: m.t + fila * i, width: W, height: fila, fill: "transparent", style: "cursor:pointer" });
     const mostrar = () => tipEn(cont, xb, yc - 6, h("b", {}, f.n), h("div", {}, `${a0}: ${millones(f.a)} M m³`), h("div", {}, `${a1}: ${millones(f.b)} M m³ (${cambio})`));
     zona.addEventListener("pointerenter", mostrar); zona.addEventListener("pointerdown", mostrar); zona.addEventListener("pointerleave", () => tipFuera(cont));
@@ -1387,7 +1529,7 @@ function dibujarUsos(cont, serie) {
     });
     svg.append(s("path", { d, fill: "none", stroke: color, "stroke-width": 2.5, "stroke-linejoin": "round", "stroke-linecap": "round" }));
     const u = serie[serie.length - 1];
-    svg.append(s("circle", { cx: x(u.anio), cy: y(u[k]), r: 4, fill: color, stroke: "var(--cal)", "stroke-width": 2 }));
+    svg.append(s("circle", { cx: x(u.anio), cy: y(u[k]), r: 4, fill: color, stroke: "var(--papel)", "stroke-width": 2 }));
     finales.push({ y: y(u[k]), texto: `${nombreS} ${millones(u[k])}`, color });
   }
   if (!estrecho) { // nombres al final de cada línea, sin pisarse
@@ -1396,7 +1538,7 @@ function dibujarUsos(cont, serie) {
     for (const f of finales) svg.append(s("text", { class: "valor", x: m.l + iw + 10, y: f.y + 4, "font-size": 13.5 }, f.texto));
   }
   const guia = s("line", { x1: 0, x2: 0, y1: m.t, y2: m.t + ih, stroke: "var(--picon)", "stroke-width": 1, visibility: "hidden" });
-  const puntos = SERIES_USO.map(([, , c]) => s("circle", { r: 5, fill: c, stroke: "var(--cal)", "stroke-width": 2, visibility: "hidden" }));
+  const puntos = SERIES_USO.map(([, , c]) => s("circle", { r: 5, fill: c, stroke: "var(--papel)", "stroke-width": 2, visibility: "hidden" }));
   svg.append(guia, ...puntos);
   const capa = s("rect", { x: m.l, y: m.t, width: iw, height: ih, fill: "transparent", style: "cursor:crosshair" });
   const mover = (ev) => {
@@ -1416,15 +1558,17 @@ function dibujarUsos(cont, serie) {
 function pintarPrivacidad() {
   const ul = vaciar($("privacidad"));
   const li = (...x) => ul.append(h("li", {}, ...x));
-  li("Esta página no usa cookies ni contadores de visitas, y no carga nada de otros sitios.");
-  li("Tu navegador guarda tu pueblo y el tamaño de letra para la próxima vez que entres. Se quedan en tu móvil o tu ordenador; no nos llegan.");
+  li("Esta página no usa cookies.");
+  li("Tu navegador guarda tu pueblo y el tamaño de letra para la próxima vez. Se quedan en tu móvil o tu ordenador. Para quitarlos, borra los datos de esta página en el navegador.");
+  if (CONFIG.api) li("La página se conecta al servidor de avisos (Cloudflare) para saber qué pueblos están sin agua y para sumar una visita al contador del día. El contador es solo un número por día: no guarda tu IP ni nada en tu móvil.");
   if (avisosActivos()) {
-    li("Si avisas, tu navegador guarda además un número al azar. Sirve para no contar dos veces tu aviso y no dice nada de ti.");
-    li("Del aviso guardamos el pueblo, la respuesta y la hora redondeada a 10 minutos. Para contar a cada vecino una sola vez guardamos también, durante dos días como máximo, dos huellas cifradas: una de tu conexión y otra de ese número al azar. Con ellas no se puede saber quién eres ni recuperar tu IP. A los dos días se borran y solo queda el recuento del día.");
-    li("Los mensajes del buzón se guardan sin la IP y se borran al cabo de un año.");
+    li("Si avisas, tu navegador guarda también un número al azar. No lleva ningún dato tuyo: sirve para que tu aviso no cuente dos veces.");
+    li("De cada aviso guardamos el pueblo, la respuesta y la hora redondeada a 10 minutos. Tu IP no se guarda. Para contar a cada vecino una sola vez guardamos también, como mucho tres días, dos huellas: una de tu conexión y otra de ese número al azar. Se calculan con una clave secreta, y sin esa clave no se puede volver a tu IP. Después se borran y solo queda cuántos vecinos avisaron ese día en cada pueblo.");
+    li("Los mensajes del buzón se guardan sin la IP y se borran a los 90 días. Se guarda lo que escribas, así que no pongas datos tuyos ni de otras personas.");
+    li("Usamos estos datos solo para enseñar los avisos y para frenar los avisos falsos (es nuestro interés legítimo). No se venden ni se dan a nadie. Cloudflare los guarda por encargo nuestro y puede tratarlos fuera de la Unión Europea, con las garantías del acuerdo de privacidad entre la UE y Estados Unidos.");
   }
-  li("Los servicios que alojan la página (GitHub)" + (avisosActivos() ? " y el servidor de avisos (Cloudflare)" : "") + " registran la IP de quien entra, por seguridad y según sus propias normas. Nosotros no tenemos acceso a esos registros.");
-  if (CONFIG.contacto) li("Si tienes una pregunta sobre tus datos, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), ".");
+  li(CONFIG.api ? "GitHub, que aloja la página, y Cloudflare, que aloja el servidor de avisos, reciben tu IP al conectarte, como cualquier web, y la tratan según sus propias normas. Nosotros no vemos esos registros." : "GitHub, que aloja la página, recibe tu IP al conectarte, como cualquier web, y la trata según sus propias normas. Nosotros no vemos esos registros.");
+  if (CONFIG.contacto) li("Si tienes una pregunta sobre tus datos, escribe a ", h("a", { href: "mailto:" + CONFIG.contacto }, CONFIG.contacto), "." + (CONFIG.api ? " Como no guardamos nada que te identifique, normalmente no podremos encontrar tus avisos." : "") + " También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).");
 }
 
 function pintarTodo() { pintarPueblo(); pintarSeccionMapa(); pintarSemana(); pintarCuenta(); }
@@ -1485,6 +1629,7 @@ async function arrancar() {
   setInterval(() => { if (hoyISO() !== E.hoy) location.reload(); }, 60e3);
 }
 arrancar();
+if (CONFIG.api && !CONFIG.prueba) fetch(CONFIG.api.replace(/\/+$/, "") + "/visita", { method: "POST", keepalive: true }).catch(() => {});
 </script>
 </body>
 </html>
